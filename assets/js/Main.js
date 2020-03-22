@@ -20,6 +20,7 @@ $("document").ready(function () {
         })
         return false;
     });
+
     $("nav div#2").click(function () {
         showGraph();
     });
@@ -32,7 +33,7 @@ $("document").ready(function () {
             var asseY = [];
 
             for (var i in data) {
-                asseX.push(data[i]["totale_attualmente_positivi"]);
+                asseX.push(data[i]["data"]);
                 asseY.push(data[i]["totale_casi"]);
             }
 
