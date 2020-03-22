@@ -1,28 +1,15 @@
 <?php
-include_once("db_create.php");
-include("db_connect.php");
-if($_REQUEST["id"]==1){
-    $fName = "andamentoNazionale";
-    $url="";
-    for($j=2;$j<=3;$j++){
-        for($tmp=1;$tmp<=31;$tmp++)
-        {
-            if($j<10 && $tmp<10){
-                $url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-2020" . "0" .$j. "0" .$tmp. ".csv";
-            } else if ($j < 10) {
-                $url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-2020" . "0" . $j . $tmp . ".csv";
-            } else if ($tmp < 10) {
-                $url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-2020" . $j  . "0" . $tmp . ".csv";
-            }else{
-                $url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-2020" . $j  . $tmp . ".csv";
-            }
-            include("downloader.php"); //scarica la risorsa dall'url immesso sopra
-            //include("makeGraph.php"); //crea il grafico richiesto
-        }
-    }
-}else{
-    echo "Failed handling request with id:".$_REQUEST["id"];
-}//gestire ulteriori richieste 
+$id = $_REQUEST["id"];
+$url = "";
 
-
+if ($id == 1) {
+    $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
+} else if ($id == 2) {
+    $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
+} else if ($id == 3) {
+    $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv";
+}
+//mostro la api
 ?>
+<input type="hidden" id="hidden" title="<?php echo $url ?>">
+<script src="assets/js/show.js"></script>
