@@ -9,6 +9,6 @@ if ($conn->query($sqll) === TRUE) {
 } else {
     echo "Error creating database: " . $conn->error;
 }
-
 $conn->close();
+
 ?>

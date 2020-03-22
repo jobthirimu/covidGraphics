@@ -54,8 +54,11 @@ $("document").ready(function () {
             var graphTarget = $("#graphCanvas");
 
             var barGraph = new Chart(graphTarget, {
-                type: 'bar',
-                data: chartdata
+                type: 'line',
+                data: chartdata,
+                options: {
+                    fill:false,
+                }
             });
         });
     }
