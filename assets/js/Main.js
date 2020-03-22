@@ -1,6 +1,5 @@
 $("document").ready(function () {
-
-    $("nav div").click(function () {
+    $("nav div#1").click(function () {
         $.ajax({
             // definisco il tipo della chiamata
             type: "POST",
@@ -21,4 +20,42 @@ $("document").ready(function () {
         })
         return false;
     });
+    $("nav div#2").click(function () {
+        showGraph();
+    });
+
+    function showGraph() {
+
+        $.post("assets/php/graph.php",function (data) {
+            console.log(data);
+            var tamponi = [];
+            var totCasi = [];
+
+            for (var i in data) {
+                tamponi.push(data[i]["tamponi"]);
+                totCasi.push(data[i]["totale_casi"]);
+            }
+
+            var chartdata = {
+                labels: tamponi,
+                datasets: [
+                    {
+                        label: 'Totale dei casi',
+                        backgroundColor: '#49e2ff',
+                        borderColor: '#46d5f1',
+                        hoverBackgroundColor: '#CCCCCC',
+                        hoverBorderColor: '#666666',
+                        data: totCasi
+                    }
+                ]
+            };
+
+            var graphTarget = $("#graphCanvas");
+
+            var barGraph = new Chart(graphTarget, {
+                type: 'bar',
+                data: chartdata
+            });
+        });
+    }
 });
