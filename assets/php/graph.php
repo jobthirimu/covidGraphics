@@ -1,5 +1,7 @@
 <?php
-
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
 //error_reporting(E_ERROR | E_PARSE);
 require_once("db_connect.php");
 
