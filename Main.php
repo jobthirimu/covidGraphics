@@ -12,7 +12,7 @@
 <body>
     <nav>
         <div id="1">Aggiorna</div>
-        <div id="2">Test</div>
+        <div id="2">Casi/g</div>
         <div id="3">Test</div>
         <div id="4">Test</div>
         <div id="5">Test</div>

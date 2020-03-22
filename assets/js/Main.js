@@ -28,16 +28,16 @@ $("document").ready(function () {
 
         $.post("assets/php/graph.php",function (data) {
             console.log(data);
-            var tamponi = [];
-            var totCasi = [];
+            var asseX = [];
+            var asseY = [];
 
             for (var i in data) {
-                tamponi.push(data[i]["tamponi"]);
-                totCasi.push(data[i]["totale_casi"]);
+                asseX.push(data[i]["totale_attualmente_positivi"]);
+                asseY.push(data[i]["totale_casi"]);
             }
 
             var chartdata = {
-                labels: tamponi,
+                labels: asseX,
                 datasets: [
                     {
                         label: 'Totale dei casi',
@@ -45,7 +45,7 @@ $("document").ready(function () {
                         borderColor: '#46d5f1',
                         hoverBackgroundColor: '#CCCCCC',
                         hoverBorderColor: '#666666',
-                        data: totCasi
+                        data: asseY
                     }
                 ]
             };

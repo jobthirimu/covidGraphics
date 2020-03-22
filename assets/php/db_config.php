@@ -36,5 +36,4 @@
     }
     ini_set('auto_detect_line_endings', FALSE);
     fclose($handle);
-    mysqli_close($db);
 ?>
