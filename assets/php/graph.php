@@ -23,8 +23,6 @@ $data = array();
 foreach ($result as $row) {
     $data[] = $row;
 }
-mysqli_close($db);
-
 echo json_encode($data);
 
 

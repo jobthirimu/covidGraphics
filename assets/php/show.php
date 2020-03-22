@@ -1,4 +1,5 @@
 <?php
+include_once("db_create.php");
 include("db_connect.php");
 if($_REQUEST["id"]==1){
     $fName = "andamentoNazionale";
