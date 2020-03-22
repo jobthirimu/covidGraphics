@@ -1,7 +1,7 @@
 *{
     padding: 10px;
     border: 0px;
-    overflow: hidden;
+    overflow: auto;
     box-sizing: border-box;
     color: white;
     font-size: 25px;
@@ -28,5 +28,8 @@ nav div{
 nav div:hover{
     background-color: white;
     color: rgb(13, 31, 46);
+}
+div.contenitore{
+    width: 100%;
 }
 

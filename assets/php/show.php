@@ -3,8 +3,8 @@ include("db_connect.php");
 if($_REQUEST["id"]==1){
     $fName = "andamentoNazionale";
     $url="";
-    for($j=1;$j<=5;$j+=1){
-        for($tmp=1;$tmp<=31;$tmp+=1)
+    for($j=2;$j<=3;$j++){
+        for($tmp=1;$tmp<=31;$tmp++)
         {
             if($j<10 && $tmp<10){
                 $url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-2020" . "0" .$j. "0" .$tmp. ".csv";
