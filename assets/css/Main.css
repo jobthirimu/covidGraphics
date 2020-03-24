@@ -29,7 +29,6 @@ nav div:hover{
     background-color: white;
     color: rgb(13, 31, 46);
 }
-div.contenitore{
+.contenitore{
     width: 100%;
 }
-
