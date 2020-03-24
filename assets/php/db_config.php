@@ -1,15 +1,17 @@
 <?php
+    global $db;
     // $fName=$file_name;
     // $fName = explode('.',$file_name, -1)[0];
 
     // get structure from csv and insert db
     ini_set('auto_detect_line_endings', TRUE);
-    $handle = fopen("../data/". $file_name, 'r');
+    $handle = fopen("../data/".$fName."/". $file_name, 'r');
     $data = fgetcsv($handle);
     $fields = array();
     $field_count = 0;
     $unique="";
-    for ($i = 0; $i < count($data); $i++) {
+
+    for ($i = 0; $i < count($data); $i++) { //leggo il file csv
         $f = strtolower(trim($data[$i]));
         if ($f) {
             // normalize the field name, strip to 20 chars if too long
@@ -36,3 +38,4 @@
     }
     ini_set('auto_detect_line_endings', FALSE);
     fclose($handle);
+?>

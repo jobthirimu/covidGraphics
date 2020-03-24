@@ -4,10 +4,11 @@
 
 // Initialize the cURL session 
 $ch = curl_init($url);
+//echo "<br>url: ".$url;
 
 // Inintialize directory name where 
 // file will be save 
-$dir = '../data/';
+$dir = '../data/'.$fName."/";
 
 // Use basename() function to return 
 // the base name of file  
@@ -32,11 +33,12 @@ if ($status  != 404 ) {
         $fp = fopen($save_file_loc, "w");
         fwrite($fp, $res);
         fclose($fp);
-        echo "<br>" . $status . " Download completato di:" . $file_name;
+        echo "<br> Download completato di: " . $file_name." codice stato: ".$status ;
         include("db_config.php"); //salva la risorsa sul database alla tabella $fName
-        $cont++;
+        $updated++;
     }else{
         //echo "<br> File: ".$file_name." already downloaded";
     }
 } else {
 }
+?>

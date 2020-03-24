@@ -11,3 +11,4 @@ if ($conn->query($sqll) === TRUE) {
 }
 
 $conn->close();
+?>

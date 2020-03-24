@@ -10,13 +10,16 @@
 </head>
 
 <body>
-    <nav>
+    <nav id="head">
         <div id="1">Aggiorna DB</div>
-        <div id="2">Totale Casi</div>
-        <div id="3">Totale Infetti</div>
-        <div id="4">Nuovi Infetti</div>
-        <div id="5">Totale Guariti</div>
-        <div id="6">Totale Morti</div>
+        <div id="2" strY="totale_casi" lbl="Totale dei casi" type="bar">Totale Casi</div>
+        <div id="3" strY="totale_attualmente_positivi" lbl="Totale Infetti">Totale Infetti</div>
+        <div id="4" strY="nuovi_attualmente_positivi" lbl="Nuovi Infetti">Nuovi Infetti</div>
+        <div id="5" strY="dimessi_guariti" lbl="Totale Guariti">Totale Guariti</div>
+        <div id="6" strY="deceduti" lbl="Totale Morti">Totale Morti</div>
+    </nav>
+    <nav id="subnav">
+
     </nav>
     <div class="contenitore" id="bm">
     </div>
