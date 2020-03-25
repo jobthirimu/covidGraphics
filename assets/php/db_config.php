@@ -1,11 +1,15 @@
 <?php
     global $db;
+
+    echo "<script>console.log('".$fName."')</script>";
     // $fName=$file_name;
     // $fName = explode('.',$file_name, -1)[0];
 
     // get structure from csv and insert db
     ini_set('auto_detect_line_endings', TRUE);
-    $handle = fopen("../data/".$fName."/". $file_name, 'r');
+    $percorso= "../data/" . $fName . "/" . $file_name;
+    //echo $percorso;
+    $handle = fopen($percorso, 'r');
     $data = fgetcsv($handle);
     $fields = array();
     $field_count = 0;
@@ -26,7 +30,9 @@
     }
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) .",UNIQUE($unique)". ')';
     //echo "<br><br>".$sql . "<br><br>";
-    $db->query($sql);
+    if(!$db->query($sql)){
+        echo $db->error;
+    }
     while (($data = fgetcsv($handle)) !== FALSE) {
         $fields = array();
         for ($i = 0; $i < $field_count; $i++) {

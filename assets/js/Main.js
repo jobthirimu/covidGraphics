@@ -1,14 +1,16 @@
 $("document").ready(function () {
-    var barGraph;
+    var graph;
     $("div#1").click(function () {
-        if (barGraph != null) {
-            barGraph.destroy();
+        if (graph != null) {
+            graph.destroy();
         } //tolgo i grafici precedenti
         $("div.contenitore").html(""); //svuto contenitore
         $("nav#subnav").html("<div id='tutto'>Aggiorna tutti i dati</div><div id='naz'>Aggiorna dati nazionali</div><div id='reg'>Aggiorna dati regionali</div><div id='prov'>Aggiorna dati provinciali</div>");
         $("nav#subnav div").click(function () {
-            if (barGraph != null) {
-                barGraph.destroy();
+            var DivId = this.id;
+            console.log(DivId);
+            if (graph != null) {
+                graph.destroy();
             } //tolgo i grafici precedenti
             $("div.contenitore").html(""); //svuto contenitore
             $("div.contenitore").append("<h2>Aggiornamento in corso<br>Attendi un istante</h2><br><br>");
@@ -18,12 +20,12 @@ $("document").ready(function () {
                 // specifico la URL della risorsa da contattare
                 url: "assets/php/update.php",
                 // passo dei dati alla risorsa remota
-                data: { "id": this.id},
+                data: { "id": DivId },
                 // definisco il formato della risposta
                 dataType: "html",
                 // imposto un'azione per il caso di successo
                 success: function (risposta) {
-                    $("div.contenitore").html("<h3>"+risposta+"</h3>");
+                    $("div.contenitore").html("<h3>" + risposta + "</h3>");
                 },
                 // ed una per il caso di fallimento
                 error: function (err) {
@@ -35,20 +37,24 @@ $("document").ready(function () {
     });
     $("nav#head div").click(function () {
         console.log(this.id);
-        var idDiv=this.id;
+        $("div.contenitore").empty(); //svuoto il contenitore da possibili scritte
+        if (graph != null) {
+            graph.destroy();
+        } //tolgo i grafici precedenti
+        var idDiv = this.id;
         if (this.id != 1) {
-            showGraph(idDiv, $("div#" + idDiv).attr("strX"), $("div#" + idDiv).attr("strY"), $("div#" + idDiv).attr("lbl"), $("div#" + idDiv).type);
+            $("nav#subnav").html("<div id='line'>Grafico a <br>linee</div><div id='bar'>Grafico a <br>barre</div><div id='radar'>Grafico a <br>radar</div><div id='doughnut'>Grafico a <br>doughnut</div><div id='pie'>Grafico a <br>torta</div><div id='polarArea'>Grafico ad <br>area polare</div>");
+            $("nav#subnav div").click(function () {
+                var idSubDiv = this.id;
+                console.log(idSubDiv);
+                showGraph(idDiv, $("div#" + idDiv).attr("strX"), $("div#" + idDiv).attr("strY"), $("div#" + idDiv).attr("lbl"), idSubDiv);
+            });
         }
     });
 
-    function showGraph(id,x,y,n,type) {
-        $("div.contenitore").empty(); //svuoto il contenitore da possibili scritte
-        if (barGraph != null) {
-            barGraph.destroy();
-        } //tolgo i grafici precedenti
-
+    function showGraph(id, x, y, n, type) {
         $.post("assets/php/graph.php", function (data) {
-            var strX = x != null ? x : "data" ;
+            var strX = x != null ? x : "data";
             var strY = y != null ? y : "";
             var lbl = n != null ? n : "";
             var typeG = type != null ? type : "line";
@@ -58,10 +64,16 @@ $("document").ready(function () {
             console.log("id:" + id + " x:" + x + " y:" + y + " n:" + n + " type:" + type);
             var asseX = [];
             var asseY = [];
+            var bColor = [];
 
             for (var i in data) {
+                r = Math.floor(Math.random() * 200);
+                g = Math.floor(Math.random() * 200);
+                b = Math.floor(Math.random() * 200);
+                c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
                 asseX.push(data[i][strX]);
                 asseY.push(data[i][strY]);
+                bColor.push(c);
             }
 
             var chartdata = {
@@ -69,7 +81,9 @@ $("document").ready(function () {
                 datasets: [
                     {
                         label: lbl,
-                        backgroundColor: '#49e2ff',
+                        //backgroundColor: '#49e2ff',
+                        backgroundColor: type != "line" && type !="radar" ? bColor : '#49e2ff',
+                        //backgroundColor: bColor,
                         borderColor: '#46d5f1',
                         hoverBackgroundColor: '#CCCCCC',
                         hoverBorderColor: '#666666',
@@ -80,7 +94,7 @@ $("document").ready(function () {
 
             var graphTarget = $("#graphCanvas");
 
-            barGraph = new Chart(
+            graph = new Chart(
                 graphTarget, {
                 responsive: true,
                 type: typeG,
@@ -89,4 +103,12 @@ $("document").ready(function () {
         });
         $(window.location).attr('href', '#bm2');
     }
+
+    // $("div.contenitore").click(function(){
+    //     $("nav#subnav").empty(); //svuoto la sub navigation bar
+    //     $("div.contenitore").empty(); //svuoto il contenitore da possibili scritte
+    //     if (graph != null) {
+    //         graph.destroy();
+    //     } //tolgo i grafici precedenti
+    // });
 });

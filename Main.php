@@ -27,7 +27,7 @@
         <canvas id="graphCanvas"></canvas>
     </div>
     <footer>
-
+        <strong>Created by Marco Zanrosso©</strong>
     </footer>
     <script src="assets/js/Main.js"></script>
 </body>

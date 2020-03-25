@@ -10,10 +10,10 @@
     $limit2 = date('m', time());
     
     switch($richiesta){
-        case "tutto": updateAll();break;
         case "naz": updateNaz();break;
         case "reg": updateReg();break;
         case "prov": updateProv();break;
+        default : updateAll();
     }
 
 
