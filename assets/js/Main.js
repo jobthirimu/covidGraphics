@@ -40,6 +40,7 @@ $("document").ready(function () {
         $("div.contenitore").empty(); //svuoto il contenitore da possibili scritte
         if (graph != null) {
             graph.destroy();
+            $("#graphCanvas").html("");
         } //tolgo i grafici precedenti
         var idDiv = this.id;
         if (this.id != 1) {
