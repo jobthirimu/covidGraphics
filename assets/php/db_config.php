@@ -18,17 +18,25 @@
     for ($i = 0; $i < count($data); $i++) { //leggo il file csv
         $f = strtolower(trim($data[$i]));
         if ($f) {
-            // normalize the field name, strip to 20 chars if too long
+            // normalize the field name, strip to 30 chars if too long
             $f = substr(preg_replace('/[^0-9a-z]/', '_', $f), 0, 30);
             $field_count++;
 
             if($field_count == 1){
                 $unique = $f;
             }
+            if($f=="long"){
+                $f="longi";
+            }
             $fields[] = $f . ' VARCHAR(50)';
         }
     }
-    $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) .",UNIQUE($unique)". ')';
+    $sql="";
+    if($fName=="andamentoNazionale"){
+        $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) .",UNIQUE($unique)". ')';
+    }else{
+        $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields). ')';
+    }
     //echo "<br><br>".$sql . "<br><br>";
     if(!$db->query($sql)){
         echo $db->error;
