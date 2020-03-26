@@ -73,6 +73,7 @@
         updateReg();
         updateProv();
     }
+    
     if($updated==0){
         echo "<br>Tutto aggiornato";
     }else{
