@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -19,36 +13,34 @@
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#" id="home">Home</a>
         <div class="btn-group">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">Origine Dati<span class="caret"></span></a>
+            <a id="1" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Origine Dati<span class='caret'></span></a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Item I</a></li>
-                <li class="dropdown-item"><a href="#">Item II</a></li>
-                <li class="dropdown-item"><a href="#">Item III</a></li>
-                <li class="dropdown-item"><a href="#">Item IV</a></li>
-                <li class="dropdown-item"><a href="#">Item V</a></li>
-                <li class="dropdown-item"><a href="#">Other</a></li>
+                <li class="dropdown-item"><a href="#">Mondiale</a></li>
+                <li class="dropdown-item"><a href="#">Nazionale</a></li>
+                <li class="dropdown-item"><a href="#">Regionale</a></li>
+                <li class="dropdown-item"><a href="#">Provinciale</a></li>
+                <li class="dropdown-item"><a href="#">Comunale</a></li>
             </ul>
         </div>
         <div class="btn-group">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">Quale Grafico<span class="caret"></span></a>
+            <a id="2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Item I</a></li>
-                <li class="dropdown-item"><a href="#">Item II</a></li>
-                <li class="dropdown-item"><a href="#">Item III</a></li>
-                <li class="dropdown-item"><a href="#">Item IV</a></li>
-                <li class="dropdown-item"><a href="#">Item V</a></li>
-                <li class="dropdown-item"><a href="#">Other</a></li>
+                <li class="dropdown-item"><a href="#">Totale Casi</a></li>
+                <li class="dropdown-item"><a href="#">Totale Attualmente Infetti</a></li>
+                <li class="dropdown-item"><a href="#">Nuovi Infetti</a></li>
+                <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
+                <li class="dropdown-item"><a href="#">Totale Morti</a></li>
             </ul>
         </div>
         <div class="btn-group">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">Tipo Grafico<span class="caret"></span></a>
+            <a id="3" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Item I</a></li>
-                <li class="dropdown-item"><a href="#">Item II</a></li>
-                <li class="dropdown-item"><a href="#">Item III</a></li>
-                <li class="dropdown-item"><a href="#">Item IV</a></li>
-                <li class="dropdown-item"><a href="#">Item V</a></li>
-                <li class="dropdown-item"><a href="#">Other</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a linee</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a torta</a></li>
+                <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
             </ul>
         </div>
         <form class="form-inline">
@@ -58,11 +50,26 @@
     <br>
 
     <div class="container">
-        <h3>Test</h3>
-        <p>testtest</p>
-        <p>testtest</p>
-        <p>testtest</p>
+        <div class="row">
+            <div class="col-sm">
+                <h3 id="titolo" class="text-center">Titolo</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div id="chart-container">
+                    <canvas id="graphCanvas"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
+    <footer class="page-footer font-small blue pt-4">
+        <div class="footer-copyright text-center py-3">
+            Created by Marco Zanrosso©
+            <!-- <a href="https://mdbootstrap.com/"> MDBootstrap.com</a> -->
+        </div>
+
+    </footer>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -72,10 +79,99 @@
     <script>
         $(".dropdown-menu li a").click(function() {
             var selText = $(this).text();
-            $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+            $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
+            $(this).parents('.btn-group').find('.dropdown-toggle').attr("changed", selText);
         });
         $("button").click(function() {
-            alert("Hai cliccato");
+            var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
+            var choose2 = $("#2").attr("changed") != "false" ? $("#2").attr("changed") : "false";
+            var choose3 = $("#3").attr("changed") != "false" ? $("#3").attr("changed") : "false";
+            //alert("ch1: " + choose1 + " ch2: " + choose2 + " ch3: " + choose3); //check clicked property
+            if (choose1 != "false" && choose2 != "false" && choose3 != "false") {
+                $.post("assets/php/graph.php", function(data) {
+                    var strX = "data";
+                    var strY = "";
+                    var lbl = "";
+                    var typeG = "line";
+                    switch (choose2) {
+                        case "Totale Casi":
+                            strY = "totale_casi";
+                            break;
+                        case "Totale Attualmente Infetti":
+                            strY = "totale_attualmente_positivi";
+                            break;
+                        case "Nuovi Infetti":
+                            strY = "nuovi_attualmente_positivi";
+                            break;
+                        case "Totale Guariti":
+                            strY = "dimessi_guariti";
+                            break;
+                        case "Totale Morti":
+                            strY = "deceduti";
+                            break;
+                    }
+                    switch (choose3) {
+                        case "Grafico a linee":
+                            typeG = "line";
+                            break;
+                        case "Grafico a barre":
+                            typeG = "bar";
+                            break;
+                        case "Grafico a radar":
+                            typeG = "radar";
+                            break;
+                        case "Grafico a doughnut":
+                            typeG = "doughnut";
+                            break;
+                        case "Grafico a torta":
+                            typeG = "pie";
+                            break;
+                        case "Grafico ad area polare":
+                            typeG = "polarArea";
+                            break;
+                    }
+                    $("titolo").append("<h2 id='bm2'><a href='#bm2'>Tabella con il " + lbl + "</a></h2><br><br>");
+                    console.log(data);
+                    var asseX = [];
+                    var asseY = [];
+                    var bColor = [];
+
+                    for (var i in data) {
+                        r = Math.floor(Math.random() * 200);
+                        g = Math.floor(Math.random() * 200);
+                        b = Math.floor(Math.random() * 200);
+                        c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                        asseX.push(data[i][strX]);
+                        asseY.push(data[i][strY]);
+                        bColor.push(c);
+                    }
+
+                    var chartdata = {
+                        labels: asseX,
+                        datasets: [{
+                            label: lbl,
+                            //backgroundColor: '#49e2ff',
+                            backgroundColor: type != "line" && type != "radar" && type != "bar" ? bColor : '#49e2ff',
+                            //backgroundColor: bColor,
+                            borderColor: '#46d5f1',
+                            hoverBackgroundColor: '#CCCCCC',
+                            hoverBorderColor: '#666666',
+                            data: asseY
+                        }]
+                    };
+
+                    var graphTarget = $("#graphCanvas");
+
+                    graph = new Chart(
+                        graphTarget, {
+                            responsive: true,
+                            type: typeG,
+                            data: chartdata
+                        });
+                });
+            } else {
+                alert("Inserisci tutte le informazioni per procedere \r\n alla creazione del grafico");
+            }
         });
         $("#home").click(function() {
             location.reload();
