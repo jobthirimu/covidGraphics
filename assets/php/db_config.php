@@ -46,7 +46,7 @@
         for ($i = 0; $i < $field_count; $i++) {
             $fields[] = '\'' . addslashes($data[$i]) . '\'';
         }
-        $sql = "Insert into `$fName` values(" . implode(', ', $fields) . ')';
+        $sql = "Insert ignore into `$fName` values(" . implode(', ', $fields) . ')';
         //echo "<br><br>".$sql. "<br><br>";
         $db->query($sql);
     }

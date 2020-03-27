@@ -18,7 +18,7 @@
                     <li class="dropdown-item">Mondiale</li>
                     <li class="dropdown-item"><a href="#">Nazionale</a></li>
                     <li class="dropdown-item"><a href="#">Regionale</a></li>
-                    <li class="dropdown-item">Provinciale</li>
+                    <li class="dropdown-item"><a href="#">Provinciale</a></li>
                     <li class="dropdown-item">Comunale</li>
                 </ul>
             </div>
@@ -27,7 +27,6 @@
         <div class="btn-group">
             <a id="2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Confronto</a></li>
                 <li class="dropdown-item"><a href="#">Totale Casi</a></li>
                 <li class="dropdown-item"><a href="#">Totale Attualmente Infetti</a></li>
                 <li class="dropdown-item"><a href="#">Nuovi Infetti</a></li>
@@ -82,34 +81,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
-        var required = "false";
         var graph;
         $(".dropdown-menu li a").click(function() {
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
             $(this).parents('.btn-group').find('.dropdown-toggle').attr("changed", selText);
-            switch (selText) {
-                case "Mondiale": {
-                    required = "false"
-                };
-                break;
-            case "Nazionale": {
-                required = "false"
-            };
-            break;
-            case "Regionale": {
-                required = "true"
-            };
-            break;
-            case "Provinciale": {
-                required = "true"
-            };
-            break;
-            case "Comunale": {
-                required = "true"
-            };
-            break;
-            }
         });
         $("button").click(function() {
             var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
@@ -119,182 +95,175 @@
             //alert(input);
             //alert("ch1: " + choose1 + " ch2: " + choose2 + " ch3: " + choose3); //check clicked property
             if ((choose1 != "false" && choose2 != "false" && choose3 != "false")) {
-                //alert("required:" + required + " input:" + input);
-                if ((required == "true" && input != "err") || required == "false") {
-                    if (graph != undefined) {
-                        graph.destroy();
-                        //alert("grafico distrutto");
-                    }
-                    $.ajax({
-                        // definisco il tipo della chiamata
-                        type: "POST",
-                        // specifico la URL della risorsa da contattare
-                        url: "assets/php/graph.php",
-                        // passo dei dati alla risorsa remota
-                        data: {
-                            "choose1": choose1,
-                            "choose2": choose2,
-                            "input": input,
-                        },
-                        // definisco il formato della risposta
-                        dataType: "text",
-                        // imposto un'azione per il caso di successo
-                        success: function(data) {
-                            var agg;
-                            if (choose2 == "Confronto") {
-                                var pieces = data;
-                                pieces = pieces.split('£');
-                                data = JSON.parse(pieces[0]);
-                                agg = parseInt(pieces[1], 10);
-                            } else {
-                                data = JSON.parse(data);
-                            }
-                            //console.log("p1:" + data);
-                            //console.log("p2:" + agg);
-                            var strX = "data";
-                            var strY = "";
-                            var typeG = "line";
-                            var filled = true;
-                            switch (choose2) {
-                                case "Totale Casi":
-                                    strY = "totale_casi";
-                                    break;
-                                case "Totale Attualmente Infetti":
-                                    strY = "totale_attualmente_positivi";
-                                    break;
-                                case "Nuovi Infetti":
-                                    strY = "nuovi_attualmente_positivi";
-                                    break;
-                                case "Totale Guariti":
-                                    strY = "dimessi_guariti";
-                                    break;
-                                case "Totale Morti":
-                                    strY = "deceduti";
-                                    break;
-                            }
-                            switch (choose3) {
-                                case "Grafico a linee vuoto":
-                                    typeG = "line";
-                                    filled = false;
-                                    break;
-                                case "Grafico a linee pieno":
-                                    typeG = "line";
-                                    break;
-                                case "Grafico a barre":
-                                    typeG = "bar";
-                                    break;
-                                case "Grafico a radar":
-                                    typeG = "radar";
-                                    break;
-                                case "Grafico a doughnut":
-                                    typeG = "doughnut";
-                                    break;
-                                case "Grafico a torta":
-                                    typeG = "pie";
-                                    break;
-                                case "Grafico ad area polare":
-                                    typeG = "polarArea";
-                                    break;
-                            }
-                            if (choose2 != "Nuovi Infetti") {
-                                $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con il " + choose2 + "</h2><br><br>");
-                            } else {
-                                $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
-                            }
-                            var dict = [];
-                            if (choose2 != "Confronto") {
-                                var asseY = [];
-                                var date = [];
-                                var bColor = [];
-                                for (var i in data) {
-                                    r = Math.floor(Math.random() * 200);
-                                    g = Math.floor(Math.random() * 200);
-                                    b = Math.floor(Math.random() * 200);
-                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                    date.push(data[i][strX]);
-                                    asseY.push(data[i][strY]);
-                                    bColor.push(c);
-                                }
-                                //console.log(asseY);
-                                dict = [{
-                                    label: choose2,
-                                    fill: filled,
-                                    //backgroundColor: '#49e2ff',
-                                    backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
-                                    //backgroundColor: bColor,
-                                    borderColor: '#46d5f1',
-                                    hoverBackgroundColor: '#CCCCCC',
-                                    hoverBorderColor: '#666666',
-                                    data: asseY
-                                }];
-                            } else {
-                                var asseY = [];
-                                var asseX = [];
-                                var bColor = [];
-                                var date = [];
-                                var cont = 0;
-                                for (var i in data) {
-                                    cont++;
-                                    r = Math.floor(Math.random() * 200);
-                                    g = Math.floor(Math.random() * 200);
-                                    b = Math.floor(Math.random() * 200);
-                                    col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                    var lbl = data[i]["denominazione_regione"];
-                                    asseY.push(data[i]["totale_casi"]);
-                                    asseX.push(data[i]["data"]);
-                                    if (cont % agg == 0) {
-                                        dict.push({
-                                            label: lbl,
-                                            fill: filled,
-                                            //backgroundColor: col,
-                                            borderColor: col,
-                                            hoverBackgroundColor: '#CCCCCC',
-                                            hoverBorderColor: '#666666',
-                                            data: asseY,
-                                        });
-                                        asseY = [];
-                                        if (cont == agg) {
-                                            date = [...asseX];
-                                        }
-                                    }
-                                }
-                                chartdata = {
-                                    data: {
-                                        dataset: dict,
-                                        labels: date
-                                    },
-                                };
-                            }
-
-                            var graphTarget = $("#graphCanvas");
-
-                            //console.log(dict);
-                            //console.log(date);
-                            graph = new Chart(
-                                graphTarget, {
-                                    responsive: true,
-                                    type: typeG,
-                                    data: {
-                                        datasets: dict,
-                                        labels: date,
-                                    }
-                                });
-                            //console.log(graph);
-                        },
-                        // ed una per il caso di fallimento
-                        error: function(err) {
-                            console.log(err);
-                        }
-                    });
-                } else {
-                    alert("Inserisci il luogo della ricerca");
+                //alert("input:" + input);
+                if (graph != undefined) {
+                    graph.destroy();
+                    //alert("grafico distrutto");
                 }
+                $.ajax({
+                    // definisco il tipo della chiamata
+                    type: "POST",
+                    // specifico la URL della risorsa da contattare
+                    url: "assets/php/graph.php",
+                    // passo dei dati alla risorsa remota
+                    data: {
+                        "choose1": choose1,
+                        "choose2": choose2,
+                        "input": input,
+                    },
+                    // definisco il formato della risposta
+                    dataType: "text",
+                    // imposto un'azione per il caso di successo
+                    success: function(data) {
+                        var agg;
+                        if ((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") {
+                            var pieces = data;
+                            pieces = pieces.split('£');
+                            data = JSON.parse(pieces[0]);
+                            agg = parseInt(pieces[1], 10);
+                        } else {
+                            data = JSON.parse(data);
+                        }
+                        console.log("p1:" + data);
+                        console.log("p2:" + agg);
+                        var strX = "data";
+                        var strY = "";
+                        var typeG = "line";
+                        var filled = true;
+                        switch (choose2) {
+                            case "Totale Casi":
+                                strY = "totale_casi";
+                                break;
+                            case "Totale Attualmente Infetti":
+                                strY = "totale_attualmente_positivi";
+                                break;
+                            case "Nuovi Infetti":
+                                strY = "nuovi_attualmente_positivi";
+                                break;
+                            case "Totale Guariti":
+                                strY = "dimessi_guariti";
+                                break;
+                            case "Totale Morti":
+                                strY = "deceduti";
+                                break;
+                        }
+                        switch (choose3) {
+                            case "Grafico a linee vuoto":
+                                typeG = "line";
+                                filled = false;
+                                break;
+                            case "Grafico a linee pieno":
+                                typeG = "line";
+                                break;
+                            case "Grafico a barre":
+                                typeG = "bar";
+                                break;
+                            case "Grafico a radar":
+                                typeG = "radar";
+                                break;
+                            case "Grafico a doughnut":
+                                typeG = "doughnut";
+                                break;
+                            case "Grafico a torta":
+                                typeG = "pie";
+                                break;
+                            case "Grafico ad area polare":
+                                typeG = "polarArea";
+                                break;
+                        }
+                        if (choose2 != "Nuovi Infetti") {
+                            $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con il " + choose2 + "</h2><br><br>");
+                        } else {
+                            $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
+                        }
+                        var dict = [];
+                        if ((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") {
+                            var asseY = [];
+                            var asseX = [];
+                            var bColor = [];
+                            var date = [];
+                            var cont = 0;
+                            for (var i in data) {
+                                cont++;
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                var lbl = choose1 == "Regionale" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
+                                asseY.push(data[i][strY]);
+                                asseX.push(data[i]["data"]);
+                                if (cont % agg == 0) {
+                                    dict.push({
+                                        label: lbl,
+                                        fill: filled,
+                                        //backgroundColor: col,
+                                        borderColor: col,
+                                        hoverBackgroundColor: '#CCCCCC',
+                                        hoverBorderColor: '#666666',
+                                        data: asseY,
+                                    });
+                                    asseY = [];
+                                    if (cont == agg) {
+                                        date = [...asseX];
+                                    }
+                                }
+                            }
+                            chartdata = { //da testare/eliminare
+                                data: {
+                                    dataset: dict,
+                                    labels: date
+                                },
+                            };
+                        } else {
+                            var asseY = [];
+                            var date = [];
+                            var bColor = [];
+                            for (var i in data) {
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                date.push(data[i][strX]);
+                                asseY.push(data[i][strY]);
+                                bColor.push(c);
+                            }
+                            //console.log(asseY);
+                            dict = [{
+                                label: choose2,
+                                fill: filled,
+                                //backgroundColor: '#49e2ff',
+                                backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
+                                //backgroundColor: bColor,
+                                borderColor: '#46d5f1',
+                                hoverBackgroundColor: '#CCCCCC',
+                                hoverBorderColor: '#666666',
+                                data: asseY
+                            }];
+                        }
+
+                        var graphTarget = $("#graphCanvas");
+
+                        console.log(dict);
+                        console.log(date);
+                        graph = new Chart(
+                            graphTarget, {
+                                responsive: true,
+                                type: typeG,
+                                data: {
+                                    datasets: dict,
+                                    labels: date,
+                                }
+                            });
+                        console.log(graph);
+                    },
+                    // ed una per il caso di fallimento
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
             } else {
                 alert("Inserisci tutte le informazioni per procedere \r\n alla creazione del grafico");
             }
-        });
-        $("#home").click(function() {
-            location.reload();
         });
     </script>
 </body>

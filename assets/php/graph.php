@@ -9,31 +9,66 @@ $sqlQuery ="";
 $result="";
 //echo $choose2;
 $agg=0;
+$strY="";
 switch ($choose1) {
         case "Mondiale": {
         };break;
         case "Nazionale": {
-            if($choose2 != "Confronto"){
-                $sqlQuery="SELECT * FROM andamentoNazionale";
-            }else{
-                $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
-                $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
-                $agg /= 21;
-            }
+            $sqlQuery="SELECT * FROM andamentoNazionale";
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Regionale": {
-            if ($choose2 != "Confronto") {
-                $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '".$input."'";
-            } else {
-                $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
+            if ($input == "err") {
+                switch ($choose2) {
+                    case "Totale Casi":
+                        $strY = "totale_casi";
+                        break;
+                    case "Totale Attualmente Infetti":
+                        $strY = "totale_attualmente_positivi";
+                        break;
+                    case "Nuovi Infetti":
+                        $strY = "nuovi_attualmente_positivi";
+                        break;
+                    case "Totale Guariti":
+                        $strY = "dimessi_guariti";
+                        break;
+                    case "Totale Morti":
+                        $strY = "deceduti";
+                        break;
+                }
+                $sqlQuery = "SELECT denominazione_regione,data," . $strY . " FROM andamentoRegionale GROUP BY denominazione_regione,data";
                 $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
                 $agg /= 21;
+            } else {
+                $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '" . $input . "'";
             }
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Provinciale": {
-            $sqlQuery = "SELECT * FROM andamentoProvinciale WHERE denominazione_provincia LIKE '" . $input . "'";
+            if ($input == "err") {
+                switch ($choose2) {
+                    case "Totale Casi":
+                        $strY = "totale_casi";
+                        break;
+                    case "Totale Attualmente Infetti":
+                        $strY = "totale_attualmente_positivi";
+                        break;
+                    case "Nuovi Infetti":
+                        $strY = "nuovi_attualmente_positivi";
+                        break;
+                    case "Totale Guariti":
+                        $strY = "dimessi_guariti";
+                        break;
+                    case "Totale Morti":
+                        $strY = "deceduti";
+                        break;
+                }
+                $sqlQuery = "SELECT denominazione_provincia,data," . $strY . " FROM andamentoProvinciale GROUP BY denominazione_provincia,data";
+                $agg = $db->query("SELECT count(*) as num FROM andamentoProvinciale")->fetch_assoc()["num"];
+                $agg /= 128;
+            }else{
+                $sqlQuery = "SELECT * FROM andamentoProvinciale WHERE denominazione_provincia LIKE '" . $input . "'";
+            }
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Comunale": {};break;
