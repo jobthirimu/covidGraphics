@@ -137,9 +137,20 @@
                             "input": input,
                         },
                         // definisco il formato della risposta
-                        dataType: "json",
+                        dataType: "text",
                         // imposto un'azione per il caso di successo
                         success: function(data) {
+                            var agg;
+                            if (choose2 == "Confronto") {
+                                var pieces = data;
+                                pieces = pieces.split('£');
+                                data = JSON.parse(pieces[0]);
+                                agg = parseInt(pieces[1], 10);
+                            } else {
+                                data = JSON.parse(data);
+                            }
+                            //console.log("p1:" + data);
+                            //console.log("p2:" + agg);
                             var strX = "data";
                             var strY = "";
                             var typeG = "line";
@@ -190,57 +201,85 @@
                             } else {
                                 $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
                             }
-                            console.log(data);
-                            var chartdata;
+                            var dict = [];
                             if (choose2 != "Confronto") {
-                                var asseX = [];
                                 var asseY = [];
+                                var date = [];
                                 var bColor = [];
                                 for (var i in data) {
                                     r = Math.floor(Math.random() * 200);
                                     g = Math.floor(Math.random() * 200);
                                     b = Math.floor(Math.random() * 200);
                                     c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                    asseX.push(data[i][strX]);
+                                    date.push(data[i][strX]);
                                     asseY.push(data[i][strY]);
                                     bColor.push(c);
                                 }
-
-                                chartdata = {
-                                    labels: asseX,
-                                    datasets: [{
-                                        label: choose2,
-                                        fill: filled,
-                                        //backgroundColor: '#49e2ff',
-                                        backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
-                                        //backgroundColor: bColor,
-                                        borderColor: '#46d5f1',
-                                        hoverBackgroundColor: '#CCCCCC',
-                                        hoverBorderColor: '#666666',
-                                        data: asseY
-                                    }]
-                                };
+                                console.log(asseY);
+                                dict = [{
+                                    label: choose2,
+                                    fill: filled,
+                                    //backgroundColor: '#49e2ff',
+                                    backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
+                                    //backgroundColor: bColor,
+                                    borderColor: '#46d5f1',
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY
+                                }];
                             } else {
-                                var asseX,asseY,bColor, abruzzo, basilicata, calabria, campania, emilia_romagna, friuli_venezia_giulia, lazio, liguria, lombardia, marche, molise, bolzano, trento, piemonte, puglia, sardegna, sicilia, toscana, umbria, valle_aosta, veneto = [];
+                                var asseY = [];
+                                var asseX = [];
+                                var bColor = [];
+                                var date = [];
+                                var cont = 0;
                                 for (var i in data) {
+                                    cont++;
                                     r = Math.floor(Math.random() * 200);
                                     g = Math.floor(Math.random() * 200);
                                     b = Math.floor(Math.random() * 200);
-                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                    abruzzo.push(data[i][strX]);
-                                    asseY.push(data[i][strY]);
-                                    bColor.push(c);
+                                    col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    var lbl = data[i]["denominazione_regione"];
+                                    asseY.push(data[i]["totale_casi"]);
+                                    asseX.push(data[i]["data"]);
+                                    if (cont % agg == 0) {
+                                        dict.push({
+                                            label: lbl,
+                                            fill: filled,
+                                            //backgroundColor: col,
+                                            borderColor: col,
+                                            hoverBackgroundColor: '#CCCCCC',
+                                            hoverBorderColor: '#666666',
+                                            data: asseY,
+                                        });
+                                        asseY = [];
+                                        if (cont == agg) {
+                                            date = [...asseX];
+                                        }
+                                    }
                                 }
+                                chartdata = {
+                                    data: {
+                                        dataset: dict,
+                                        labels: date
+                                    },
+                                };
                             }
 
                             var graphTarget = $("#graphCanvas");
 
+                            console.log(dict);
+                            console.log(date);
                             graph = new Chart(
                                 graphTarget, {
                                     responsive: true,
                                     type: typeG,
-                                    data: chartdata
+                                    data: {
+                                        dataset: dict,
+                                        labels: date,
+                                    }
                                 });
+                            console.log(graph);
                         },
                         // ed una per il caso di fallimento
                         error: function(err) {

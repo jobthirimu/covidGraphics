@@ -8,6 +8,7 @@ $input = $_REQUEST["input"];
 $sqlQuery ="";
 $result="";
 //echo $choose2;
+$agg=0;
 switch ($choose1) {
         case "Mondiale": {
         };break;
@@ -16,6 +17,8 @@ switch ($choose1) {
                 $sqlQuery="SELECT * FROM andamentoNazionale";
             }else{
                 $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
+                $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
+                $agg /= 21;
             }
             $result = mysqli_query($db, $sqlQuery);
         };break;
@@ -24,6 +27,8 @@ switch ($choose1) {
                 $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '".$input."'";
             } else {
                 $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
+                $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
+                $agg /= 21;
             }
             $result = mysqli_query($db, $sqlQuery);
         };break;
@@ -40,4 +45,6 @@ if (is_array($result) || is_object($result)){
         $data[] = $row;
     }
 }
+
 echo json_encode($data);
+echo $agg != 0 ? "£".$agg: "";
