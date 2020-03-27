@@ -3,18 +3,28 @@ header('Content-Type: application/json');
 require_once("db_connect.php");
 
 $choose1=$_REQUEST["choose1"];
+$choose2 = $_REQUEST["choose2"];
 $input = $_REQUEST["input"];
 $sqlQuery ="";
 $result="";
+//echo $choose2;
 switch ($choose1) {
         case "Mondiale": {
         };break;
         case "Nazionale": {
-            $sqlQuery="SELECT * FROM andamentoNazionale";
+            if($choose2 != "Confronto"){
+                $sqlQuery="SELECT * FROM andamentoNazionale";
+            }else{
+                $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
+            }
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Regionale": {
-            $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '".$input."'";
+            if ($choose2 != "Confronto") {
+                $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '".$input."'";
+            } else {
+                $sqlQuery = "SELECT denominazione_regione,data,totale_casi FROM andamentoRegionale GROUP BY denominazione_regione,data";
+            }
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Provinciale": {

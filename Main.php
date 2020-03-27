@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#" id="home">Home</a>
         <div class="form-inline">
@@ -28,6 +27,7 @@
         <div class="btn-group">
             <a id="2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
+                <li class="dropdown-item"><a href="#">Confronto</a></li>
                 <li class="dropdown-item"><a href="#">Totale Casi</a></li>
                 <li class="dropdown-item"><a href="#">Totale Attualmente Infetti</a></li>
                 <li class="dropdown-item"><a href="#">Nuovi Infetti</a></li>
@@ -38,7 +38,8 @@
         <div class="btn-group">
             <a id="3" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Grafico a linee</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a linee vuoto</a></li>
+                <li class="dropdown-item"><a href="#">Grafico a linee pieno</a></li>
                 <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
                 <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
                 <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
@@ -120,7 +121,7 @@
             if ((choose1 != "false" && choose2 != "false" && choose3 != "false")) {
                 //alert("required:" + required + " input:" + input);
                 if ((required == "true" && input != "err") || required == "false") {
-                    if (graph != undefined){
+                    if (graph != undefined) {
                         graph.destroy();
                         //alert("grafico distrutto");
                     }
@@ -132,6 +133,7 @@
                         // passo dei dati alla risorsa remota
                         data: {
                             "choose1": choose1,
+                            "choose2": choose2,
                             "input": input,
                         },
                         // definisco il formato della risposta
@@ -141,6 +143,7 @@
                             var strX = "data";
                             var strY = "";
                             var typeG = "line";
+                            var filled = true;
                             switch (choose2) {
                                 case "Totale Casi":
                                     strY = "totale_casi";
@@ -159,7 +162,11 @@
                                     break;
                             }
                             switch (choose3) {
-                                case "Grafico a linee":
+                                case "Grafico a linee vuoto":
+                                    typeG = "line";
+                                    filled = false;
+                                    break;
+                                case "Grafico a linee pieno":
                                     typeG = "line";
                                     break;
                                 case "Grafico a barre":
@@ -184,33 +191,47 @@
                                 $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
                             }
                             console.log(data);
-                            var asseX = [];
-                            var asseY = [];
-                            var bColor = [];
+                            var chartdata;
+                            if (choose2 != "Confronto") {
+                                var asseX = [];
+                                var asseY = [];
+                                var bColor = [];
+                                for (var i in data) {
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    asseX.push(data[i][strX]);
+                                    asseY.push(data[i][strY]);
+                                    bColor.push(c);
+                                }
 
-                            for (var i in data) {
-                                r = Math.floor(Math.random() * 200);
-                                g = Math.floor(Math.random() * 200);
-                                b = Math.floor(Math.random() * 200);
-                                c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                asseX.push(data[i][strX]);
-                                asseY.push(data[i][strY]);
-                                bColor.push(c);
+                                chartdata = {
+                                    labels: asseX,
+                                    datasets: [{
+                                        label: choose2,
+                                        fill: filled,
+                                        //backgroundColor: '#49e2ff',
+                                        backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
+                                        //backgroundColor: bColor,
+                                        borderColor: '#46d5f1',
+                                        hoverBackgroundColor: '#CCCCCC',
+                                        hoverBorderColor: '#666666',
+                                        data: asseY
+                                    }]
+                                };
+                            } else {
+                                var asseX,asseY,bColor, abruzzo, basilicata, calabria, campania, emilia_romagna, friuli_venezia_giulia, lazio, liguria, lombardia, marche, molise, bolzano, trento, piemonte, puglia, sardegna, sicilia, toscana, umbria, valle_aosta, veneto = [];
+                                for (var i in data) {
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    abruzzo.push(data[i][strX]);
+                                    asseY.push(data[i][strY]);
+                                    bColor.push(c);
+                                }
                             }
-
-                            var chartdata = {
-                                labels: asseX,
-                                datasets: [{
-                                    label: choose2,
-                                    //backgroundColor: '#49e2ff',
-                                    backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
-                                    //backgroundColor: bColor,
-                                    borderColor: '#46d5f1',
-                                    hoverBackgroundColor: '#CCCCCC',
-                                    hoverBorderColor: '#666666',
-                                    data: asseY
-                                }]
-                            };
 
                             var graphTarget = $("#graphCanvas");
 
