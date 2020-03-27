@@ -215,7 +215,7 @@
                                     asseY.push(data[i][strY]);
                                     bColor.push(c);
                                 }
-                                console.log(asseY);
+                                //console.log(asseY);
                                 dict = [{
                                     label: choose2,
                                     fill: filled,
@@ -268,18 +268,18 @@
 
                             var graphTarget = $("#graphCanvas");
 
-                            console.log(dict);
-                            console.log(date);
+                            //console.log(dict);
+                            //console.log(date);
                             graph = new Chart(
                                 graphTarget, {
                                     responsive: true,
                                     type: typeG,
                                     data: {
-                                        dataset: dict,
+                                        datasets: dict,
                                         labels: date,
                                     }
                                 });
-                            console.log(graph);
+                            //console.log(graph);
                         },
                         // ed una per il caso di fallimento
                         error: function(err) {
