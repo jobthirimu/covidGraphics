@@ -46,7 +46,18 @@ switch ($choose1) {
                         $strY = "deceduti";
                         break;
                 }
-                $sqlQuery = "SELECT denominazione_regione,data," . $strY . " FROM andamentoRegionale GROUP BY denominazione_regione,data";
+                if($choose2 == "Nuovi Morti"){
+                    $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.deceduti -(
+                            SELECT a2.deceduti
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21
+                        )
+                    ) as nuovi_deceduti 
+                    FROM andamentoRegionale AS a1
+                    GROUP BY denominazione_regione,data";
+                }else{
+                    $sqlQuery = "SELECT denominazione_regione,data," . $strY . " FROM andamentoRegionale GROUP BY denominazione_regione,data";
+                }
                 $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
                 $agg /= 21;
             } else {
