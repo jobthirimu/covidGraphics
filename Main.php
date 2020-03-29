@@ -32,6 +32,7 @@
                 <li class="dropdown-item"><a href="#">Nuovi Infetti</a></li>
                 <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
                 <li class="dropdown-item"><a href="#">Totale Morti</a></li>
+                <li class="dropdown-item"><a href="#">Nuovi Morti</a></li>
             </ul>
         </div>
         <div class="btn-group">
@@ -115,8 +116,54 @@
                     dataType: "text",
                     // imposto un'azione per il caso di successo
                     success: function(data) {
-                        var agg;
-                        if ((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") {
+                        var agg = 0;
+                        var regioni = [
+                            "abruzzo",
+                            "basilicata",
+                            "p.a. bolzano",
+                            "calabria",
+                            "campania",
+                            "emilia romagna",
+                            "friuli venezia giulia",
+                            "lazio",
+                            "liguria",
+                            "lombardia",
+                            "marche",
+                            "molise",
+                            "piemonte",
+                            "puglia",
+                            "sardegna",
+                            "sicilia",
+                            "toscana",
+                            "p.a. trento",
+                            "umbria",
+                            "valle d'aosta",
+                            "veneto"
+                        ];
+                        var provincesuregioni = {
+                            "abruzzo": 5,
+                            "basilicata": 3,
+                            "p.a. bolzano": 2,
+                            "calabria": 6,
+                            "campania": 6,
+                            "emilia romagna": 10,
+                            "friuli venezia giulia": 5,
+                            "lazio": 6,
+                            "liguria": 5,
+                            "lombardia": 13,
+                            "marche": 6,
+                            "molise": 3,
+                            "piemonte": 9,
+                            "puglia": 7,
+                            "sardegna": 6,
+                            "sicilia": 10,
+                            "toscana": 11,
+                            "p.a. trento": 2,
+                            "umbria": 3,
+                            "valle d'aosta": 2,
+                            "veneto": 8
+                        };
+                        if (((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
                             var pieces = data;
                             pieces = pieces.split('£');
                             data = JSON.parse(pieces[0]);
@@ -145,6 +192,9 @@
                                 break;
                             case "Totale Morti":
                                 strY = "deceduti";
+                                break;
+                            case "Nuovi Morti":
+                                strY = "nuovi_deceduti";
                                 break;
                         }
                         switch (choose3) {
@@ -177,7 +227,9 @@
                             $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
                         }
                         var dict = [];
-                        if ((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") {
+                        if (((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
+                            //agg = agg == 0 ? provincesuregioni[input.toLowerCase()] : agg;
+                            //console.log("ris:" + jQuery.inArray(input, regioni));
                             var asseY = [];
                             var asseX = [];
                             var bColor = [];

@@ -14,7 +14,17 @@ switch ($choose1) {
         case "Mondiale": {
         };break;
         case "Nazionale": {
-            $sqlQuery="SELECT * FROM andamentoNazionale";
+            if($choose2=="Nuovi Morti"){
+                $sqlQuery = "SELECT a1.*,(a1.deceduti -(
+                        SELECT a2.deceduti
+                        FROM andamentoNazionale AS a2
+                        WHERE a2.id = a1.id-1
+                    )
+                ) as nuovi_deceduti 
+                FROM andamentoNazionale AS a1" ;
+            }else{
+                $sqlQuery = "SELECT * FROM andamentoNazionale";
+            }
             $result = mysqli_query($db, $sqlQuery);
         };break;
         case "Regionale": {
@@ -40,7 +50,18 @@ switch ($choose1) {
                 $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
                 $agg /= 21;
             } else {
-                $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '" . $input . "'";
+                if($choose2=="Nuovi Morti"){
+                    $sqlQuery = "SELECT a1.*,(a1.deceduti -(
+                            SELECT a2.deceduti
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input'
+                        )
+                    ) as nuovi_deceduti 
+                    FROM andamentoRegionale AS a1
+                    WHERE denominazione_regione LIKE '$input'";
+                }else{
+                    $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '" . $input . "'";
+                }
             }
             $result = mysqli_query($db, $sqlQuery);
         };break;
@@ -67,7 +88,59 @@ switch ($choose1) {
                 $agg = $db->query("SELECT count(*) as num FROM andamentoProvinciale")->fetch_assoc()["num"];
                 $agg /= 128;
             }else{
-                $sqlQuery = "SELECT * FROM andamentoProvinciale WHERE denominazione_provincia LIKE '" . $input . "'";
+                $regioni = array(
+                    "abruzzo" => "abruzzo",
+                    "basilicata" => "basilicata",
+                    "p.a. bolzano" => "p.a. bolzano",
+                    "calabria" => "calabria",
+                    "campania" => "campania",
+                    "emilia romagna" => "emilia romagna",
+                    "friuli venezia giulia" => "friuli venezia giulia",
+                    "lazio" => "lazio",
+                    "liguria" => "liguria",
+                    "lombardia" => "lombardia",
+                    "marche" => "marche",
+                    "molise" => "molise",
+                    "piemonte" => "piemonte",
+                    "puglia" => "puglia",
+                    "sardegna" => "sardegna",
+                    "sicilia" => "sicilia",
+                    "toscana" => "toscana",
+                    "p.a. trento" => "p.a. trento",
+                    "umbria" => "umbria",
+                    "valle d'aosta" => "valle d'aosta",
+                    "veneto" => "veneto"
+                );
+                $provincesuregioni = array(
+                    "abruzzo"=> 5,
+                    "basilicata"=> 3,
+                    "p.a. bolzano"=> 2,
+                    "calabria"=> 6,
+                    "campania"=> 6,
+                    "emilia romagna"=> 10,
+                    "friuli venezia giulia"=> 5,
+                    "lazio"=> 6,
+                    "liguria"=> 5,
+                    "lombardia"=> 13,
+                    "marche"=> 6,
+                    "molise"=> 3,
+                    "piemonte"=> 9,
+                    "puglia"=> 7,
+                    "sardegna"=> 6,
+                    "sicilia"=> 10,
+                    "toscana"=> 11,
+                    "p.a. trento"=> 2,
+                    "umbria"=> 3,
+                    "valle d'aosta"=> 2,
+                    "veneto"=> 8
+                );
+                if(in_array(strtolower($input),$regioni)){
+                    $sqlQuery = "SELECT * FROM andamentoProvinciale WHERE denominazione_regione LIKE '$input' ORDER BY denominazione_provincia";
+                    $agg = $db->query("SELECT count(*) as num FROM andamentoProvinciale WHERE denominazione_regione LIKE '$input'")->fetch_assoc()["num"];
+                    $agg /= $provincesuregioni[strtolower($input)];
+                }else{
+                    $sqlQuery = "SELECT * FROM andamentoProvinciale WHERE denominazione_provincia LIKE '" . $input . "'";
+                }
             }
             $result = mysqli_query($db, $sqlQuery);
         };break;
