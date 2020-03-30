@@ -14,7 +14,7 @@
     $fields = array();
     $field_count = 0;
     $unique="";
-
+    array_push($fields, "id int(11) NOT NULL AUTO_INCREMENT"); //creo il campo id
     for ($i = 0; $i < count($data); $i++) { //leggo il file csv
         $f = strtolower(trim($data[$i]));
         if ($f) {
@@ -37,7 +37,7 @@
     }else{
         $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields). ')';
     }
-    //echo "<br><br>".$sql . "<br><br>";
+    echo "<br><br>".$sql . "<br><br>";
     if(!$db->query($sql)){
         echo $db->error;
     }
@@ -46,10 +46,11 @@
         for ($i = 0; $i < $field_count; $i++) {
             $fields[] = '\'' . addslashes($data[$i]) . '\'';
         }
-        $sql = "Insert ignore into `$fName` values(" . implode(', ', $fields) . ')';
-        //echo "<br><br>".$sql. "<br><br>";
-        $db->query($sql);
+        $sql = "Insert ignore into `$fName` values(null," . implode(', ', $fields) . ')';
+        echo "<br><br>".$sql. "<br><br>";
+        if(!$db->query($sql)){
+          echo $db->error;
+         }
     }
     ini_set('auto_detect_line_endings', FALSE);
     fclose($handle);
-?>
