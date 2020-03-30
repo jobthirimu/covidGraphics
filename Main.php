@@ -91,6 +91,11 @@
         $("a#home").click(function() {
             location.reload();
         });
+        $("input#input1").keyup(function(e) {
+            if (e.keyCode == 13) {
+                $("button").trigger("click");
+            }
+        });
         $("button").click(function() {
             var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
             var choose2 = $("#2").attr("changed") != "false" ? $("#2").attr("changed") : "false";
@@ -282,7 +287,7 @@
                                 asseY.push(data[i][strY]);
                                 bColor.push(c);
                             }
-                            //console.log(asseY);
+                            //console.log(asseY); 
                             dict = [{
                                 label: choose2,
                                 fill: filled,
