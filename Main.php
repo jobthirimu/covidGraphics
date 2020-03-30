@@ -88,6 +88,9 @@
             $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
             $(this).parents('.btn-group').find('.dropdown-toggle').attr("changed", selText);
         });
+        $("a#home").click(function() {
+            location.reload();
+        });
         $("button").click(function() {
             var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
             var choose2 = $("#2").attr("changed") != "false" ? $("#2").attr("changed") : "false";
