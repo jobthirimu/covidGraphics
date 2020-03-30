@@ -58,6 +58,36 @@
             <div class="col-sm">
                 <br>
                 <h3 id="titolo" class="text-center">Benvenuto nella pagina dei grafici relativi al covid-2019</h3>
+                <br>
+                <h4 id="stats">
+                    - Casi totali in italia
+                    <?php
+                    include("assets/php/db_connect.php");
+                    echo "(" . $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"] . ")";
+                    echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+                    ?>
+                    <br><br>
+                    - Regioni più colpite :
+                    <ol>
+                        <?php
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $regionipiucolpite = $db->query($sql);
+                        while ($row = $regionipiucolpite->fetch_assoc()) {
+                            echo "<li>" . $row['r'] . " : " . $row['t'] . "</li>";
+                        }
+                        ?>
+                    </ol>
+                    - Provincie più colpite :
+                    <ol>
+                        <?php
+                        $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $provinciepiucolpite = $db->query($sql);
+                        while ($row = $provinciepiucolpite->fetch_assoc()) {
+                            echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . "</li>";
+                        }
+                        ?>
+                    </ol>
+                </h4>
             </div>
         </div>
         <div class="row">
@@ -107,6 +137,7 @@
                     graph.destroy();
                     //alert("grafico distrutto");
                 }
+                $("h4#stats").html("");
                 $.ajax({
                     // definisco il tipo della chiamata
                     type: "POST",
