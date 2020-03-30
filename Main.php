@@ -48,7 +48,7 @@
             </ul>
         </div>
         <form class="form-inline">
-            <button class="btn btn-outline-success" type="button">Disegna Grafico</button>
+            <button class="btn btn-outline-primary" type="button">Disegna Grafico</button>
         </form>
     </nav>
     <br>
