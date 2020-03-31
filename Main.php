@@ -224,6 +224,7 @@
                         var strY = "";
                         var typeG = "line";
                         var filled = true;
+                        var articolo = "il";
                         switch (choose2) {
                             case "Totale Casi":
                                 strY = "totale_casi";
@@ -233,9 +234,11 @@
                                 break;
                             case "Variazione Totale Positivi":
                                 strY = "variazione_totale_positivi";
+                                articolo = "la";
                                 break;
                             case "Nuovi Positivi":
                                 strY = "nuovi_positivi";
+                                articolo = "i";
                                 break;
                             case "Totale Guariti":
                                 strY = "dimessi_guariti";
@@ -245,6 +248,7 @@
                                 break;
                             case "Nuovi Morti":
                                 strY = "nuovi_deceduti";
+                                articolo = "i";
                                 break;
                         }
                         switch (choose3) {
@@ -271,11 +275,7 @@
                                 typeG = "polarArea";
                                 break;
                         }
-                        if (choose2 != "Nuovi Infetti") {
-                            $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con il " + choose2 + "</h2><br><br>");
-                        } else {
-                            $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con i " + choose2 + "</h2><br><br>");
-                        }
+                        $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "</h2><br><br>");
                         var dict = [];
                         if (((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
                             //agg = agg == 0 ? provincesuregioni[input.toLowerCase()] : agg;
@@ -369,4 +369,5 @@
         });
     </script>
 </body>
+
 </html>
