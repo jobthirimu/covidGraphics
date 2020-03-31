@@ -35,11 +35,14 @@ switch ($choose1) {
                     case "Totale Casi":
                         $strY = "totale_casi";
                         break;
-                    case "Totale Attualmente Infetti":
-                        $strY = "totale_attualmente_positivi";
+                    case "Totale Positivi":
+                        $strY = "totale_positivi";
                         break;
-                    case "Nuovi Infetti":
-                        $strY = "nuovi_attualmente_positivi";
+                    case "Variazione Totale Positivi":
+                        $strY = "variazione_totale_positivi";
+                        break;
+                    case "Nuovi Positivi":
+                        $strY = "nuovi_positivi";
                         break;
                     case "Totale Guariti":
                         $strY = "dimessi_guariti";
@@ -85,11 +88,14 @@ switch ($choose1) {
                     case "Totale Casi":
                         $strY = "totale_casi";
                         break;
-                    case "Totale Attualmente Infetti":
-                        $strY = "totale_attualmente_positivi";
+                    case "Totale Positivi":
+                        $strY = "totale_positivi";
                         break;
-                    case "Nuovi Infetti":
-                        $strY = "nuovi_attualmente_positivi";
+                    case "Variazione Totale Positivi":
+                        $strY = "variazione_totale_positivi";
+                        break;
+                    case "Nuovi Positivi":
+                        $strY = "nuovi_positivi";
                         break;
                     case "Totale Guariti":
                         $strY = "dimessi_guariti";

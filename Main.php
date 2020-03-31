@@ -28,8 +28,9 @@
             <a id="2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
             <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="#">Totale Casi</a></li>
-                <li class="dropdown-item"><a href="#">Totale Attualmente Infetti</a></li>
-                <li class="dropdown-item"><a href="#">Nuovi Infetti</a></li>
+                <li class="dropdown-item"><a href="#">Totale Positivi</a></li>
+                <li class="dropdown-item"><a href="#">Variazione Totale Positivi</a></li>
+                <li class="dropdown-item"><a href="#">Nuovi Positivi</a></li>
                 <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
                 <li class="dropdown-item"><a href="#">Totale Morti</a></li>
                 <li class="dropdown-item"><a href="#">Nuovi Morti</a></li>
@@ -227,11 +228,14 @@
                             case "Totale Casi":
                                 strY = "totale_casi";
                                 break;
-                            case "Totale Attualmente Infetti":
-                                strY = "totale_attualmente_positivi";
+                            case "Totale Positivi":
+                                strY = "totale_positivi";
                                 break;
-                            case "Nuovi Infetti":
-                                strY = "nuovi_attualmente_positivi";
+                            case "Variazione Totale Positivi":
+                                strY = "variazione_totale_positivi";
+                                break;
+                            case "Nuovi Positivi":
+                                strY = "nuovi_positivi";
                                 break;
                             case "Totale Guariti":
                                 strY = "dimessi_guariti";
@@ -365,5 +369,4 @@
         });
     </script>
 </body>
-
 </html>

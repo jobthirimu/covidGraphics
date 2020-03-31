@@ -14,7 +14,7 @@
     $fields = array();
     $field_count = 0;
     $unique="";
-    array_push($fields, "id int(11) NOT NULL AUTO_INCREMENT"); //creo il campo id
+    array_push($fields, "id int(11) NOT NULL primary key AUTO_INCREMENT"); //creo il campo id
     for ($i = 0; $i < count($data); $i++) { //leggo il file csv
         $f = strtolower(trim($data[$i]));
         if ($f) {
