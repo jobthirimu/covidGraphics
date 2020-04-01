@@ -9,61 +9,68 @@
 </head>
 
 <body>
-    <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#" id="home">Home</a>
-        <div class="form-inline">
-            <div class="btn-group">
-                <a id="1" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Origine Dati<span class='caret'></span></a>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item">Mondiale</li>
-                    <li class="dropdown-item"><a href="#">Nazionale</a></li>
-                    <li class="dropdown-item"><a href="#">Regionale</a></li>
-                    <li class="dropdown-item"><a href="#">Provinciale</a></li>
-                    <li class="dropdown-item">Comunale</li>
-                </ul>
-            </div>
-            <input id="input1" type="text" class="form-control" placeholder="Search">
-        </div>
-        <div class="btn-group">
-            <a id="2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
-            <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Totale Casi</a></li>
-                <li class="dropdown-item"><a href="#">Totale Positivi</a></li>
-                <li class="dropdown-item"><a href="#">Variazione Totale Positivi</a></li>
-                <li class="dropdown-item"><a href="#">Nuovi Positivi</a></li>
-                <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
-                <li class="dropdown-item"><a href="#">Nuovi Guariti</a></li>
-                <li class="dropdown-item"><a href="#">Totale Morti</a></li>
-                <li class="dropdown-item"><a href="#">Nuovi Morti</a></li>
-                <li class="dropdown-item"><a href="#">Totale Tamponi</a></li>
-                <li class="dropdown-item"><a href="#">Nuovi Tamponi</a></li>
-            </ul>
-        </div>
-        <div class="btn-group">
-            <a id="3" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
-            <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="#">Grafico a linee vuoto</a></li>
-                <li class="dropdown-item"><a href="#">Grafico a linee pieno</a></li>
-                <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
-                <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
-                <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
-                <li class="dropdown-item"><a href="#">Grafico a torta</a></li>
-                <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
-            </ul>
-        </div>
-        <form class="form-inline">
-            <button class="btn btn-outline-primary" type="button">Disegna Grafico</button>
-        </form>
-    </nav>
-    <br>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" id="home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="1" class="nav-link dropdown-toggle" href="#" changed="false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Origine Dati<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">Mondiale</li>
+                        <li class="dropdown-item"><a href="#">Nazionale</a></li>
+                        <li class="dropdown-item"><a href="#">Regionale</a></li>
+                        <li class="dropdown-item"><a href="#">Provinciale</a></li>
+                        <li class="dropdown-item">Comunale</li>
+                    </ul>
+                </li>
 
+                <li class="nav-item"><input id="input1" type="text" class="form-control" placeholder="Filtro"></li>
+
+                <li class="nav-item dropdown">
+                    <a id="2" class="nav-link dropdown-toggle dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">Totale Casi</a></li>
+                        <li class="dropdown-item"><a href="#">Totale Positivi</a></li>
+                        <li class="dropdown-item"><a href="#">Variazione Totale Positivi</a></li>
+                        <li class="dropdown-item"><a href="#">Nuovi Positivi</a></li>
+                        <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
+                        <li class="dropdown-item"><a href="#">Nuovi Guariti</a></li>
+                        <li class="dropdown-item"><a href="#">Totale Morti</a></li>
+                        <li class="dropdown-item"><a href="#">Nuovi Morti</a></li>
+                        <li class="dropdown-item"><a href="#">Totale Tamponi</a></li>
+                        <li class="dropdown-item"><a href="#">Nuovi Tamponi</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="3" class="nav-link dropdown-toggle dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">Grafico a linee vuoto</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a linee pieno</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a torta</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Disegna Grafico</button>
+            </form>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col-sm">
                 <br>
                 <h3 id="titolo" class="text-center">Benvenuto nella pagina dei grafici relativi al covid-2019</h3>
-                <br><br>
                 <h4 id="stats">
+                    <br><br>
                     ● Casi totali in italia
                     <?php
                     include("assets/php/db_connect.php");
@@ -126,18 +133,18 @@
         var graph;
         $(".dropdown-menu li a").click(function() {
             var selText = $(this).text();
-            $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
-            $(this).parents('.btn-group').find('.dropdown-toggle').attr("changed", selText);
+            $(this).parents('.nav-item').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
+            $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText);
         });
-        $("a#home").click(function() {
+        $("#home").click(function() {
             location.reload();
         });
         $("input#input1").keyup(function(e) {
             if (e.keyCode == 13) {
-                $("button").trigger("click");
+                $("button.btn").trigger("click");
             }
         });
-        $("button").click(function() {
+        $("button.btn").click(function() {
             var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
             var choose2 = $("#2").attr("changed") != "false" ? $("#2").attr("changed") : "false";
             var choose3 = $("#3").attr("changed") != "false" ? $("#3").attr("changed") : "false";
