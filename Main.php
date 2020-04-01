@@ -32,8 +32,11 @@
                 <li class="dropdown-item"><a href="#">Variazione Totale Positivi</a></li>
                 <li class="dropdown-item"><a href="#">Nuovi Positivi</a></li>
                 <li class="dropdown-item"><a href="#">Totale Guariti</a></li>
+                <li class="dropdown-item"><a href="#">Nuovi Guariti</a></li>
                 <li class="dropdown-item"><a href="#">Totale Morti</a></li>
                 <li class="dropdown-item"><a href="#">Nuovi Morti</a></li>
+                <li class="dropdown-item"><a href="#">Totale Tamponi</a></li>
+                <li class="dropdown-item"><a href="#">Nuovi Tamponi</a></li>
             </ul>
         </div>
         <div class="btn-group">
@@ -243,11 +246,22 @@
                             case "Totale Guariti":
                                 strY = "dimessi_guariti";
                                 break;
+                            case "Nuovi Guariti":
+                                strY = "nuovi_dimessi_guariti";
+                                articolo = "i";
+                                break;
                             case "Totale Morti":
                                 strY = "deceduti";
                                 break;
                             case "Nuovi Morti":
                                 strY = "nuovi_deceduti";
+                                articolo = "i";
+                                break;
+                            case "Totale Tamponi":
+                                strY = "tamponi";
+                                break;
+                            case "Nuovi Tamponi":
+                                strY = "nuovi_tamponi";
                                 articolo = "i";
                                 break;
                         }

@@ -23,6 +23,22 @@ switch ($choose1) {
                     )
                 ) as nuovi_deceduti 
                 FROM andamentoNazionale AS a1";
+            }else if($choose2 == "Nuovi Guariti"){
+                $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
+                        SELECT a2.dimessi_guariti
+                        FROM andamentoNazionale AS a2
+                        WHERE a2.id = a1.id-1
+                    )
+                ) as nuovi_dimessi_guariti 
+                FROM andamentoNazionale AS a1";
+            } else if ($choose2 == "Nuovi Tamponi") {
+                $sqlQuery = "SELECT a1.*,(a1.tamponi -(
+                        SELECT a2.tamponi
+                        FROM andamentoNazionale AS a2
+                        WHERE a2.id = a1.id-1
+                    )
+                ) as nuovi_tamponi
+                FROM andamentoNazionale AS a1";
             } else {
                 $sqlQuery = "SELECT * FROM andamentoNazionale";
             }
@@ -50,6 +66,9 @@ switch ($choose1) {
                     case "Totale Morti":
                         $strY = "deceduti";
                         break;
+                    case "Totale Tamponi":
+                        $strY = "tamponi";
+                        break;
                 }
                 if ($choose2 == "Nuovi Morti") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.deceduti -(
@@ -58,6 +77,24 @@ switch ($choose1) {
                             WHERE a2.id = a1.id-21
                         )
                     ) as nuovi_deceduti 
+                    FROM andamentoRegionale AS a1
+                    GROUP BY denominazione_regione,data";
+                } else if ($choose2 == "Nuovi Guariti") {
+                    $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.dimessi_guariti -(
+                            SELECT a2.dimessi_guariti
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21
+                        )
+                    ) as nuovi_dimessi_guariti 
+                    FROM andamentoRegionale AS a1
+                    GROUP BY denominazione_regione,data";
+                } else if ($choose2 == "Nuovi Tamponi") {
+                    $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.tamponi -(
+                            SELECT a2.tamponi
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21
+                        )
+                    ) as nuovi_tamponi
                     FROM andamentoRegionale AS a1
                     GROUP BY denominazione_regione,data";
                 } else {
@@ -73,6 +110,24 @@ switch ($choose1) {
                             WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input'
                         )
                     ) as nuovi_deceduti 
+                    FROM andamentoRegionale AS a1
+                    WHERE denominazione_regione LIKE '$input'";
+                } else if ($choose2 == "Nuovi Guariti") {
+                    $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
+                            SELECT a2.dimessi_guariti
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input'
+                        )
+                    ) as nuovi_dimessi_guariti 
+                    FROM andamentoRegionale AS a1
+                    WHERE denominazione_regione LIKE '$input'";
+                } else if ($choose2 == "Nuovi Tamponi") {
+                    $sqlQuery = "SELECT a1.*,(a1.tamponi -(
+                            SELECT a2.tamponi
+                            FROM andamentoRegionale AS a2
+                            WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input'
+                        )
+                    ) as nuovi_tamponi
                     FROM andamentoRegionale AS a1
                     WHERE denominazione_regione LIKE '$input'";
                 } else {
@@ -102,6 +157,9 @@ switch ($choose1) {
                         break;
                     case "Totale Morti":
                         $strY = "deceduti";
+                        break;
+                    case "Totale Tamponi":
+                        $strY = "tamponi";
                         break;
                 }
                 $sqlQuery = "SELECT denominazione_provincia,data," . $strY . " FROM andamentoProvinciale GROUP BY denominazione_provincia,data";
