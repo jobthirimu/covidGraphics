@@ -65,17 +65,18 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row p-4">
+        <div class="row">
             <div class="col-8 mx-auto">
                 <br>
-                <h3 id="titolo" class="text-center">Benvenuto nella pagina relativa al covid-2019</h3>
+                <h3 id="titolo" class="text-center p-1">Benvenuto nella pagina relativa al covid-2019</h3>
             </div>
         </div>
-        <h5 id="stats">
+        <h5 id="stats" class="m-t-4">
             <div class="row">
                 <div class="col mx-auto">
                     ● Casi totali in italia
                     <?php
+                    $numOfTop=10;
                     include("assets/php/db_connect.php");
                     echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
@@ -99,7 +100,7 @@
                     ● Regioni più colpite(casi totali) :
                     <ol>
                         <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
                         $regionipiucolpite = $db->query($sql);
                         while ($row = $regionipiucolpite->fetch_assoc()) {
                             echo "<li>" . $row['r'] . " : " . $row['t'] . " casi</li>";
@@ -111,7 +112,7 @@
                     ● Regioni più colpite(morti totali) :
                     <ol>
                         <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
                         $regionipiucolpite = $db->query($sql);
                         while ($row = $regionipiucolpite->fetch_assoc()) {
                             echo "<li>" . $row['r'] . " : " . $row['t'] . " morti</li>";
@@ -125,7 +126,7 @@
                     ● Regioni più colpite(morti/casi) :
                     <ol>
                         <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT 5";
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
                         $regionipiucolpite = $db->query($sql);
                         while ($row = $regionipiucolpite->fetch_assoc()) {
                             echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
@@ -137,7 +138,7 @@
                     ● Regioni più valide(guariti/casi) :
                     <ol>
                         <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT 5";
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
                         $regionipiucolpite = $db->query($sql);
                         while ($row = $regionipiucolpite->fetch_assoc()) {
                             echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
@@ -149,7 +150,7 @@
                     ● Provincie più colpite(casi totali) :
                     <ol>
                         <?php
-                        $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
                         $provinciepiucolpite = $db->query($sql);
                         while ($row = $provinciepiucolpite->fetch_assoc()) {
                             echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . " casi</li>";
@@ -160,7 +161,7 @@
                 <!-- ● Provincie più colpite(morti totali) :
                     <ol>
                         <?php
-                        // $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        // $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT ".$numOfTop;
                         // $provinciepiucolpite = $db->query($sql);
                         // while ($row = $provinciepiucolpite->fetch_assoc()) {
                         //     echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . " morti</li>";
@@ -168,7 +169,7 @@
                         ?>
                     </ol> -->
             </div>
-            <div class="row p-t-4">
+            <div class="row">
                 <div class="col mx-auto text-center">
                     ● Primo Aggiornamento
                     <?php
@@ -183,8 +184,8 @@
             </div>
         </h5>
     </div>
-    <div class="row">
-        <div class="col-sm">
+    <div class="row justify-content-center">
+        <div class="col-10 ">
             <div id="chart-container">
                 <canvas id="graphCanvas"></canvas>
             </div>
@@ -230,7 +231,7 @@
                     graph.destroy();
                     //alert("grafico distrutto");
                 }
-                $("h4#stats").html("");
+                $("h5#stats").html("");
                 $.ajax({
                     // definisco il tipo della chiamata
                     type: "POST",
