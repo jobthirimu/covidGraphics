@@ -65,18 +65,21 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row">
-            <div class="col-sm">
+        <div class="row p-4">
+            <div class="col-8 mx-auto">
                 <br>
-                <h3 id="titolo" class="text-center">Benvenuto nella pagina dei grafici relativi al covid-2019</h3>
-                <h4 id="stats">
-                    <br><br>
+                <h3 id="titolo" class="text-center">Benvenuto nella pagina relativa al covid-2019</h3>
+            </div>
+        </div>
+        <h5 id="stats">
+            <div class="row">
+                <div class="col mx-auto">
                     ● Casi totali in italia
                     <?php
                     include("assets/php/db_connect.php");
                     echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
-                    <br>
+                    <br><br>
                     ● Positivi totali in italia
                     <?php
                     echo " : " . $db->query("SELECT totale_positivi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
@@ -91,8 +94,8 @@
                     <?php
                     echo " : " . $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
-
-                    <br><br>
+                </div>
+                <div class="col mx-auto">
                     ● Regioni più colpite(casi totali) :
                     <ol>
                         <?php
@@ -103,6 +106,46 @@
                         }
                         ?>
                     </ol>
+                </div>
+                <div class="col mx-auto">
+                    ● Regioni più colpite(morti totali) :
+                    <ol>
+                        <?php
+                        $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        $regionipiucolpite = $db->query($sql);
+                        while ($row = $regionipiucolpite->fetch_assoc()) {
+                            echo "<li>" . $row['r'] . " : " . $row['t'] . " morti</li>";
+                        }
+                        ?>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mx-auto">
+                    ● Regioni più colpite(morti/casi) :
+                    <ol>
+                        <?php
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT 5";
+                        $regionipiucolpite = $db->query($sql);
+                        while ($row = $regionipiucolpite->fetch_assoc()) {
+                            echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
+                        }
+                        ?>
+                    </ol>
+                </div>
+                <div class="col mx-auto">
+                    ● Regioni più valide(guariti/casi) :
+                    <ol>
+                        <?php
+                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT 5";
+                        $regionipiucolpite = $db->query($sql);
+                        while ($row = $regionipiucolpite->fetch_assoc()) {
+                            echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
+                        }
+                        ?>
+                    </ol>
+                </div>
+                <div class="col mx-auto">
                     ● Provincie più colpite(casi totali) :
                     <ol>
                         <?php
@@ -113,7 +156,20 @@
                         }
                         ?>
                     </ol>
-                    <br>
+                </div>
+                <!-- ● Provincie più colpite(morti totali) :
+                    <ol>
+                        <?php
+                        // $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT 5";
+                        // $provinciepiucolpite = $db->query($sql);
+                        // while ($row = $provinciepiucolpite->fetch_assoc()) {
+                        //     echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . " morti</li>";
+                        // }
+                        ?>
+                    </ol> -->
+            </div>
+            <div class="row p-t-4">
+                <div class="col mx-auto text-center">
                     ● Primo Aggiornamento
                     <?php
                     echo " : " . str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data asc LIMIT 1")->fetch_assoc()["data"]);
@@ -123,16 +179,17 @@
                     <?php
                     echo " : " . str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
                     ?>
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <div id="chart-container">
-                    <canvas id="graphCanvas"></canvas>
                 </div>
             </div>
+        </h5>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <div id="chart-container">
+                <canvas id="graphCanvas"></canvas>
+            </div>
         </div>
+    </div>
     </div>
     <footer class="page-footer font-small blue pt-4">
         <div class="footer-copyright text-center py-3">
