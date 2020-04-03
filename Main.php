@@ -76,6 +76,22 @@
                     include("assets/php/db_connect.php");
                     echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
+                    <br>
+                    ● Positivi totali in italia
+                    <?php
+                    echo " : " . $db->query("SELECT totale_positivi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+                    ?>
+                    <br>
+                    ● Guariti totali in italia
+                    <?php
+                    echo " : " . $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+                    ?>
+                    <br>
+                    ● Morti totali in italia
+                    <?php
+                    echo " : " . $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+                    ?>
+
                     <br><br>
                     ● Regioni più colpite(casi totali) :
                     <ol>
