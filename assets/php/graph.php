@@ -121,11 +121,12 @@ switch ($choose1) {
                     ) as nuovi_dimessi_guariti 
                     FROM andamentoRegionale AS a1
                     WHERE denominazione_regione LIKE '$input'";
+                    
                 } else if ($choose2 == "Nuovi Tamponi") {
                     $sqlQuery = "SELECT a1.*,(a1.tamponi -(
                             SELECT a2.tamponi
                             FROM andamentoRegionale AS a2
-                            WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input'
+                            WHERE a2.id = a1.id-21 && denominazione_regione LIKE '$input' 
                         )
                     ) as nuovi_tamponi
                     FROM andamentoRegionale AS a1

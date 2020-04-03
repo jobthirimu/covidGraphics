@@ -21,7 +21,7 @@
 
     function updateNaz(){
         $limit2 = date('m', time());
-        $limit1 = $limit2 >= 2 ? $limit2 - 1 : 1;
+        $limit1 = $limit2 >= 2 ? $limit2 - 2 : 1;
         $fName = "andamentoNazionale";
         $urlT= "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-";
         for ($m = $limit1; $m <= $limit2; $m++) {
@@ -38,7 +38,7 @@
     }
     function updateReg(){
         $limit2 = date('m', time());
-        $limit1 = $limit2 >= 2 ? $limit2 - 1 : 1;
+        $limit1 = $limit2 >= 2 ? $limit2 - 2 : 1;
         $fName = "andamentoRegionale";
         $urlT = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni-";
         for ($m = $limit1; $m <= $limit2; $m++) {
@@ -54,7 +54,7 @@
     }
     function updateProv(){
         $limit2 = date('m', time());
-        $limit1 = $limit2 >= 2 ? $limit2 - 1 : 1;
+        $limit1 = $limit2 >= 2 ? $limit2 - 2 : 1;
         $fName = "andamentoProvinciale";
         $urlT = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-province/dpc-covid19-ita-province-";
         for ($m = $limit1; $m <= $limit2; $m++) {
