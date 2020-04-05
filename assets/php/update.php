@@ -26,18 +26,19 @@
         $fName = "andamentoMondiale";
         $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
         unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
-        //echo "<br>" . $url;
         include("downloader.php"); //scarico la risorsa
 
+        $fName = "andamentoMondiale";
         $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
         unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
-        //echo "<br>" . $url;
         include("downloader.php"); //scarico la risorsa
 
+        $fName = "andamentoMondiale";
         $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
         unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
-        //echo "<br>" . $url;
         include("downloader.php"); //scarico la risorsa
+
+        //SELECT t1.* FROM `time_series_covid19_confirmed_global.csv` as t1 WHERE t1.lat NOT IN (SELECT t2.lat FROM `time_series_covid19_recovered_global.csv` as t2)
     }
     function updateNaz(){
         $limit2 = date('m', time());

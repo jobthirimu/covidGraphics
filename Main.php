@@ -206,7 +206,6 @@
             </div>
         </div>
     </div>
-    </div>
     <footer class="page-footer font-small blue pt-4">
         <div class="footer-copyright text-center py-3">
             Created by Marco Zanrosso©
@@ -309,15 +308,13 @@
                             "valle d'aosta": 2,
                             "veneto": 8
                         };
-                        if (((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
-                            var pieces = data;
-                            pieces = pieces.split('£');
-                            data = JSON.parse(pieces[0]);
-                            agg = parseInt(pieces[1], 10);
-                        } else {
-                            data = JSON.parse(data);
-                        }
-                        console.log("p1:" + data);
+                        //formatto l'input
+                        var pieces = data;
+                        pieces = pieces.split('£');
+                        data = JSON.parse(pieces[0]);
+                        agg = parseInt(pieces[1], 10);
+
+                        console.log(data);
                         console.log("p2:" + agg);
                         var strX = "data";
                         var strY = "";
@@ -387,70 +384,111 @@
                         }
                         $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "</h2><br><br>");
                         var dict = [];
-                        if (((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
-                            //agg = agg == 0 ? provincesuregioni[input.toLowerCase()] : agg;
-                            //console.log("ris:" + jQuery.inArray(input, regioni));
-                            var asseY = [];
-                            var asseX = [];
-                            var bColor = [];
-                            var date = [];
-                            var cont = 0;
-                            for (var i in data) {
-                                cont++;
-                                r = Math.floor(Math.random() * 200);
-                                g = Math.floor(Math.random() * 200);
-                                b = Math.floor(Math.random() * 200);
-                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                var lbl = choose1 == "Regionale" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
-                                asseY.push(data[i][strY]);
-                                asseX.push(data[i]["data"]);
-                                if (cont % agg == 0) {
-                                    dict.push({
-                                        label: lbl,
-                                        fill: filled,
-                                        //backgroundColor: col,
-                                        borderColor: col,
-                                        hoverBackgroundColor: '#CCCCCC',
-                                        hoverBorderColor: '#666666',
-                                        data: asseY,
-                                    });
-                                    asseY = [];
-                                    if (cont == agg) {
-                                        date = [...asseX];
+                        var date = [];
+                        var col = "";
+                        //(((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) 
+                        if (choose1 != "Mondiale") {
+                            if (!Number.isNaN(agg)) {
+                                //console.log("ris:" + jQuery.inArray(input, regioni));
+                                var asseY = [];
+                                var asseX = [];
+                                var bColor = [];
+                                var cont = 0;
+                                for (var i in data) {
+                                    cont++;
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    var lbl = choose1 == "Regionale" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
+                                    asseY.push(data[i][strY]);
+                                    asseX.push(data[i]["data"]);
+                                    if (cont % agg == 0) {
+                                        dict.push({
+                                            label: lbl,
+                                            fill: filled,
+                                            //backgroundColor: col,
+                                            borderColor: col,
+                                            hoverBackgroundColor: '#CCCCCC',
+                                            hoverBorderColor: '#666666',
+                                            data: asseY,
+                                        });
+                                        asseY = [];
+                                        if (cont == agg) {
+                                            date = [...asseX];
+                                        }
                                     }
                                 }
+                                chartdata = { //da testare/eliminare
+                                    data: {
+                                        dataset: dict,
+                                        labels: date
+                                    },
+                                };
+                            } else {
+                                var asseY = [];
+                                var bColor = [];
+                                for (var i in data) {
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    date.push(data[i][strX]);
+                                    asseY.push(data[i][strY]);
+                                    bColor.push(c);
+                                }
+                                //console.log(asseY); 
+                                dict = [{
+                                    label: choose2,
+                                    fill: filled,
+                                    //backgroundColor: '#49e2ff',
+                                    backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
+                                    //backgroundColor: bColor,
+                                    borderColor: '#46d5f1',
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY
+                                }];
                             }
-                            chartdata = { //da testare/eliminare
-                                data: {
-                                    dataset: dict,
-                                    labels: date
-                                },
-                            };
-                        } else {
+                        } else { //uso impostazione date come colonne e non come campo
                             var asseY = [];
-                            var date = [];
-                            var bColor = [];
+                            var asseX = [];
+                            var cont = 0;
                             for (var i in data) {
+                                var lbl = data[i]["country_region"] + (data[i]["province_state"] != "" ? "(" + data[i]["province_state"] + ")" : "");
+                                var d = new Date("02/22/2020"); //imposto la data iniziale
+                                //console.log(Object.keys(data[i]).length);
+                                for (k = 0; k < Object.keys(data[i]).length - 8; k++) { //dalla 5 colonna copio tutti i dati di tutte le date
+                                    var dFormatted = d.getMonth() + "_" + d.getDate() + "_" + d.getFullYear().toString().substr(-2);
+                                    while (dFormatted == "2_30_20" || dFormatted == "2_31_20") {
+                                        d.setDate(d.getDate() + 1); //date non presenti nel calendario gregoriano
+                                        dFormatted = d.getMonth() + "_" + d.getDate() + "_" + d.getFullYear().toString().substr(-2);
+                                    }
+                                    //console.log("\ndate: "+dFormatted);
+                                    asseX.push(dFormatted); //formatto e inserisco la data come da database
+                                    asseY.push(data[i][dFormatted]);
+                                    d.setDate(d.getDate() + 1); //avanzo di 1 giorno nella data "virtuale"
+                                }
                                 r = Math.floor(Math.random() * 200);
                                 g = Math.floor(Math.random() * 200);
                                 b = Math.floor(Math.random() * 200);
-                                c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                date.push(data[i][strX]);
-                                asseY.push(data[i][strY]);
-                                bColor.push(c);
+                                dict.push({
+                                    label: lbl,
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: 'rgb(' + r + ', ' + g + ', ' + b + ')',
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY,
+                                });
+                                asseY = [];
+                                if (cont == 0) {
+                                    date = [...asseX];
+                                    //console.log(asseX);
+                                }
+                                asseX = [];
+                                cont++;
                             }
-                            //console.log(asseY); 
-                            dict = [{
-                                label: choose2,
-                                fill: filled,
-                                //backgroundColor: '#49e2ff',
-                                backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
-                                //backgroundColor: bColor,
-                                borderColor: '#46d5f1',
-                                hoverBackgroundColor: '#CCCCCC',
-                                hoverBorderColor: '#666666',
-                                data: asseY
-                            }];
                         }
 
                         var graphTarget = $("#graphCanvas");

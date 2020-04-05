@@ -10,8 +10,54 @@ $result = "";
 //echo $choose2;
 $agg = 0;
 $strY = "";
+$tableName="";
 switch ($choose1) {
     case "Mondiale": {
+            if ($input == "err") {
+                switch ($choose2) {
+                    case "Totale Casi":
+                        $strY = "totale_casi";
+                        $tableName= "time_series_covid19_confirmed_global";
+                        break;
+                    case "Totale Guariti":
+                        $strY = "dimessi_guariti";
+                        $tableName = "time_series_covid19_recovered_global";
+                        break;
+                    case "Totale Morti":
+                        $strY = "deceduti";
+                        $tableName = "time_series_covid19_deaths_global";
+                        break;
+                }
+                $tmpSqlQuery= "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
+                $nameLastColumn=$db->query($tmpSqlQuery)->fetch_assoc()["c"];
+                $sqlQuery="SELECT * FROM $tableName ORDER BY cast($nameLastColumn  as int) DESC limit 30";
+                $result= $db->query($sqlQuery);
+            }else{
+                switch ($choose2) {
+                    case "Totale Casi":
+                        $strY = "totale_casi";
+                        $tableName = "time_series_covid19_confirmed_global";
+                        break;
+                    case "Totale Guariti":
+                        $strY = "dimessi_guariti";
+                        $tableName = "time_series_covid19_recovered_global";
+                        break;
+                    case "Totale Morti":
+                        $strY = "deceduti";
+                        $tableName = "time_series_covid19_deaths_global";
+                        break;
+                }
+                $sqlQuery = "SELECT * FROM $tableName WHERE country_region LIKE '$input%'";
+                $result = $db->query($sqlQuery);
+            }
+            if($result->num_rows>1){
+                $agg= $result->num_rows;
+            }else if($result->num_rows==1){
+                $agg=0;
+            }else{
+                echo "<br>$sqlQuery<br>";
+                echo "Errore query mondiale nulla num:". $db->query($sqlQuery)->num_rows;
+            }
         };
         break;
     case "Nazionale": {
@@ -237,4 +283,4 @@ if (is_array($result) || is_object($result)) {
 }
 
 echo json_encode($data);
-echo $agg != 0 ? "£" . $agg : "";
+echo $agg != 0 ? "£" . $agg : "£";
