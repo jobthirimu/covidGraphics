@@ -76,7 +76,7 @@
                 <div class="col mx-auto">
                     ● Casi totali in italia
                     <?php
-                    $numOfTop=10;
+                    $numOfTop = 10;
                     include("assets/php/db_connect.php");
                     echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
@@ -86,14 +86,29 @@
                     echo " : " . $db->query("SELECT totale_positivi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
                     <br>
+                    ● Positivi/casi totali in italia
+                    <?php
+                    echo " : " . round($db->query("SELECT totale_positivi/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2)."%";
+                    ?>
+                    <br>
                     ● Guariti totali in italia
                     <?php
                     echo " : " . $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
                     ?>
                     <br>
+                    ● Guariti/casi totali in italia
+                    <?php
+                    echo " : " . round($db->query("SELECT dimessi_guariti/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
+                    ?>
+                    <br>
                     ● Morti totali in italia
                     <?php
                     echo " : " . $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+                    ?>
+                    <br>
+                    ● Morti/casi totali in italia
+                    <?php
+                    echo " : " . round($db->query("SELECT deceduti/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
                     ?>
                 </div>
                 <div class="col mx-auto">
