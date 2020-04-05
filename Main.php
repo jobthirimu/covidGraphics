@@ -21,7 +21,7 @@
                 <li class="nav-item dropdown">
                     <a id="1" class="nav-link dropdown-toggle" href="#" changed="false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Origine Dati<span class='caret'></span></a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item">Mondiale</li>
+                        <li class="dropdown-item"><a href="#">Mondiale</a></li>
                         <li class="dropdown-item"><a href="#">Nazionale</a></li>
                         <li class="dropdown-item"><a href="#">Regionale</a></li>
                         <li class="dropdown-item"><a href="#">Provinciale</a></li>
@@ -88,7 +88,7 @@
                     <br>
                     ● Positivi/casi totali in italia
                     <?php
-                    echo " : " . round($db->query("SELECT totale_positivi/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2)."%";
+                    echo " : " . round($db->query("SELECT totale_positivi/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
                     ?>
                     <br>
                     ● Guariti totali in italia
@@ -246,7 +246,7 @@
                     graph.destroy();
                     //alert("grafico distrutto");
                 }
-                $("h5#stats").html("");
+                $("h5#stats").html(""); //tolgo le statistiche
                 $.ajax({
                     // definisco il tipo della chiamata
                     type: "POST",
@@ -387,7 +387,7 @@
                         }
                         $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "</h2><br><br>");
                         var dict = [];
-                        if (((choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
+                        if (((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) {
                             //agg = agg == 0 ? provincesuregioni[input.toLowerCase()] : agg;
                             //console.log("ris:" + jQuery.inArray(input, regioni));
                             var asseY = [];

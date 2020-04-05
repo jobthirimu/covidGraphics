@@ -10,6 +10,7 @@
     $limit2 = date('m', time());
     
     switch($richiesta){
+        case "mon": updateMon();break;
         case "naz": updateNaz();break;
         case "reg": updateReg();break;
         case "prov": updateProv();break;
@@ -18,7 +19,26 @@
 
 
 
+    function updateMon()
+    {
+        $limit2 = date('m', time());
+        $limit1 = $limit2 >= 2 ? $limit2 - 2 : 1;
+        $fName = "andamentoMondiale";
+        $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+        unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
+        //echo "<br>" . $url;
+        include("downloader.php"); //scarico la risorsa
 
+        $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
+        unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
+        //echo "<br>" . $url;
+        include("downloader.php"); //scarico la risorsa
+
+        $url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+        unlink('../data/' . $fName . "/" . basename($url)); //elimino i dati precedenti
+        //echo "<br>" . $url;
+        include("downloader.php"); //scarico la risorsa
+    }
     function updateNaz(){
         $limit2 = date('m', time());
         $limit1 = $limit2 >= 2 ? $limit2 - 2 : 1;
@@ -28,7 +48,7 @@
             for ($g = 1; $g <= 31; $g++) {
                 $d = mktime(0, 0, 0, $m, $g, 2020);
                 $url=$urlT.date("Ymd", $d).".csv";
-                if (!file_exists('../data/'.basename($url))) {
+                if (!file_exists('../data/' . $fName . "/" . basename($url))) {
                     //echo "<br>" . $url;
                     include("downloader.php"); //scarico la risorsa
                 }
@@ -45,7 +65,7 @@
             for ($g = 1; $g <= 31; $g++) {
                 $d = mktime(0, 0, 0, $m, $g, 2020);
                 $url = $urlT . date("Ymd", $d) . ".csv";
-                if (!file_exists('../data/' . basename($url))) {
+                if (!file_exists('../data/' . $fName . "/" . basename($url))) {
                     include("downloader.php"); //scarico la risorsa
                 }
                 //echo "<script>console.log('Reg: m:".$m." g:".$g."')</script>";
@@ -61,7 +81,7 @@
             for ($g = 1; $g <= 31; $g++) {
                 $d = mktime(0, 0, 0, $m, $g, 2020);
                 $url = $urlT . date("Ymd", $d) . ".csv";
-                if (!file_exists('../data/' . basename($url))) {
+                if (!file_exists('../data/' . $fName . "/" . basename($url))) {
                     include("downloader.php"); //scarico la risorsa
                 }
                 //echo "<script>console.log('Prov: m:" . $m . " g:" . $g . "')</script>";
@@ -69,6 +89,7 @@
         }
     }
     function updateAll(){
+        updateMon();
         updateNaz();
         updateReg();
         updateProv();

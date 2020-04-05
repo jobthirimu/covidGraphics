@@ -32,7 +32,10 @@ for ($i = 0; $i < count($data); $i++) { //leggo il file csv
     }
 }
 $sql = "";
-if ($fName == "andamentoNazionale") {
+if($fName == "andamentoMondiale"){
+    $fName=basename($url);
+    $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE KEY `key` (`province_state`,`country_region`)" . ')';
+}else if ($fName == "andamentoNazionale") {
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE($unique)" . ')';
 } else if ($fName == "andamentoRegionale") {
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE KEY `key` (`data`,`denominazione_regione`)" . ')';
@@ -49,7 +52,7 @@ while (($data = fgetcsv($handle)) !== FALSE) {
         $fields[] = '\'' . addslashes($data[$i]) . '\'';
     }
     $sql = "Insert ignore into `$fName` values(null," . implode(', ', $fields) . ')';
-    echo "<br><br>" . $sql . "<br><br>";
+    //echo "<br><br>" . $sql . "<br><br>";
     if (!$db->query($sql)) {
         echo $db->error;
     }
