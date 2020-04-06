@@ -186,7 +186,7 @@ switch ($choose1) {
         break;
     case "Provinciale": {
             if ($input == "err") {
-                switch ($choose2) {
+                switch ($choose2) { //previsti anche casi non ancora implementati nel db
                     case "Totale Casi":
                         $strY = "totale_casi";
                         break;
