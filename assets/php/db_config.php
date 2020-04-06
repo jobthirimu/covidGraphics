@@ -14,7 +14,7 @@ $data = fgetcsv($handle);
 $fields = array();
 $field_count = 0;
 $unique = "";
-array_push($fields, "id int(11) NOT NULL primary key AUTO_INCREMENT"); //creo il campo id
+array_push($fields, "id int(11) primary key AUTO_INCREMENT"); //creo il campo id
 for ($i = 0; $i < count($data); $i++) { //leggo il file csv
     $f = strtolower(trim($data[$i]));
     if ($f) {
@@ -34,6 +34,8 @@ for ($i = 0; $i < count($data); $i++) { //leggo il file csv
 $sql = "";
 if($fName == "andamentoMondiale"){
     $fName=explode('.',basename($url))[0];
+    $db->query("DROP TABLE ".$fName);
+    echo "<br>db: ".$fName." Eliminato con successo";
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE KEY `key` (`province_state`,`country_region`)" . ')';
 }else if ($fName == "andamentoNazionale") {
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE($unique)" . ')';
