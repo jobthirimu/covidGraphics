@@ -5,6 +5,7 @@ require_once("db_connect.php");
 $choose1 = $_REQUEST["choose1"];
 $choose2 = $_REQUEST["choose2"];
 $input = $_REQUEST["input"];
+$limit = $_REQUEST["limit"];
 $sqlQuery = "";
 $result = "";
 //echo $choose2;
@@ -13,43 +14,31 @@ $strY = "";
 $tableName="";
 switch ($choose1) {
     case "Mondiale": {
+        if($limit==1000){
+            $limit=30;
+        }
+            switch ($choose2) {
+                case "Totale Casi":
+                    $tableName = "time_series_covid19_confirmed_global";
+                    break;
+                case "Totale Guariti":
+                    $tableName = "time_series_covid19_recovered_global";
+                    break;
+                case "Totale Morti":
+                    $tableName = "time_series_covid19_deaths_global";
+                    break;
+            }
+            $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
+            $nameLastColumn = $db->query($tmpSqlQuery)->fetch_assoc()["c"];
             if ($input == "err") {
-                switch ($choose2) {
-                    case "Totale Casi":
-                        $strY = "totale_casi";
-                        $tableName= "time_series_covid19_confirmed_global";
-                        break;
-                    case "Totale Guariti":
-                        $strY = "dimessi_guariti";
-                        $tableName = "time_series_covid19_recovered_global";
-                        break;
-                    case "Totale Morti":
-                        $strY = "deceduti";
-                        $tableName = "time_series_covid19_deaths_global";
-                        break;
-                }
-                $tmpSqlQuery= "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
-                $nameLastColumn=$db->query($tmpSqlQuery)->fetch_assoc()["c"];
-                $sqlQuery="SELECT * FROM $tableName ORDER BY cast($nameLastColumn  as int) DESC limit 30";
+                $sqlQuery="SELECT * FROM $tableName ORDER BY cast($nameLastColumn  as int) DESC limit $limit";
                 $result= $db->query($sqlQuery);
             }else{
-                switch ($choose2) {
-                    case "Totale Casi":
-                        $strY = "totale_casi";
-                        $tableName = "time_series_covid19_confirmed_global";
-                        break;
-                    case "Totale Guariti":
-                        $strY = "dimessi_guariti";
-                        $tableName = "time_series_covid19_recovered_global";
-                        break;
-                    case "Totale Morti":
-                        $strY = "deceduti";
-                        $tableName = "time_series_covid19_deaths_global";
-                        break;
-                }
-                $sqlQuery = "SELECT * FROM $tableName WHERE country_region LIKE '$input%'";
+                $sqlQuery = "SELECT * FROM $tableName WHERE country_region LIKE '$input%' ORDER BY cast($nameLastColumn  as int) DESC limit $limit";
                 $result = $db->query($sqlQuery);
             }
+
+
             if($result->num_rows>1){
                 $agg= $result->num_rows;
             }else if($result->num_rows==1){
@@ -68,7 +57,7 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_deceduti 
-                FROM andamentoNazionale AS a1";
+                FROM andamentoNazionale AS a1 limit $limit";
             }else if($choose2 == "Nuovi Guariti"){
                 $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
                         SELECT a2.dimessi_guariti
@@ -76,7 +65,7 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_dimessi_guariti 
-                FROM andamentoNazionale AS a1";
+                FROM andamentoNazionale AS a1 limit $limit";
             } else if ($choose2 == "Nuovi Tamponi") {
                 $sqlQuery = "SELECT a1.*,(a1.tamponi -(
                         SELECT a2.tamponi
@@ -84,9 +73,14 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_tamponi
-                FROM andamentoNazionale AS a1";
+                FROM andamentoNazionale AS a1 limit $limit";
             } else {
-                $sqlQuery = "SELECT * FROM andamentoNazionale";
+                if($limit<1000){
+                    $offset=$db->query("SELECT count(*) as num FROM andamentoNazionale")->fetch_assoc()["num"]-$limit;
+                    $sqlQuery = "SELECT * FROM andamentoNazionale limit $offset,$limit";
+                }else{
+                    $sqlQuery = "SELECT * FROM andamentoNazionale";
+                }
             }
             $result = mysqli_query($db, $sqlQuery);
         };
@@ -124,7 +118,7 @@ switch ($choose1) {
                         )
                     ) as nuovi_deceduti 
                     FROM andamentoRegionale AS a1
-                    GROUP BY denominazione_regione,data";
+                    GROUP BY denominazione_regione,data limit $limit";
                 } else if ($choose2 == "Nuovi Guariti") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.dimessi_guariti -(
                             SELECT a2.dimessi_guariti
@@ -133,7 +127,7 @@ switch ($choose1) {
                         )
                     ) as nuovi_dimessi_guariti 
                     FROM andamentoRegionale AS a1
-                    GROUP BY denominazione_regione,data";
+                    GROUP BY denominazione_regione,data limit $limit";
                 } else if ($choose2 == "Nuovi Tamponi") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.tamponi -(
                             SELECT a2.tamponi
@@ -142,9 +136,9 @@ switch ($choose1) {
                         )
                     ) as nuovi_tamponi
                     FROM andamentoRegionale AS a1
-                    GROUP BY denominazione_regione,data";
+                    GROUP BY denominazione_regione,data limit $limit";
                 } else {
-                    $sqlQuery = "SELECT denominazione_regione,data," . $strY . " FROM andamentoRegionale GROUP BY denominazione_regione,data";
+                    $sqlQuery = "SELECT denominazione_regione,data, $strY FROM andamentoRegionale GROUP BY denominazione_regione,data LIMIT $limit";
                 }
                 $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
                 $agg /= 21;
@@ -157,7 +151,7 @@ switch ($choose1) {
                         )
                     ) as nuovi_deceduti 
                     FROM andamentoRegionale AS a1
-                    WHERE denominazione_regione LIKE '$input'";
+                    WHERE denominazione_regione LIKE '$input' limit $limit";
                 } else if ($choose2 == "Nuovi Guariti") {
                     $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
                             SELECT a2.dimessi_guariti
@@ -166,7 +160,7 @@ switch ($choose1) {
                         )
                     ) as nuovi_dimessi_guariti 
                     FROM andamentoRegionale AS a1
-                    WHERE denominazione_regione LIKE '$input'";
+                    WHERE denominazione_regione LIKE '$input' limit $limit";
                     
                 } else if ($choose2 == "Nuovi Tamponi") {
                     $sqlQuery = "SELECT a1.*,(a1.tamponi -(
@@ -176,9 +170,9 @@ switch ($choose1) {
                         )
                     ) as nuovi_tamponi
                     FROM andamentoRegionale AS a1
-                    WHERE denominazione_regione LIKE '$input'";
+                    WHERE denominazione_regione LIKE '$input' limit $limit";
                 } else {
-                    $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '" . $input . "'";
+                    $sqlQuery = "SELECT * FROM andamentoRegionale WHERE denominazione_regione LIKE '" . $input . "' limit $limit";
                 }
             }
             $result = mysqli_query($db, $sqlQuery);
@@ -209,7 +203,7 @@ switch ($choose1) {
                         $strY = "tamponi";
                         break;
                 }
-                $sqlQuery = "SELECT denominazione_provincia,data," . $strY . " FROM andamentoProvinciale GROUP BY denominazione_provincia,data";
+                $sqlQuery = "SELECT denominazione_provincia,data," . $strY . " FROM andamentoProvinciale GROUP BY denominazione_provincia,data limit ".($limit*128);
                 $agg = $db->query("SELECT count(*) as num FROM andamentoProvinciale")->fetch_assoc()["num"];
                 $agg /= 128;
             } else {
