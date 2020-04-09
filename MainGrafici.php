@@ -49,9 +49,21 @@
                         <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
                     </ul>
                 </li>
+                <form class="form-inline ml-2 my-2 my-lg-0">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Disegna Grafico</button>
+                </form>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Disegna Grafico</button>
+            <a class="nav-link p-2 text-center ml-auto" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
+                <i style="color: #CCC" class="fab fa-github"></i>
+            </a>
+            <div class="dropdown-divider"></div>
+            <form class="" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <div class="input-group">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
+                    <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
+                    <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+                </div>
             </form>
         </div>
     </nav>
@@ -203,7 +215,20 @@
             <!-- <a href="https://mdbootstrap.com/"> MDBootstrap.com</a> -->
         </div>
     </footer>
-    <script src="https://kit.fontawesome.com/7a2d9896bf.js" crossorigin="anonymous"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-163125843-2');
+    </script>
+    <script src="https://kit.fontawesome.com/6451ae53a9.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
