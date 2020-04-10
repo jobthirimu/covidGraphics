@@ -1,4 +1,12 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>updater</title>
+</head>
+<body>
+    <?php
    $richiesta= $_REQUEST["id"];
 
     //error_reporting(E_ERROR | E_PARSE);
@@ -14,11 +22,10 @@
         case "naz": updateNaz();break;
         case "reg": updateReg();break;
         case "prov": updateProv();break;
+        case "ita": updateIta();break;
         default : updateAll();
     }
-
-
-
+    
     function updateMon()
     {
         $limit2 = date('m', time());
@@ -89,6 +96,11 @@
             }
         }
     }
+    function updateIta(){
+        updateNaz();
+        updateReg();
+        updateProv();
+    }
     function updateAll(){
         updateMon();
         updateNaz();
@@ -102,3 +114,5 @@
         echo "<br><br>Aggiornati: ".$updated;
     }
 ?>
+</body>
+</html>

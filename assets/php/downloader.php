@@ -1,10 +1,7 @@
 <?php
 
 //phpinfo(); 
-
-// Initialize the cURL session 
-$ch = curl_init($url);
-//echo "<br>url: ".$url;
+echo "<br>url: ".$url;
 
 // Inintialize directory name where 
 // file will be save 
@@ -17,10 +14,16 @@ $file_name = basename($url);
 // Save file into file location 
 $save_file_loc = $dir . $file_name;
 
-// It set an option for a cURL transfer 
+// It set an option for a cURL transfer
+
+$ch = curl_init(); 
+curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $res = curl_exec($ch);
+echo "<br>Error: " . curl_error($ch);
+
 // Perform a cURL session 
 $status= curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
@@ -37,7 +40,7 @@ if ($status  != 404 ) {
         include("db_config.php"); //salva la risorsa sul database alla tabella $fName
         $updated++;
     }else{
-        //echo "<br> File: ".$file_name." already downloaded";
+        echo "<br> File: ".$file_name." already downloaded";
     }
 } else {
 }

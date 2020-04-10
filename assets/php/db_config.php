@@ -1,16 +1,14 @@
 <?php
 global $db;
 
-echo "<script>console.log('" . $fName . "')</script>";
-// $fName=$file_name;
-// $fName = explode('.',$file_name, -1)[0];
-
+//echo "<script>console.log('" . $fName . "')</script>";
 // get structure from csv and insert db
 ini_set('auto_detect_line_endings', TRUE);
 $percorso = "../data/" . $fName . "/" . $file_name;
-//echo $percorso;
+//echo "<script>console.log('" . $percorso . "')</script>";
 $handle = fopen($percorso, 'r');
 $data = fgetcsv($handle);
+//echo "<script>console.log('" . $data . "')</script>";
 $fields = array();
 $field_count = 0;
 $unique = "";
@@ -32,12 +30,15 @@ for ($i = 0; $i < count($data); $i++) { //leggo il file csv
     }
 }
 $sql = "";
-if($fName == "andamentoMondiale"){
-    $fName=explode('.',basename($url))[0];
-    $db->query("DROP TABLE ".$fName);
-    echo "<br>db: ".$fName." Eliminato con successo";
+if ($fName == "andamentoMondiale") {
+    $fName = explode('.', basename($url))[0];
+    if ($db->query("DROP TABLE " . $fName)) {
+        echo "<br>db: " . $fName . " Eliminato con successo";
+    } else {
+        echo $db->error;
+    }
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE KEY `key` (`province_state`,`country_region`)" . ')';
-}else if ($fName == "andamentoNazionale") {
+} else if ($fName == "andamentoNazionale") {
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE($unique)" . ')';
 } else if ($fName == "andamentoRegionale") {
     $sql = "CREATE TABLE IF NOT EXISTS `$fName` (" . implode(', ', $fields) . ",UNIQUE KEY `key` (`data`,`denominazione_regione`)" . ')';
