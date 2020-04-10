@@ -67,143 +67,17 @@
             </form>
         </div>
     </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col-8 mx-auto">
-                <br>
-                <h3 id="titolo" class="text-center p-1">Benvenuto nella pagina relativa al covid-2019</h3>
-            </div>
+    <div class="jumbotron jumbotron-fluid p-10">
+        <div class="container">
+            <h1 class="display-4">Graphics Page</h1>
+            <p class="lead">Il sito per i grafici riguardanti il nuovo coronavirus</p>
+            <br>
+            <hr class="my-1">
         </div>
-        <h5 id="stats" class="m-t-4">
-            <div class="row">
-                <div class="col mx-auto">
-                    ● Casi totali in italia
-                    <?php
-                    $numOfTop = 10;
-                    include("assets/php/db_connect.php");
-                    echo " : " . $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
-                    ?>
-                    <br><br>
-                    ● Positivi totali in italia
-                    <?php
-                    echo " : " . $db->query("SELECT totale_positivi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
-                    ?>
-                    <br>
-                    ● Positivi/casi totali in italia
-                    <?php
-                    echo " : " . round($db->query("SELECT totale_positivi/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
-                    ?>
-                    <br>
-                    ● Guariti totali in italia
-                    <?php
-                    echo " : " . $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
-                    ?>
-                    <br>
-                    ● Guariti/casi totali in italia
-                    <?php
-                    echo " : " . round($db->query("SELECT dimessi_guariti/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
-                    ?>
-                    <br>
-                    ● Morti totali in italia
-                    <?php
-                    echo " : " . $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
-                    ?>
-                    <br>
-                    ● Morti/casi totali in italia
-                    <?php
-                    echo " : " . round($db->query("SELECT deceduti/totale_casi*100 as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"], 2) . "%";
-                    ?>
-                </div>
-                <div class="col mx-auto">
-                    ● Regioni più colpite(casi totali) :
-                    <ol>
-                        <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
-                        $regionipiucolpite = $db->query($sql);
-                        while ($row = $regionipiucolpite->fetch_assoc()) {
-                            echo "<li>" . $row['r'] . " : " . $row['t'] . " casi</li>";
-                        }
-                        ?>
-                    </ol>
-                </div>
-                <div class="col mx-auto">
-                    ● Regioni più colpite(morti totali) :
-                    <ol>
-                        <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
-                        $regionipiucolpite = $db->query($sql);
-                        while ($row = $regionipiucolpite->fetch_assoc()) {
-                            echo "<li>" . $row['r'] . " : " . $row['t'] . " morti</li>";
-                        }
-                        ?>
-                    </ol>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col mx-auto">
-                    ● Regioni più colpite(morti/casi) :
-                    <ol>
-                        <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
-                        $regionipiucolpite = $db->query($sql);
-                        while ($row = $regionipiucolpite->fetch_assoc()) {
-                            echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
-                        }
-                        ?>
-                    </ol>
-                </div>
-                <div class="col mx-auto">
-                    ● Regioni più valide(guariti/casi) :
-                    <ol>
-                        <?php
-                        $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
-                        $regionipiucolpite = $db->query($sql);
-                        while ($row = $regionipiucolpite->fetch_assoc()) {
-                            echo "<li>" . $row['r'] . " : " . (round($row['d'] / $row['c'] * 100, 2)) . "%</li>";
-                        }
-                        ?>
-                    </ol>
-                </div>
-                <div class="col mx-auto">
-                    ● Provincie più colpite(casi totali) :
-                    <ol>
-                        <?php
-                        $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
-                        $provinciepiucolpite = $db->query($sql);
-                        while ($row = $provinciepiucolpite->fetch_assoc()) {
-                            echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . " casi</li>";
-                        }
-                        ?>
-                    </ol>
-                </div>
-                <!-- ● Provincie più colpite(morti totali) :
-                    <ol>
-                        <?php
-                        // $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT ".$numOfTop;
-                        // $provinciepiucolpite = $db->query($sql);
-                        // while ($row = $provinciepiucolpite->fetch_assoc()) {
-                        //     echo "<li>" . $row['p'] . "(" . $row["r"] . ")" . " : " . $row['t'] . " morti</li>";
-                        // }
-                        ?>
-                    </ol> -->
-            </div>
-            <div class="row">
-                <div class="col mx-auto text-center">
-                    ● Primo Aggiornamento
-                    <?php
-                    echo " : " . str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data asc LIMIT 1")->fetch_assoc()["data"]);
-                    ?>
-                    <br>
-                    ● Ultimo Aggiornamento
-                    <?php
-                    echo " : " . str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
-                    ?>
-                </div>
-            </div>
-        </h5>
     </div>
     <div class="row justify-content-center">
         <div class="col-10 ">
+            <h3 id="titolo" class="text-center p-10 align-middle"></h3>
             <div id="chart-container">
                 <canvas id="graphCanvas"></canvas>
             </div>
@@ -340,7 +214,7 @@
                     graph.destroy();
                     //alert("grafico distrutto");
                 }
-                $("h5#stats").html(""); //tolgo le statistiche
+                $("div.jumbotron").remove(); //tolgo le statistiche
                 $.ajax({
                     // definisco il tipo della chiamata
                     type: "POST",
@@ -478,7 +352,7 @@
                                 typeG = "polarArea";
                                 break;
                         }
-                        $("h3#titolo").html("<h2 id='bm2'>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "</h2><br><br>");
+                        $("h3#titolo").html("<br>"+choose3 + " " + choose1 + " con " + articolo + " " + choose2+"<br><br>" );
                         var dict = [];
                         var date = [];
                         var col = "";

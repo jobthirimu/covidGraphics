@@ -59,18 +59,27 @@
     <div class="jumbotron jumbotron-fluid p-10">
         <div class="container">
             <h1 class="display-4">Statistics Page</h1>
-            <p class="lead">Il sito per le statistiche riguardanti il uovo coronavirus</p>
+            <p class="lead">Il sito per le statistiche riguardanti il nuovo coronavirus</p>
             <br>
             <hr class="my-1">
         </div>
-        <!-- <p>Seleziona il servizio</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Grafici</a>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Statistice</a> -->
     </div>
     <?php
     include("assets/php/db_connect.php");
     $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
     $nameLastColumn = $db->query($tmpSqlQuery)->fetch_assoc()["c"];
+    $ultimoAggNazionale = str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
+    ?>
+    <ul class="list-group">
+        <h4>Ultimo Aggiornamento</h4>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            DB Mondiale<span class="badge badge-primary badge-pill"><?= $nameLastColumn ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            DB Nazionale<span class="badge badge-primary badge-pill"><?= $ultimoAggNazionale ?></span>
+        </li>
+    </ul>
+    <?php
     $totCasi = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_confirmed_global")->fetch_assoc()["num"];
     $totGuariti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_recovered_global")->fetch_assoc()["num"];
     $totMorti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_deaths_global")->fetch_assoc()["num"];
@@ -79,8 +88,9 @@
     $guaritiSuCasi = $totGuariti / $totCasi * 100;
     $mortiSuCasi = $totMorti / $totCasi * 100;
     ?>
+    <p id="mondiali"></p><br><br>
     <ul class="list-group">
-        <h4 id="mondiali">Statistiche Mondiali</h4>
+        <h4>Statistiche Mondiali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
@@ -110,7 +120,6 @@
             <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
         </li>
     </ul>
-    <br>
     <?php
     $totCasi = $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totGuariti = $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
@@ -120,8 +129,9 @@
     $guaritiSuCasi = $totGuariti / $totCasi * 100;
     $mortiSuCasi = $totMorti / $totCasi * 100;
     ?>
+    <p id="nazionali"></p><br><br>
     <ul class="list-group">
-        <h4 id="nazionali">Statistiche Nazionali</h4>
+        <h4>Statistiche Nazionali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
@@ -151,42 +161,75 @@
             <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
         </li>
     </ul>
-    <br>
     <?php
-    // $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
-    // $nameLastColumn = $db->query($tmpSqlQuery)->fetch_assoc()["c"];
-    // $totCasi = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_confirmed_global")->fetch_assoc()["num"];
-    // $totGuariti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_recovered_global")->fetch_assoc()["num"];
-    // $totMorti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_deaths_global")->fetch_assoc()["num"];
-    // $totPositivi = $totCasi - $totGuariti - $totMorti;
-    // $positiviSuCasi = $totPositivi / $totCasi * 100;
-    // $guaritiSuCasi = $totGuariti / $totCasi * 100;
-    // $mortiSuCasi = $totMorti / $totCasi * 100;
+    $numOfTop = 10;
     ?>
+    <p id="regionali"></p><br><br>
     <ul class="list-group">
-        <h4 id="regionali">Statistiche Regionali</h4>
+        <h4>Statistiche Regionali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            Test
-            <span class="badge badge-primary badge-pill">X</span>
+            <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . $row['t'] . "</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei deceduti</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . $row['t'] . "</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale morti su casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . (round($row['d'] / $row['c'] * 100, 2)) . " %</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale guariti su casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . (round($row['d'] / $row['c'] * 100, 2)) . " %</span></li>";
+                }
+                ?>
+            </ol>
         </li>
     </ul>
-    <br>
-    <?php
-    // $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
-    // $nameLastColumn = $db->query($tmpSqlQuery)->fetch_assoc()["c"];
-    // $totCasi = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_confirmed_global")->fetch_assoc()["num"];
-    // $totGuariti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_recovered_global")->fetch_assoc()["num"];
-    // $totMorti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_deaths_global")->fetch_assoc()["num"];
-    // $totPositivi = $totCasi - $totGuariti - $totMorti;
-    // $positiviSuCasi = $totPositivi / $totCasi * 100;
-    // $guaritiSuCasi = $totGuariti / $totCasi * 100;
-    // $mortiSuCasi = $totMorti / $totCasi * 100;
-    ?>
+    <p id="provinciali"></p><br><br>
     <ul class="list-group">
-        <h4 id="provinciali">Statistiche Provinciali</h4>
+        <h4>Statistiche Provinciali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            test
-            <span class="badge badge-primary badge-pill">X</span>
+            <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['p'] . " (" . $row['r'] . ")<span class='badge badge-primary badge-pill ml-5'>" . $row['t'] . "</span></li>";
+                }
+                ?>
+            </ol>
         </li>
     </ul>
     <footer class="page-footer font-small blue pt-4">
