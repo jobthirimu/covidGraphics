@@ -7,6 +7,27 @@
     <title>Covid-Statistics</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <meta name="format-detection" content="telephone=no">
+    <style>
+        @media (max-width: 768px) {
+            #github {
+                margin: auto;
+            }
+
+            #paypal {
+                margin: auto;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 992px) {
+            #github {
+                margin: auto;
+            }
+
+            #paypal {
+                margin: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +36,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav w-100">
                 <li class="nav-item active">
                     <a class="nav-link p-2 text-center" href="index.php" rel="noopener">
                         <i class="fas fa-home"></i>&nbspHome
@@ -41,19 +62,25 @@
                         <i class="fas fa-city"></i>&nbspProvinciali
                     </a>
                 </li>
+                <li class="nav-item ml-auto" id="github">
+                    <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
+                        <i style="color: #CCC" class="fab fa-github"></i>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="nav-item" id="paypal">
+                    <a href="" class="nav-link">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <div class="input-group">
+                                <input type="hidden" name="cmd" value="_s-xclick" />
+                                <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
+                                <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
+                                <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+                            </div>
+                        </form>
+                    </a>
+                </li>
             </ul>
-            <a class="nav-link p-2 text-center ml-auto" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
-                <i style="color: #CCC" class="fab fa-github"></i>
-            </a>
-            <div class="dropdown-divider"></div>
-            <form class="" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <div class="input-group">
-                    <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
-                    <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
-                    <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
-                </div>
-            </form>
         </div>
     </nav>
     <div class="jumbotron jumbotron-fluid p-10">

@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Covid-Graphics</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        @media (max-width: 768px) {
+            #github {
+                margin: auto;
+            }
+
+            #paypal {
+                margin: auto;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 992px) {
+            #github {
+                margin: auto;
+            }
+
+            #paypal {
+                margin: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -14,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav w-100">
                 <li class="nav-item active">
                     <a class="nav-link" href="index.php" id="home"><i class="fas fa-home"></i>&nbspHome<span class="sr-only">(current)</span></a>
                 </li>
@@ -52,19 +73,25 @@
                 <form class="form-inline ml-2 my-2 my-lg-0">
                     <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Disegna Grafico</button>
                 </form>
+                <li class="nav-item ml-auto" id="github">
+                    <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
+                        <i style="color: #CCC" class="fab fa-github"></i>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="nav-item" id="paypal">
+                    <a href="" class="nav-link">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <div class="input-group">
+                                <input type="hidden" name="cmd" value="_s-xclick" />
+                                <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
+                                <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
+                                <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+                            </div>
+                        </form>
+                    </a>
+                </li>
             </ul>
-            <a class="nav-link p-2 text-center ml-auto" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
-                <i style="color: #CCC" class="fab fa-github"></i>
-            </a>
-            <div class="dropdown-divider"></div>
-            <form class="" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <div class="input-group">
-                    <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
-                    <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
-                    <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
-                </div>
-            </form>
         </div>
     </nav>
     <div class="jumbotron jumbotron-fluid p-10">
@@ -85,8 +112,7 @@
     </div>
     <footer class="page-footer font-small blue pt-4">
         <div class="footer-copyright text-center py-3">
-            Created by Marco Zanrosso©
-            <!-- <a href="https://mdbootstrap.com/"> MDBootstrap.com</a> -->
+            Created by Marco Zanrosso and Giacomo Coluccelli©
         </div>
     </footer>
 
@@ -352,7 +378,7 @@
                                 typeG = "polarArea";
                                 break;
                         }
-                        $("h3#titolo").html("<br>"+choose3 + " " + choose1 + " con " + articolo + " " + choose2+"<br><br>" );
+                        $("h3#titolo").html("<br>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "<br><br>");
                         var dict = [];
                         var date = [];
                         var col = "";
