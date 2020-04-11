@@ -93,8 +93,19 @@
     </div>
     <?php
     include("assets/php/db_connect.php");
-    $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 1";
-    $nameLastColumn = $db->query($tmpSqlQuery)->fetch_assoc()["c"];
+    $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 2";
+    $result = $db->query($tmpSqlQuery);
+    $nameLastColumn;
+    $nameLastSecondColumn;
+    $cont = 0;
+    while ($row = $result->fetch_assoc()) {
+        $cont++;
+        if ($cont == 1) {
+            $nameLastColumn = $row["c"];
+        } else {
+            $nameLastSecondColumn = $row["c"];
+        }
+    }
     $ultimoAggNazionale = str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
     ?>
     <ul class="list-group">
@@ -111,6 +122,19 @@
     $totGuariti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_recovered_global")->fetch_assoc()["num"];
     $totMorti = $db->query("SELECT SUM($nameLastColumn) as num FROM time_series_covid19_deaths_global")->fetch_assoc()["num"];
     $totPositivi = $totCasi - $totGuariti - $totMorti;
+
+    $casiUltimoGiorno = $totCasi - $db->query("SELECT SUM($nameLastSecondColumn) as num FROM time_series_covid19_confirmed_global")->fetch_assoc()["num"];
+    $percIncrementoCasi = $casiUltimoGiorno / $totCasi * 100;
+
+    $guaritiUltimoGiorno = $totGuariti - $db->query("SELECT SUM($nameLastSecondColumn) as num FROM time_series_covid19_recovered_global")->fetch_assoc()["num"];
+    $percIncrementoGuariti = $guaritiUltimoGiorno / $totCasi * 100;
+
+    $mortiUltimoGiorno = $totMorti - $db->query("SELECT SUM($nameLastSecondColumn) as num FROM time_series_covid19_deaths_global")->fetch_assoc()["num"];
+    $percIncrementoMorti = $mortiUltimoGiorno / $totCasi * 100;
+
+    $positiviUltimoGiorno = ($casiUltimoGiorno - $guaritiUltimoGiorno - $mortiUltimoGiorno);
+    $percIncrementoPositivi = $positiviUltimoGiorno / $totCasi * 100;
+
     $positiviSuCasi = $totPositivi / $totCasi * 100;
     $guaritiSuCasi = $totGuariti / $totCasi * 100;
     $mortiSuCasi = $totMorti / $totCasi * 100;
@@ -118,6 +142,22 @@
     <p id="mondiali"></p><br><br>
     <ul class="list-group">
         <h4>Statistiche Mondiali</h4>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento casi ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($casiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento positivi ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($positiviUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Icremento guariti ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($guaritiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento morti ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($mortiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
+        </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
@@ -152,6 +192,19 @@
     $totGuariti = $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totMorti = $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totPositivi = $totCasi - $totGuariti - $totMorti;
+
+    $casiUltimoGiorno = $totCasi - $db->query("SELECT totale_casi as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
+    $percIncrementoCasi = $casiUltimoGiorno / $totCasi * 100;
+
+    $positiviUltimoGiorno = $totPositivi - $db->query("SELECT totale_positivi as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
+    $percIncrementoPositivi = $positiviUltimoGiorno / $totCasi * 100;
+
+    $guaritiUltimoGiorno = $totGuariti - $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
+    $percIncrementoGuariti = $guaritiUltimoGiorno / $totCasi * 100;
+
+    $mortiUltimoGiorno = $totMorti - $db->query("SELECT deceduti as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
+    $percIncrementoMorti = $mortiUltimoGiorno / $totCasi * 100;
+
     $positiviSuCasi = $totPositivi / $totCasi * 100;
     $guaritiSuCasi = $totGuariti / $totCasi * 100;
     $mortiSuCasi = $totMorti / $totCasi * 100;
@@ -159,6 +212,22 @@
     <p id="nazionali"></p><br><br>
     <ul class="list-group">
         <h4>Statistiche Nazionali</h4>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento casi ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($casiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento positivi ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($positiviUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Icremento guariti ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($guaritiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento morti ultimo giorno
+            <span class="badge badge-primary badge-pill"><?= "+" . number_format($mortiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
+        </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
@@ -207,6 +276,30 @@
             </ol>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei positivi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_positivi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . $row['t'] . "</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei guariti</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.dimessi_guariti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . $row['t'] . "</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
             <h5>Top <?= $numOfTop ?> per totale dei deceduti</h5>
             <ol>
                 <?php
@@ -219,10 +312,10 @@
             </ol>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <h5>Top <?= $numOfTop ?> per totale morti su casi</h5>
+            <h5>Top <?= $numOfTop ?> per totale positivi su casi</h5>
             <ol>
                 <?php
-                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.totale_positivi as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
                 $result = $db->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . (round($row['d'] / $row['c'] * 100, 2)) . " %</span></li>";
@@ -235,6 +328,18 @@
             <ol>
                 <?php
                 $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . (round($row['d'] / $row['c'] * 100, 2)) . " %</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale morti su casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
                 $result = $db->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . $row['r'] . "<span class='badge badge-primary badge-pill ml-5'>" . (round($row['d'] / $row['c'] * 100, 2)) . " %</span></li>";

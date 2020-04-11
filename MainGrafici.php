@@ -144,7 +144,7 @@
             $(this).parents('.nav-item').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
             $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText);
             var GraficiMondiali = ["Totale Casi", "Totale Guariti", "Totale Morti"];
-            var GraficiNazionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi"];
+            var GraficiNazionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi", "Positivi sul totale", "Guariti sul totale", "Morti sul totale", "Percentuali"];
             var GraficiRegionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi"];
             var GraficiProvinciali = ["Totale Casi"];
             switch (selText) {
@@ -353,6 +353,23 @@
                                 strY = "nuovi_tamponi";
                                 articolo = "i";
                                 break;
+                            case "Positivi sul totale":
+                                strY = "positivi_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Guariti sul totale":
+                                strY = "guariti_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Morti sul totale":
+                                strY = "morti_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Percentuali":
+                                articolo = "le";
+                                break;
+
+
                         }
                         switch (choose3) {
                             case "Grafico a linee vuoto":
@@ -382,14 +399,71 @@
                         var dict = [];
                         var date = [];
                         var col = "";
+                        var cont = 0;
                         //(((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) 
                         if (choose1 != "Mondiale") {
-                            if (!Number.isNaN(agg)) {
+                            if (choose1 == "Nazionale" && !Number.isNaN(agg)) {
+                                cont = 0;
+                                var asseY1 = [];
+                                var asseY2 = [];
+                                var asseY3 = [];
+                                for (var i in data) {
+                                    date.push(data[i]["data"]);
+                                    asseY1.push(data[i]["positivi_sul_totale"]);
+                                    asseY2.push(data[i]["guariti_sul_totale"]);
+                                    asseY3.push(data[i]["morti_sul_totale"]);
+                                }
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Positivi sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY1,
+                                });
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Guariti sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY2,
+                                });
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Morti sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY3,
+                                });
+                            } else if (!Number.isNaN(agg)) {
                                 //console.log("ris:" + jQuery.inArray(input, regioni));
                                 var asseY = [];
                                 var asseX = [];
                                 var bColor = [];
-                                var cont = 0;
+                                cont = 0;
                                 for (var i in data) {
                                     cont++;
                                     r = Math.floor(Math.random() * 200);

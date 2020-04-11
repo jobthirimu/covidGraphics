@@ -50,6 +50,12 @@ switch ($choose1) {
         };
         break;
     case "Nazionale": {
+        $offset="";
+            if ($limit < 1000) {
+                $offset = $db->query("SELECT count(*) as num FROM andamentoNazionale")->fetch_assoc()["num"] - $limit;
+            }else{
+                $offset=0;
+            }
             if ($choose2 == "Nuovi Morti") {
                 $sqlQuery = "SELECT a1.*,(a1.deceduti -(
                         SELECT a2.deceduti
@@ -57,7 +63,7 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_deceduti 
-                FROM andamentoNazionale AS a1 limit $limit";
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
             }else if($choose2 == "Nuovi Guariti"){
                 $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
                         SELECT a2.dimessi_guariti
@@ -65,7 +71,7 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_dimessi_guariti 
-                FROM andamentoNazionale AS a1 limit $limit";
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
             } else if ($choose2 == "Nuovi Tamponi") {
                 $sqlQuery = "SELECT a1.*,(a1.tamponi -(
                         SELECT a2.tamponi
@@ -73,14 +79,22 @@ switch ($choose1) {
                         WHERE a2.id = a1.id-1
                     )
                 ) as nuovi_tamponi
-                FROM andamentoNazionale AS a1 limit $limit";
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
+            } else if ($choose2 == "Positivi sul totale") {
+                $sqlQuery = "SELECT *,cast(totale_positivi  as int) / cast(totale_casi  as int)*100 as positivi_sul_totale
+                FROM andamentoNazionale limit $offset,$limit";
+            } else if ($choose2 == "Guariti sul totale") {
+                $sqlQuery = "SELECT *,cast(dimessi_guariti  as int) / cast(totale_casi  as int)*100 as guariti_sul_totale
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
+            } else if ($choose2 == "Morti sul totale") {
+                $sqlQuery = "SELECT *,cast(deceduti  as int) / cast(totale_casi  as int)*100 as morti_sul_totale
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
+            } else if ($choose2 == "Percentuali") {
+                $sqlQuery = "SELECT *,cast(totale_positivi  as int) / cast(totale_casi  as int)*100 as positivi_sul_totale, cast(dimessi_guariti  as int) / cast(totale_casi  as int)*100 as guariti_sul_totale, cast(deceduti  as int) / cast(totale_casi  as int)*100 as morti_sul_totale
+                FROM andamentoNazionale AS a1 limit $offset,$limit";
+                $agg=3;
             } else {
-                if($limit<1000){
-                    $offset=$db->query("SELECT count(*) as num FROM andamentoNazionale")->fetch_assoc()["num"]-$limit;
-                    $sqlQuery = "SELECT * FROM andamentoNazionale limit $offset,$limit";
-                }else{
-                    $sqlQuery = "SELECT * FROM andamentoNazionale";
-                }
+                $sqlQuery = "SELECT * FROM andamentoNazionale limit $offset,$limit";
             }
             $result = mysqli_query($db, $sqlQuery);
         };
