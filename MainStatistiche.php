@@ -62,6 +62,10 @@
                         <i class="fas fa-city"></i>&nbspProvinciali
                     </a>
                 </li>
+                <li class="nav-item"><input id="input1" name="limitTop" type="number" class="form-control" placeholder="filtro top, default=10"></li>
+                <form class="form-inline ml-2 my-2 my-lg-0">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Modifica Top</button>
+                </form>
                 <li class="nav-item ml-auto" id="github">
                     <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
                         <i style="color: #CCC" class="fab fa-github"></i>
@@ -93,6 +97,7 @@
     </div>
     <?php
     include("assets/php/db_connect.php");
+    $numOfTop = !empty($_REQUEST["limitTop"]) ? $_REQUEST["limitTop"] : 3;
     $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 2";
     $result = $db->query($tmpSqlQuery);
     $nameLastColumn;
@@ -186,6 +191,54 @@
             Percentuale morti sul totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
         </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_confirmed_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . (!empty($row["p"]) ? $row['c'] . "(" . $row["p"] . ")" : $row['c']) . "<span class='badge badge-primary badge-pill ml-5'>" . $row['num'] . " ( " . number_format($row["num"] / $totCasi * 100, 2, ',', ' ') . "%)</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei positivi</h5>
+            <ol>
+                <?php
+                $sql = "SELECT t1.country_region as c,t1.province_state as p,cast(t1.$nameLastColumn as int)- cast((SELECT $nameLastColumn from `time_series_covid19_recovered_global` as t2 where t2.country_region= t1.country_region AND t2.province_state= t1.province_state ) as int)- cast((SELECT $nameLastColumn from `time_series_covid19_deaths_global` as t3 where t3.country_region= t1.country_region AND t3.province_state= t1.province_state ) as int) as num FROM `time_series_covid19_confirmed_global` as t1 ORDER by cast(num as int) DESC limit " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . (!empty($row["p"]) ? $row['c'] . "(" . $row["p"] . ")" : $row['c']) . "<span class='badge badge-primary badge-pill ml-5'>" . $row['num'] . " ( " . number_format($row["num"] / $totPositivi * 100, 2, ',', ' ') . "%)</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei guariti</h5>
+            <ol>
+                <?php
+                $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_recovered_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . (!empty($row["p"]) ? $row['c'] . "(" . $row["p"] . ")" : $row['c']) . "<span class='badge badge-primary badge-pill ml-5'>" . $row['num'] . " ( " . number_format($row["num"] / $totGuariti * 100, 2, ',', ' ') . "%)</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Top <?= $numOfTop ?> per totale dei morti</h5>
+            <ol>
+                <?php
+                $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_deaths_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
+                $result = $db->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>" . (!empty($row["p"]) ? $row['c'] . "(" . $row["p"] . ")" : $row['c']) . "<span class='badge badge-primary badge-pill ml-5'>" . $row['num'] . " ( " . number_format($row["num"] / $totMorti * 100, 2, ',', ' ') . "%)</span></li>";
+                }
+                ?>
+            </ol>
+        </li>
     </ul>
     <?php
     $totCasi = $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
@@ -257,9 +310,6 @@
             <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
         </li>
     </ul>
-    <?php
-    $numOfTop = 10;
-    ?>
     <p id="regionali"></p><br><br>
     <ul class="list-group">
         <h4>Statistiche Regionali</h4>
@@ -373,6 +423,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $("button.btn").click(function() {
+            if (window.location.href.includes("?")) {
+                window.location = window.location.href.split("?")[0] + "?limitTop=" + $("input#input1").val();
+            } else {
+                window.location = window.location.href + "?limitTop=" + $("input#input1").val();
+            }
+        });
+        $("input#input1").keyup(function(e) {
+            //console.log(e.keyCode)
+            if (e.keyCode == 13) {
+                $("button.btn").trigger("click");
+            }
+        });
+    </script>
 </body>
 
 </html>
