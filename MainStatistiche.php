@@ -62,7 +62,7 @@
                         <i class="fas fa-city"></i>&nbspProvinciali
                     </a>
                 </li>
-                <li class="nav-item"><input id="input1" name="limitTop" type="number" class="form-control" placeholder="filtro top, default=10"></li>
+                <li class="nav-item"><input id="input1" name="limitTop" type="number" class="form-control" placeholder="filtro top, default=3"></li>
                 <form class="form-inline ml-2 my-2 my-lg-0">
                     <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Modifica Top</button>
                 </form>
@@ -437,6 +437,15 @@
                 $("button.btn").trigger("click");
             }
         });
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-163125843-3');
     </script>
 </body>
 
