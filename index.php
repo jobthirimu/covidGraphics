@@ -4,26 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Covid-Graphics</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script data-ad-client="ca-pub-7785008722251149" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         @media (max-width: 768px) {
-            #github {
-                margin: auto;
-            }
 
-            #paypal {
+            #paypal,
+            #github,
+            button.btn {
                 margin: auto;
             }
         }
 
         @media (min-width: 768px) and (max-width: 992px) {
-            #github {
-                margin: auto;
-            }
 
-            #paypal {
+            #github,
+            #paypal,
+            button.btn {
                 margin: auto;
             }
         }
@@ -35,29 +33,57 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse
-        " id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100">
                 <li class="nav-item active">
-                    <a class="nav-link p-2 text-center" href="index.php" rel="noopener">
-                        <i class="fas fa-home"></i>&nbspHome
-                    </a>
+                    <a class="nav-link" href="" id="home"><i class="fas fa-home"></i>&nbspHome<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="MainStatistiche.php" rel="noopener">
-                        <i class="fas fa-chart-line"></i>&nbspStatistiche
-                    </a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Statistiche<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#mondiali"><i class="fas fa-globe"></i>&nbspMondiali</a></li>
+                        <li class="dropdown-item"><a href="#nazionali"><i class="fas fa-flag"></i>&nbspNazionale</a></li>
+                        <li class="dropdown-item"><a href="#regionali"><i class="fas fa-location-arrow"></i>&nbspRegionale</a></li>
+                        <li class="dropdown-item"><a href="#provinciali"><i class="fas fa-city"></i>&nbspProvinciale</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="MainGrafici.php" rel="noopener">
-                        <i class="fas fa-chart-pie"></i>&nbspGrafici
-                    </a>
+                <li class="nav-item"><input id="input2" name="limitTop" type="number" class="form-control" placeholder="Filtro top, default=3"></li>
+                <form class="form-inline ml-2 my-2 my-lg-0">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form1" type="button">Limita</button>
+                </form>
+                <div class="dropdown-divider"></div>
+                <li class="nav-item dropdown">
+                    <a id="1" class="nav-link dropdown-toggle" href="#" changed="false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Grafico<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">Mondiale</a></li>
+                        <li class="dropdown-item"><a href="#">Nazionale</a></li>
+                        <li class="dropdown-item"><a href="#">Regionale</a></li>
+                        <li class="dropdown-item"><a href="#">Provinciale</a></li>
+                        <li class="dropdown-item">Comunale</li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="" rel="noopener" disabled>
-                        <i class="fas fa-binoculars"></i>&nbspPagina Visualizzata:&nbsp<img src="https://hitwebcounter.com/counter/counter.php?page=7226472&style=0027&nbdigits=6&type=page&initCount=0" title="User Stats" Alt="PHP Hits Count" border="0">
-                    </a>
+                <li class="nav-item dropdown dropdown2">
+                    <a id="2" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
+                    <ul class="dropdown-menu menuAutoGenerated">
+
+                    </ul>
                 </li>
+                <li class="nav-item dropdown dropdown3">
+                    <a id="3" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">Grafico a linee vuoto</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a linee pieno</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a torta</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><input id="input1" type="text" class="form-control" placeholder="Filtro / Filtro:NumRisultati"></li>
+                <form class="form-inline ml-2 my-2 my-lg-0">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form2" type="button">Disegna Grafico</button>
+                </form>
                 <li class="nav-item ml-auto" id="github">
                     <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
                         <i style="color: #CCC" class="fab fa-github"></i>
@@ -81,19 +107,20 @@
     </nav>
     <div class="jumbotron jumbotron-fluid p-10">
         <div class="container">
-            <h1 class="display-4">Home Page</h1>
-            <p class="lead">Il sito per i grafici e le statistiche sul covid-19</p>
+            <h1 class="display-4">Grafici e Statistiche sul covid-2019</h1>
+            <p class="lead">Il sito per le statistiche e i grafici riguardanti il nuovo coronavirus</p>
             <br>
             <hr class="my-1">
-            <!-- <p>Seleziona il servizio</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Grafici</a>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Statistice</a> -->
         </div>
-    </div><br><br><br><br><br><br><br><br><br><br>
-    <div class=" row justify-content-center">
-        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=29&p=20&l=ur1&category=gift_certificates&banner=1F4QKRTF3NW7FKH1RV82&f=ifr&linkID=5ea2e3089310a4bc02f27fc1c4d466cd&t=mzanrosso-21&tracking_id=mzanrosso-21" width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
-        <iframe src="https://rcm-eu.amazon-adsystem.com/e/cm?o=29&p=48&l=ur1&category=primestudent_it&banner=1T5G59F3AWZRKDG5Q782&f=ifr&linkID=a397916fc1915d634d7680f4b17c78eb&t=mzanrosso-21&tracking_id=mzanrosso-21" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
-        <a href="https://join-adf.ly/9378257"><img border="0" src="https://cdn.adf.ly/images/banners/adfly.125x125.3.gif" width="90" height="90" title="AdF.ly - shorten links and earn money!" /></a>
+        <?php include("MainStatistiche.php"); ?>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 ">
+            <h3 id="titolo" class="text-center p-10 align-middle"></h3>
+            <div id="chart-container">
+                <canvas id="graphCanvas"></canvas>
+            </div>
+        </div>
     </div>
     <footer class="page-footer font-small blue pt-4">
         <div class="footer-copyright text-center py-3">
@@ -101,9 +128,8 @@
         </div>
     </footer>
 
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -112,12 +138,484 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'UA-163125843-1');
+        gtag('config', 'UA-163125843-2');
     </script>
     <script src="https://kit.fontawesome.com/6451ae53a9.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        var graph;
+        $("document").ready(function() {
+            $("li.dropdown2").hide();
+            $("li.dropdown3").hide();
+        });
+        $("a#home").click(function() {
+            location.reload();
+        });
+        $(".dropdown-menu li a").click(function() {
+            var selText = $(this).text();
+            $(this).parents('.nav-item').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
+            $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText);
+            var GraficiMondiali = ["Totale Casi", "Totale Guariti", "Totale Morti"];
+            var GraficiNazionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi", "Positivi sul totale", "Guariti sul totale", "Morti sul totale", "Percentuali"];
+            var GraficiRegionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi"];
+            var GraficiProvinciali = ["Totale Casi"];
+            switch (selText) {
+                case "Mondiale": {
+                    $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
+                    $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
+                    for (var elem in GraficiMondiali) {
+                        $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiMondiali[elem] + "</a></li>");
+                        $("li.newItem").on("click", function() {
+                            var selText2 = $(this).text();
+                            $(this).parents('.nav-item').find('.dropdown-toggle').html(selText2 + '<span class="caret"></span>');
+                            $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText2);
+                        });
+                    }
+                };
+                break;
+            case "Nazionale": {
+                $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
+                for (var elem in GraficiNazionali) {
+                    $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiNazionali[elem] + "</a></li>");
+                    $("li.newItem").on("click", function() {
+                        var selText3 = $(this).text();
+                        $(this).parents('.nav-item').find('.dropdown-toggle').html(selText3 + '<span class="caret"></span>');
+                        $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText3);
+                    });
+                }
+            };
+            break;
+            case "Regionale": {
+                $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
+                for (var elem in GraficiRegionali) {
+                    $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiRegionali[elem] + "</a></li>");
+                    $("li.newItem").on("click", function() {
+                        var selText4 = $(this).text();
+                        $(this).parents('.nav-item').find('.dropdown-toggle').html(selText4 + '<span class="caret"></span>');
+                        $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText4);
+                    });
+                }
+            };
+            break;
+            case "Provinciale": {
+                $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
+                for (var elem in GraficiProvinciali) {
+                    $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiProvinciali[elem] + "</a></li>");
+                    $("li.newItem").on("click", function() {
+                        var selText5 = $(this).text();
+                        $(this).parents('.nav-item').find('.dropdown-toggle').html(selText5 + '<span class="caret"></span>');
+                        $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText5);
+                    });
+                }
+            };
+            break;
+
+            }
+            $("li.dropdown2").show();
+            $("li.dropdown3").show();
+        });
+        $("input#input1").keyup(function(e) {
+            if (e.keyCode == 13) {
+                $("button#form2").trigger("click");
+            }
+        });
+
+        $("button#form1").click(function() {
+            if (window.location.href.includes("?")) {
+                window.location = window.location.href.split("?")[0] + "?limitTop=" + $("input#input2").val();
+            } else {
+                window.location = window.location.href + "?limitTop=" + $("input#input2").val();
+            }
+        });
+        $("input#input2").keyup(function(e) {
+            //console.log(e.keyCode)
+            if (e.keyCode == 13) {
+                $("button#form1").trigger("click");
+            }
+        });
+
+        $("button#form2").click(function() {
+            var choose1 = $("#1").attr("changed") != "false" ? $("#1").attr("changed") : "false";
+            var choose2 = $("#2").attr("changed") != "false" ? $("#2").attr("changed") : "false";
+            var choose3 = $("#3").attr("changed") != "false" ? $("#3").attr("changed") : "false";
+            var input = "";
+            var maxQueryResult = 1000;
+            if ($("#input1").val() != "") {
+                if ($("#input1").val().includes(":")) {
+                    var tmpSplit = $("#input1").val().split(':');
+                    maxQueryResult = parseInt(tmpSplit[1]);
+                    if (tmpSplit[0] == "") {
+                        input = "err";
+                    } else {
+                        input = tmpSplit[0];
+                    }
+
+                } else {
+                    input = $("#input1").val();
+                }
+            } else {
+                input = "err";
+            }
+            //alert(input);
+            //alert("ch1: " + choose1 + " ch2: " + choose2 + " ch3: " + choose3); //check clicked property
+            if ((choose1 != "false" && choose2 != "false" && choose3 != "false")) {
+                //alert("input:" + input);
+                if (graph != undefined) {
+                    graph.destroy();
+                    //alert("grafico distrutto");
+                }
+                $("div.jumbotron").remove(); //tolgo le statistiche
+                $.ajax({
+                    // definisco il tipo della chiamata
+                    type: "POST",
+                    // specifico la URL della risorsa da contattare
+                    url: "assets/php/graph.php",
+                    // passo dei dati alla risorsa remota
+                    data: {
+                        "choose1": choose1,
+                        "choose2": choose2,
+                        "input": input,
+                        "limit": maxQueryResult,
+                    },
+                    // definisco il formato della risposta
+                    dataType: "text",
+                    // imposto un'azione per il caso di successo
+                    success: function(data) {
+                        var agg = 0;
+                        var regioni = [
+                            "abruzzo",
+                            "basilicata",
+                            "p.a. bolzano",
+                            "calabria",
+                            "campania",
+                            "emilia romagna",
+                            "friuli venezia giulia",
+                            "lazio",
+                            "liguria",
+                            "lombardia",
+                            "marche",
+                            "molise",
+                            "piemonte",
+                            "puglia",
+                            "sardegna",
+                            "sicilia",
+                            "toscana",
+                            "p.a. trento",
+                            "umbria",
+                            "valle d'aosta",
+                            "veneto"
+                        ];
+                        var provincesuregioni = {
+                            "abruzzo": 5,
+                            "basilicata": 3,
+                            "p.a. bolzano": 2,
+                            "calabria": 6,
+                            "campania": 6,
+                            "emilia romagna": 10,
+                            "friuli venezia giulia": 5,
+                            "lazio": 6,
+                            "liguria": 5,
+                            "lombardia": 13,
+                            "marche": 6,
+                            "molise": 3,
+                            "piemonte": 9,
+                            "puglia": 7,
+                            "sardegna": 6,
+                            "sicilia": 10,
+                            "toscana": 11,
+                            "p.a. trento": 2,
+                            "umbria": 3,
+                            "valle d'aosta": 2,
+                            "veneto": 8
+                        };
+                        //formatto l'input
+                        var pieces = data;
+                        pieces = pieces.split('£');
+                        data = JSON.parse(pieces[0]);
+                        agg = parseInt(pieces[1], 10);
+
+                        console.log(data);
+                        console.log("p2:" + agg);
+                        var strX = "data";
+                        var strY = "";
+                        var typeG = "line";
+                        var filled = true;
+                        var articolo = "il";
+                        switch (choose2) {
+                            case "Totale Casi":
+                                strY = "totale_casi";
+                                break;
+                            case "Totale Positivi":
+                                strY = "totale_positivi";
+                                break;
+                            case "Variazione Totale Positivi":
+                                strY = "variazione_totale_positivi";
+                                articolo = "la";
+                                break;
+                            case "Nuovi Positivi":
+                                strY = "nuovi_positivi";
+                                articolo = "i";
+                                break;
+                            case "Totale Guariti":
+                                strY = "dimessi_guariti";
+                                break;
+                            case "Nuovi Guariti":
+                                strY = "nuovi_dimessi_guariti";
+                                articolo = "i";
+                                break;
+                            case "Totale Morti":
+                                strY = "deceduti";
+                                break;
+                            case "Nuovi Morti":
+                                strY = "nuovi_deceduti";
+                                articolo = "i";
+                                break;
+                            case "Totale Tamponi":
+                                strY = "tamponi";
+                                break;
+                            case "Nuovi Tamponi":
+                                strY = "nuovi_tamponi";
+                                articolo = "i";
+                                break;
+                            case "Positivi sul totale":
+                                strY = "positivi_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Guariti sul totale":
+                                strY = "guariti_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Morti sul totale":
+                                strY = "morti_sul_totale";
+                                articolo = "i";
+                                break;
+                            case "Percentuali":
+                                articolo = "le";
+                                break;
+
+
+                        }
+                        switch (choose3) {
+                            case "Grafico a linee vuoto":
+                                typeG = "line";
+                                filled = false;
+                                break;
+                            case "Grafico a linee pieno":
+                                typeG = "line";
+                                break;
+                            case "Grafico a barre":
+                                typeG = "bar";
+                                break;
+                            case "Grafico a radar":
+                                typeG = "radar";
+                                break;
+                            case "Grafico a doughnut":
+                                typeG = "doughnut";
+                                break;
+                            case "Grafico a torta":
+                                typeG = "pie";
+                                break;
+                            case "Grafico ad area polare":
+                                typeG = "polarArea";
+                                break;
+                        }
+                        $("h3#titolo").html("<br>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "<br><br>");
+                        var dict = [];
+                        var date = [];
+                        var col = "";
+                        var cont = 0;
+                        //(((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) 
+                        if (choose1 != "Mondiale") {
+                            if (choose1 == "Nazionale" && !Number.isNaN(agg)) {
+                                cont = 0;
+                                var asseY1 = [];
+                                var asseY2 = [];
+                                var asseY3 = [];
+                                for (var i in data) {
+                                    date.push(data[i]["data"]);
+                                    asseY1.push(data[i]["positivi_sul_totale"]);
+                                    asseY2.push(data[i]["guariti_sul_totale"]);
+                                    asseY3.push(data[i]["morti_sul_totale"]);
+                                }
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Positivi sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY1,
+                                });
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Guariti sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY2,
+                                });
+
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+                                dict.push({
+                                    label: "% Morti sul totale",
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: col,
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY3,
+                                });
+                            } else if (!Number.isNaN(agg)) {
+                                //console.log("ris:" + jQuery.inArray(input, regioni));
+                                var asseY = [];
+                                var asseX = [];
+                                var bColor = [];
+                                cont = 0;
+                                for (var i in data) {
+                                    cont++;
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    var lbl = choose1 == "Regionale" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
+                                    asseY.push(data[i][strY]);
+                                    asseX.push(data[i]["data"]);
+                                    if (cont % agg == 0) {
+                                        dict.push({
+                                            label: lbl,
+                                            fill: filled,
+                                            //backgroundColor: col,
+                                            borderColor: col,
+                                            hoverBackgroundColor: '#CCCCCC',
+                                            hoverBorderColor: '#666666',
+                                            data: asseY,
+                                        });
+                                        asseY = [];
+                                        if (cont == agg) {
+                                            date = [...asseX];
+                                        }
+                                    }
+                                }
+                                chartdata = { //da testare/eliminare
+                                    data: {
+                                        dataset: dict,
+                                        labels: date
+                                    },
+                                };
+                            } else {
+                                var asseY = [];
+                                var bColor = [];
+                                for (var i in data) {
+                                    r = Math.floor(Math.random() * 200);
+                                    g = Math.floor(Math.random() * 200);
+                                    b = Math.floor(Math.random() * 200);
+                                    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                    date.push(data[i][strX]);
+                                    asseY.push(data[i][strY]);
+                                    bColor.push(c);
+                                }
+                                //console.log(asseY); 
+                                dict = [{
+                                    label: choose2,
+                                    fill: filled,
+                                    //backgroundColor: '#49e2ff',
+                                    backgroundColor: typeG != "line" && typeG != "radar" && typeG != "bar" ? bColor : '#49e2ff',
+                                    //backgroundColor: bColor,
+                                    borderColor: '#46d5f1',
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY
+                                }];
+                            }
+                        } else { //uso impostazione date come colonne e non come campo
+                            var asseY = [];
+                            var asseX = [];
+                            var cont = 0;
+                            for (var i in data) {
+                                var lbl = data[i]["country_region"] + (data[i]["province_state"] != "" ? "(" + data[i]["province_state"] + ")" : "");
+                                var d = new Date("02/22/2020"); //imposto la data iniziale
+                                //console.log(Object.keys(data[i]).length);
+                                for (k = 0; k < Object.keys(data[i]).length - 8; k++) { //dalla 5 colonna copio tutti i dati di tutte le date
+                                    var dFormatted = d.getMonth() + "_" + d.getDate() + "_" + d.getFullYear().toString().substr(-2);
+                                    while (dFormatted == "2_30_20" || dFormatted == "2_31_20") {
+                                        d.setDate(d.getDate() + 1); //date non presenti nel calendario gregoriano
+                                        dFormatted = d.getMonth() + "_" + d.getDate() + "_" + d.getFullYear().toString().substr(-2);
+                                    }
+                                    //console.log("\ndate: "+dFormatted);
+                                    asseX.push(dFormatted); //formatto e inserisco la data come da database
+                                    asseY.push(data[i][dFormatted]);
+                                    d.setDate(d.getDate() + 1); //avanzo di 1 giorno nella data "virtuale"
+                                }
+                                r = Math.floor(Math.random() * 200);
+                                g = Math.floor(Math.random() * 200);
+                                b = Math.floor(Math.random() * 200);
+                                dict.push({
+                                    label: lbl,
+                                    fill: filled,
+                                    //backgroundColor: col,
+                                    borderColor: 'rgb(' + r + ', ' + g + ', ' + b + ')',
+                                    hoverBackgroundColor: '#CCCCCC',
+                                    hoverBorderColor: '#666666',
+                                    data: asseY,
+                                });
+                                asseY = [];
+                                if (cont == 0) {
+                                    date = [...asseX];
+                                    //console.log(asseX);
+                                }
+                                asseX = [];
+                                cont++;
+                            }
+                        }
+
+                        var graphTarget = $("#graphCanvas");
+
+                        console.log(dict);
+                        console.log(date);
+                        graph = new Chart(
+                            graphTarget, {
+                                responsive: true,
+                                type: typeG,
+                                data: {
+                                    datasets: dict,
+                                    labels: date,
+                                }
+                            });
+                        console.log(graph);
+                    },
+                    // ed una per il caso di fallimento
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+                alert("Inserisci le 3 opzioni nel menù in alto per creare il grafico ");
+            }
+        });
+    </script>
 </body>
 
 </html>

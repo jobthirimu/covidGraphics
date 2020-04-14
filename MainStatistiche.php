@@ -1,101 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Covid-Statistics</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <meta name="format-detection" content="telephone=no">
-    <style>
-        @media (max-width: 768px) {
-            #github {
-                margin: auto;
-            }
-
-            #paypal {
-                margin: auto;
-            }
-        }
-
-        @media (min-width: 768px) and (max-width: 992px) {
-            #github {
-                margin: auto;
-            }
-
-            #paypal {
-                margin: auto;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav w-100">
-                <li class="nav-item active">
-                    <a class="nav-link p-2 text-center" href="index.php" rel="noopener">
-                        <i class="fas fa-home"></i>&nbspHome
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="#mondiali" rel="noopener">
-                        <i class="fas fa-globe"></i>&nbspMondiali
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="#nazionali" rel="noopener">
-                        <i class="fas fa-flag"></i>&nbspNazionali
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="#regionali" rel="noopener">
-                        <i class="fas fa-location-arrow"></i>&nbspRegionali
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 text-center" href="#provinciali" rel="noopener">
-                        <i class="fas fa-city"></i>&nbspProvinciali
-                    </a>
-                </li>
-                <li class="nav-item"><input id="input1" name="limitTop" type="number" class="form-control" placeholder="filtro top, default=3"></li>
-                <form class="form-inline ml-2 my-2 my-lg-0">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="button">Modifica Top</button>
-                </form>
-                <li class="nav-item ml-auto" id="github">
-                    <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
-                        <i style="color: #CCC" class="fab fa-github"></i>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="nav-item" id="paypal">
-                    <a href="" class="nav-link">
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <div class="input-group">
-                                <input type="hidden" name="cmd" value="_s-xclick" />
-                                <input type="hidden" name="hosted_button_id" value="HPDFHTWTG7QCE" />
-                                <input class="" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" title="Grazie per il tuo supporto!" alt="Fai una donazione con il pulsante PayPal" />
-                                <img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
-                            </div>
-                        </form>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="jumbotron jumbotron-fluid p-10">
-        <div class="container">
-            <h1 class="display-4">Statistics Page</h1>
-            <p class="lead">Il sito per le statistiche riguardanti il nuovo coronavirus</p>
-            <br>
-            <hr class="my-1">
-        </div>
-    </div>
-    <?php
+<?php
     include("assets/php/db_connect.php");
     $numOfTop = !empty($_REQUEST["limitTop"]) ? $_REQUEST["limitTop"] : 3;
     $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 2";
@@ -149,19 +52,19 @@
         <h4>Statistiche Mondiali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento casi ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($casiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($casiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento positivi ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($positiviUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($positiviUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Icremento guariti ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($guaritiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($guaritiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento morti ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($mortiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($mortiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
@@ -267,19 +170,19 @@
         <h4>Statistiche Nazionali</h4>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento casi ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($casiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($casiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento positivi ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($positiviUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($positiviUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Icremento guariti ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($guaritiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($guaritiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento morti ultimo giorno
-            <span class="badge badge-primary badge-pill"><?= "+" . number_format($mortiUltimoGiorno, 0, '', ' ') . " (+ " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
+            <span class="badge badge-primary badge-pill"><?=  number_format($mortiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
@@ -414,39 +317,3 @@
             </ol>
         </li>
     </ul>
-    <footer class="page-footer font-small blue pt-4">
-        <div class="footer-copyright text-center py-3">
-            Created by Marco Zanrosso©
-        </div>
-    </footer>
-    <script src="https://kit.fontawesome.com/6451ae53a9.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
-        $("button.btn").click(function() {
-            if (window.location.href.includes("?")) {
-                window.location = window.location.href.split("?")[0] + "?limitTop=" + $("input#input1").val();
-            } else {
-                window.location = window.location.href + "?limitTop=" + $("input#input1").val();
-            }
-        });
-        $("input#input1").keyup(function(e) {
-            //console.log(e.keyCode)
-            if (e.keyCode == 13) {
-                $("button.btn").trigger("click");
-            }
-        });
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-3"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-163125843-3');
-    </script>
-</body>
-
-</html>
