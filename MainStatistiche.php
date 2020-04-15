@@ -147,6 +147,7 @@
     $totCasi = $db->query("SELECT totale_casi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totGuariti = $db->query("SELECT dimessi_guariti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totMorti = $db->query("SELECT deceduti as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
+    $totTamponi = $db->query("SELECT tamponi as num FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["num"];
     $totPositivi = $totCasi - $totGuariti - $totMorti;
 
     $casiUltimoGiorno = $totCasi - $db->query("SELECT totale_casi as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
@@ -161,6 +162,11 @@
     $mortiUltimoGiorno = $totMorti - $db->query("SELECT deceduti as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
     $percIncrementoMorti = $mortiUltimoGiorno / $totCasi * 100;
 
+    $tamponiUltimoGiorno = $totTamponi - $db->query("SELECT tamponi as num FROM andamentoNazionale WHERE id < (select max(id) from andamentoNazionale) ORDER BY data desc  LIMIT 1")->fetch_assoc()["num"];
+    $percIncrementoTamponi = $tamponiUltimoGiorno / $totTamponi * 100;
+    $percTotcasiSuTamponi=$totCasi / $totTamponi * 100 ;
+    $percCasiSuTamponi= $casiUltimoGiorno / $tamponiUltimoGiorno * 100;
+
     $positiviSuCasi = $totPositivi / $totCasi * 100;
     $guaritiSuCasi = $totGuariti / $totCasi * 100;
     $mortiSuCasi = $totMorti / $totCasi * 100;
@@ -168,6 +174,10 @@
     <p id="nazionali"></p><br><br>
     <ul class="list-group">
         <h4>Statistiche Nazionali</h4>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Incremento tamponi ultimo giorno
+            <span class="badge badge-primary badge-pill"><?=  number_format($tamponiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoTamponi, 2, ',', ' ') . "%)" ?></span>
+        </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Incremento casi ultimo giorno
             <span class="badge badge-primary badge-pill"><?=  number_format($casiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
@@ -185,6 +195,10 @@
             <span class="badge badge-primary badge-pill"><?=  number_format($mortiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
+            Totale dei tamponi
+            <span class="badge badge-primary badge-pill"><?= number_format($totTamponi, 0, '', ' ') ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei casi
             <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
         </li>
@@ -199,6 +213,14 @@
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Totale dei morti
             <span class="badge badge-primary badge-pill"><?= number_format($totMorti, 0, '', ' ') ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Percentuale casi giornalieri sui tamponi giornalieri
+            <span class="badge badge-primary badge-pill"><?= number_format($percCasiSuTamponi, 2, ',', ' ') . "%"  ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Percentuale casi totali sui tamponi totali
+            <span class="badge badge-primary badge-pill"><?= number_format($percTotcasiSuTamponi, 2, ',', ' ') . "%"  ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             Percentuale positivi sul totale dei casi

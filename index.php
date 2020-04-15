@@ -129,7 +129,7 @@
     </footer>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163125843-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -138,7 +138,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'UA-163125843-2');
+        gtag('config', 'UA-163125843-1');
     </script>
     <script src="https://kit.fontawesome.com/6451ae53a9.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
