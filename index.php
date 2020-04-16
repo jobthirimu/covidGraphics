@@ -227,10 +227,19 @@
         });
 
         $("button#form1").click(function() {
-            if (window.location.href.includes("?")) {
-                window.location = window.location.href.split("?")[0] + "?limitTop=" + $("input#input2").val();
+            if (window.location.href.includes("#")) {
+                var tmp = window.location.href.split("#")[0];
+                if (tmp.includes("?")) {
+                    window.location = tmp.split("?")[0] + "?limitTop=" + $("input#input2").val();
+                } else {
+                    window.location = tmp + "?limitTop=" + $("input#input2").val();
+                }
             } else {
-                window.location = window.location.href + "?limitTop=" + $("input#input2").val();
+                if (window.location.href.includes("?")) {
+                    window.location = window.location.href.split("?")[0] + "?limitTop=" + $("input#input2").val();
+                } else {
+                    window.location = window.location.href + "?limitTop=" + $("input#input2").val();
+                }
             }
         });
         $("input#input2").keyup(function(e) {

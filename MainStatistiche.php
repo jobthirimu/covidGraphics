@@ -215,7 +215,7 @@
             <span class="badge badge-primary badge-pill"><?= number_format($totMorti, 0, '', ' ') ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            Percentuale casi giornalieri sui tamponi giornalieri
+            Percentuale casi dell'ultimo giorno sui tamponi dell'ultimo giorno
             <span class="badge badge-primary badge-pill"><?= number_format($percCasiSuTamponi, 2, ',', ' ') . "%"  ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
