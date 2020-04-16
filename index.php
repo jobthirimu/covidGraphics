@@ -89,6 +89,11 @@
                         <i style="color: #CCC" class="fab fa-github"></i>
                     </a>
                 </li>
+                <li class="nav-item" id="telegram">
+                    <a class="nav-link p-2 text-center" href="https://t.me/SitoCoronavirus" target="_blank" rel="noopener">
+                        <i style="color: #CCC" class="fab fa-telegram"></i>
+                    </a>
+                </li>
                 <div class="dropdown-divider"></div>
                 <li class="nav-item" id="paypal">
                     <a href="" class="nav-link">
