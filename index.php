@@ -47,7 +47,7 @@
                         <li class="dropdown-item"><a href="#provinciali"><i class="fas fa-city"></i>&nbspProvinciale</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><input id="input2" name="limitTop" type="number" class="form-control" placeholder="Filtro top, default=3"></li>
+                <li class="nav-item"><input id="input2" name="limitTop" type="number" class="form-control" placeholder="Filtro top, default=5"></li>
                 <form class="form-inline ml-2 my-2 my-lg-0">
                     <button class="btn btn-outline-primary my-2 my-sm-0" id="form1" type="button">Limita</button>
                 </form>

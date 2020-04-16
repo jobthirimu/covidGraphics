@@ -1,6 +1,6 @@
 <?php
     include("assets/php/db_connect.php");
-    $numOfTop = !empty($_REQUEST["limitTop"]) ? $_REQUEST["limitTop"] : 3;
+    $numOfTop = !empty($_REQUEST["limitTop"]) ? $_REQUEST["limitTop"] : 5;
     $tmpSqlQuery = "SELECT COLUMN_NAME as c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'id13002461_covid' AND TABLE_NAME ='time_series_covid19_confirmed_global' ORDER BY ORDINAL_POSITION DESC LIMIT 2";
     $result = $db->query($tmpSqlQuery);
     $nameLastColumn;
