@@ -118,6 +118,11 @@
             <p class="lead">The site for statistics and graphs regarding the new coronavirus</p>
             <br>
             <hr class="my-1">
+            <p class="text-center">Clicca qui per vedere la versione italiana del sito</p>
+            <p class="lead text-center">
+                <a class="btn btn-primary btn-lg" href="https://progettocovid.000webhostapp.com/indexIta.php" role="button">Sito italiano qui</a>
+            </p>
+            <br>
         </div>
         <?php include("MainStatistiche.php"); ?>
     </div>
