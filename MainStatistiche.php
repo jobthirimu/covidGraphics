@@ -66,15 +66,15 @@ while ($row = $result->fetch_assoc()) {
         $nameLastSecondColumn = $row["c"];
     }
 }
-$ultimoAggNazionale = str_replace("T", " alle ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
+$ultimoAggNazionale = str_replace("T", " at ", $db->query("SELECT data FROM andamentoNazionale ORDER BY data desc LIMIT 1")->fetch_assoc()["data"]);
 ?>
 <ul class="list-group">
-    <h4>Ultimo Aggiornamento</h4>
+    <h4>Last Update</h4>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        DB Mondiale<span class="badge badge-primary badge-pill"><?= $nameLastColumn ?></span>
+        World jhu csse database<span class="badge badge-primary badge-pill"><?= $nameLastColumn ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        DB Nazionale<span class="badge badge-primary badge-pill"><?= $ultimoAggNazionale ?></span>
+        Italy civil protection database<span class="badge badge-primary badge-pill"><?= $ultimoAggNazionale ?></span>
     </li>
 </ul>
 <?php
@@ -106,53 +106,53 @@ foreach ($eu_countries as $val) {
 ?>
 <p id="mondiali"></p><br><br>
 <ul class="list-group">
-    <h4>Statistiche Mondiali</h4>
+    <h4>World Statistics</h4>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento casi ultimo giorno
+        Increase in cases last day
         <span class="badge badge-primary badge-pill"><?= number_format($casiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento positivi ultimo giorno
+        Positive increases last day
         <span class="badge badge-primary badge-pill"><?= number_format($positiviUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Icremento guariti ultimo giorno
+        Increase healed last day
         <span class="badge badge-primary badge-pill"><?= number_format($guaritiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento morti ultimo giorno
+        Increase in deaths on the last day
         <span class="badge badge-primary badge-pill"><?= number_format($mortiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei casi
+        Total of cases
         <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei positivi
+        Total positive
         <span class="badge badge-primary badge-pill"><?= number_format($totPositivi, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei guariti
+        Total of healed
         <span class="badge badge-primary badge-pill"><?= number_format($totGuariti, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei morti
+        Total of dead
         <span class="badge badge-primary badge-pill"><?= number_format($totMorti, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale positivi sul totale dei casi
+        Positive percentage of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($positiviSuCasi, 2, ',', ' ') . "%" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale guariti sul totale dei casi
+        Percentage cured of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($guaritiSuCasi, 2, ',', ' ') . "%"  ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale morti sul totale dei casi
+        Percentage of deaths out of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+        <h5>Top <?= $numOfTop ?> for total cases</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_confirmed_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -164,7 +164,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei casi in europa</h5>
+        <h5>Top <?= $numOfTop ?> for total cases in Europe</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_confirmed_global` WHERE country_region like '' $euCountryConditions ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -176,7 +176,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei positivi</h5>
+        <h5>Top <?= $numOfTop ?> for total positives</h5>
         <ol>
             <?php
             $sql = "SELECT t1.country_region as c,t1.province_state as p,cast(t1.$nameLastColumn as int)- cast((SELECT $nameLastColumn from `time_series_covid19_recovered_global` as t2 where t2.country_region= t1.country_region AND t2.province_state= t1.province_state ) as int)- cast((SELECT $nameLastColumn from `time_series_covid19_deaths_global` as t3 where t3.country_region= t1.country_region AND t3.province_state= t1.province_state ) as int) as num FROM `time_series_covid19_confirmed_global` as t1 ORDER by cast(num as int) DESC limit " . $numOfTop;
@@ -188,7 +188,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei positivi in europa</h5>
+        <h5>Top <?= $numOfTop ?> for total positives in Europe</h5>
         <ol>
             <?php
             $sql = "SELECT t1.country_region as c,t1.province_state as p,cast(t1.$nameLastColumn as int)- cast((SELECT $nameLastColumn from `time_series_covid19_recovered_global` as t2 where t2.country_region= t1.country_region AND t2.province_state= t1.province_state ) as int)- cast((SELECT $nameLastColumn from `time_series_covid19_deaths_global` as t3 where t3.country_region= t1.country_region AND t3.province_state= t1.province_state ) as int) as num FROM `time_series_covid19_confirmed_global` as t1 WHERE country_region like '' $euCountryConditions ORDER by cast(num as int) DESC limit " . $numOfTop;
@@ -200,7 +200,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei guariti</h5>
+        <h5>Top <?= $numOfTop ?> for total healed</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_recovered_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -212,7 +212,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei guariti in europa</h5>
+        <h5>Top <?= $numOfTop ?> for total healed in europe</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_recovered_global` WHERE country_region like '' $euCountryConditions ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -224,7 +224,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei morti</h5>
+        <h5>Top <?= $numOfTop ?> for total deaths</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_deaths_global` ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -236,7 +236,7 @@ foreach ($eu_countries as $val) {
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei morti in europa</h5>
+        <h5>Top <?= $numOfTop ?> for total deaths in europe</h5>
         <ol>
             <?php
             $sql = "SELECT country_region as c,province_state as p,$nameLastColumn as num FROM `time_series_covid19_deaths_global` WHERE country_region like '' $euCountryConditions ORDER by cast($nameLastColumn as int) DESC limit " . $numOfTop;
@@ -278,73 +278,73 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
 ?>
 <p id="nazionali"></p><br><br>
 <ul class="list-group">
-    <h4>Statistiche Nazionali</h4>
+    <h4>Italy Statistics</h4>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento tamponi ultimo giorno
+        Increase in swabs last day
         <span class="badge badge-primary badge-pill"><?= number_format($tamponiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoTamponi, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento casi ultimo giorno
+        Increase in cases last day
         <span class="badge badge-primary badge-pill"><?= number_format($casiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoCasi, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento positivi ultimo giorno
+        Positive increases last day
         <span class="badge badge-primary badge-pill"><?= number_format($positiviUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoPositivi, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Icremento guariti ultimo giorno
+        Increase healed last day
         <span class="badge badge-primary badge-pill"><?= number_format($guaritiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoGuariti, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Incremento morti ultimo giorno
+        Increase in deaths on the last day
         <span class="badge badge-primary badge-pill"><?= number_format($mortiUltimoGiorno, 0, '', ' ') . " ( " . number_format($percIncrementoMorti, 2, ',', ' ') . "%)" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei tamponi
+        Total of swabs
         <span class="badge badge-primary badge-pill"><?= number_format($totTamponi, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei casi
+        Total of cases
         <span class="badge badge-primary badge-pill"><?= number_format($totCasi, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei positivi
+        Total positive
         <span class="badge badge-primary badge-pill"><?= number_format($totPositivi, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei guariti
+        Total of healed
         <span class="badge badge-primary badge-pill"><?= number_format($totGuariti, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Totale dei morti
+        Total of dead
         <span class="badge badge-primary badge-pill"><?= number_format($totMorti, 0, '', ' ') ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale casi dell'ultimo giorno sui tamponi dell'ultimo giorno
+        Percentage of last day cases on last day swabs
         <span class="badge badge-primary badge-pill"><?= number_format($percCasiSuTamponi, 2, ',', ' ') . "%"  ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale casi totali sui tamponi totali
+        Percentage of total cases on total swabs
         <span class="badge badge-primary badge-pill"><?= number_format($percTotcasiSuTamponi, 2, ',', ' ') . "%"  ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale positivi sul totale dei casi
+        Positive percentage of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($positiviSuCasi, 2, ',', ' ') . "%" ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale guariti sul totale dei casi
+        Percentage cured of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($guaritiSuCasi, 2, ',', ' ') . "%"  ?></span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Percentuale morti sul totale dei casi
+        Percentage of deaths out of total cases
         <span class="badge badge-primary badge-pill"><?= number_format($mortiSuCasi, 2, ',', ' ') . "%"  ?></span>
     </li>
 </ul>
 <p id="regionali"></p><br><br>
 <ul class="list-group">
-    <h4>Statistiche Regionali</h4>
+    <h4>Statistics on the Italian regions</h4>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+        <h5>Top <?= $numOfTop ?> for total cases</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
@@ -356,7 +356,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei positivi</h5>
+        <h5>Top <?= $numOfTop ?> for total positives</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.totale_positivi as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
@@ -368,7 +368,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei guariti</h5>
+        <h5>Top <?= $numOfTop ?> for total healed</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.dimessi_guariti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
@@ -380,7 +380,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei deceduti</h5>
+        <h5>Top <?= $numOfTop ?> for total deceased</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.deceduti as t FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
@@ -392,7 +392,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale positivi su casi</h5>
+        <h5>Top <?= $numOfTop ?> for total positives on cases</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.totale_positivi as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
@@ -404,7 +404,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale guariti su casi</h5>
+        <h5>Top <?= $numOfTop ?> for total healed cases</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.dimessi_guariti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
@@ -416,7 +416,7 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
         </ol>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale morti su casi</h5>
+        <h5>Top <?= $numOfTop ?> for total deaths on cases</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_regione as r, a1.totale_casi as c, a1.deceduti as d FROM (SELECT * FROM andamentoRegionale ORDER BY data desc LIMIT 21) as a1 ORDER BY CAST(d AS INT)/CAST(c AS INT) desc LIMIT " . $numOfTop;
@@ -430,9 +430,9 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
 </ul>
 <p id="provinciali"></p><br><br>
 <ul class="list-group">
-    <h4>Statistiche Provinciali</h4>
+    <h4>Statistics on the Italian province</h4>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        <h5>Top <?= $numOfTop ?> per totale dei casi</h5>
+        <h5>Top <?= $numOfTop ?> for total cases</h5>
         <ol>
             <?php
             $sql = "SELECT a1.denominazione_provincia as p,a1.denominazione_regione as r, a1.totale_casi as t FROM (SELECT * FROM andamentoProvinciale ORDER BY data desc LIMIT 128) as a1 ORDER BY CAST(t AS INT) desc LIMIT " . $numOfTop;
@@ -445,4 +445,4 @@ $mortiSuCasi = $totMorti / $totCasi * 100;
     </li>
 </ul>
 <br>
-<h4 class="text-center">Grazie per aver letto tutte le statistiche, <br>se il sito ti è stato d'aiuto non esitare a condividerlo !</h4>
+<h4 class="text-center">Thanks for reading all the statistics, at the top you can also generate graphs <br> if the site has helped you, do not hesitate to share it!</h4>

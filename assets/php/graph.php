@@ -13,18 +13,18 @@ $agg = 0;
 $strY = "";
 $tableName="";
 switch ($choose1) {
-    case "Mondiale": {
+    case "World": {
         if($limit==1000){
             $limit=30;
         }
             switch ($choose2) {
-                case "Totale Casi":
+                case "Total Cases":
                     $tableName = "time_series_covid19_confirmed_global";
                     break;
-                case "Totale Guariti":
+                case "Total Healed":
                     $tableName = "time_series_covid19_recovered_global";
                     break;
-                case "Totale Morti":
+                case "Total Deaths":
                     $tableName = "time_series_covid19_deaths_global";
                     break;
             }
@@ -45,18 +45,18 @@ switch ($choose1) {
                 $agg=0;
             }else{
                 echo "<br>$sqlQuery<br>";
-                echo "Errore query mondiale nulla num:". $db->query($sqlQuery)->num_rows;
+                echo "Errore query World nulla num:". $db->query($sqlQuery)->num_rows;
             }
         };
         break;
-    case "Nazionale": {
+    case "Italy": {
         $offset="";
             if ($limit < 1000) {
                 $offset = $db->query("SELECT count(*) as num FROM andamentoNazionale")->fetch_assoc()["num"] - $limit;
             }else{
                 $offset=0;
             }
-            if ($choose2 == "Nuovi Morti") {
+            if ($choose2 == "New Dead") {
                 $sqlQuery = "SELECT a1.*,(a1.deceduti -(
                         SELECT a2.deceduti
                         FROM andamentoNazionale AS a2
@@ -64,7 +64,7 @@ switch ($choose1) {
                     )
                 ) as nuovi_deceduti 
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
-            }else if($choose2 == "Nuovi Guariti"){
+            }else if($choose2 == "New Healed"){
                 $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
                         SELECT a2.dimessi_guariti
                         FROM andamentoNazionale AS a2
@@ -72,7 +72,7 @@ switch ($choose1) {
                     )
                 ) as nuovi_dimessi_guariti 
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
-            } else if ($choose2 == "Nuovi Tamponi") {
+            } else if ($choose2 == "New Swabs") {
                 $sqlQuery = "SELECT a1.*,(a1.tamponi -(
                         SELECT a2.tamponi
                         FROM andamentoNazionale AS a2
@@ -80,16 +80,16 @@ switch ($choose1) {
                     )
                 ) as nuovi_tamponi
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
-            } else if ($choose2 == "Positivi sul totale") {
+            } else if ($choose2 == "Positive on the total") {
                 $sqlQuery = "SELECT *,cast(totale_positivi  as int) / cast(totale_casi  as int)*100 as positivi_sul_totale
                 FROM andamentoNazionale limit $offset,$limit";
-            } else if ($choose2 == "Guariti sul totale") {
+            } else if ($choose2 == "Healed on the total") {
                 $sqlQuery = "SELECT *,cast(dimessi_guariti  as int) / cast(totale_casi  as int)*100 as guariti_sul_totale
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
-            } else if ($choose2 == "Morti sul totale") {
+            } else if ($choose2 == "Dead on the total") {
                 $sqlQuery = "SELECT *,cast(deceduti  as int) / cast(totale_casi  as int)*100 as morti_sul_totale
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
-            } else if ($choose2 == "Percentuali") {
+            } else if ($choose2 == "Percentages") {
                 $sqlQuery = "SELECT *,cast(totale_positivi  as int) / cast(totale_casi  as int)*100 as positivi_sul_totale, cast(dimessi_guariti  as int) / cast(totale_casi  as int)*100 as guariti_sul_totale, cast(deceduti  as int) / cast(totale_casi  as int)*100 as morti_sul_totale
                 FROM andamentoNazionale AS a1 limit $offset,$limit";
                 $agg=3;
@@ -99,32 +99,32 @@ switch ($choose1) {
             $result = mysqli_query($db, $sqlQuery);
         };
         break;
-    case "Regionale": {
+    case "Italian regions": {
             if ($input == "err") {
                 switch ($choose2) {
-                    case "Totale Casi":
+                    case "Total Cases":
                         $strY = "totale_casi";
                         break;
-                    case "Totale Positivi":
+                    case "Total Positives":
                         $strY = "totale_positivi";
                         break;
-                    case "Variazione Totale Positivi":
+                    case "Total Positives variation":
                         $strY = "variazione_totale_positivi";
                         break;
-                    case "Nuovi Positivi":
+                    case "New Positives":
                         $strY = "nuovi_positivi";
                         break;
-                    case "Totale Guariti":
+                    case "Total Healed":
                         $strY = "dimessi_guariti";
                         break;
-                    case "Totale Morti":
+                    case "Total Deaths":
                         $strY = "deceduti";
                         break;
-                    case "Totale Tamponi":
+                    case "Total Swabs":
                         $strY = "tamponi";
                         break;
                 }
-                if ($choose2 == "Nuovi Morti") {
+                if ($choose2 == "New Dead") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.deceduti -(
                             SELECT a2.deceduti
                             FROM andamentoRegionale AS a2
@@ -133,7 +133,7 @@ switch ($choose1) {
                     ) as nuovi_deceduti 
                     FROM andamentoRegionale AS a1
                     GROUP BY denominazione_regione,data limit $limit";
-                } else if ($choose2 == "Nuovi Guariti") {
+                } else if ($choose2 == "New Healed") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.dimessi_guariti -(
                             SELECT a2.dimessi_guariti
                             FROM andamentoRegionale AS a2
@@ -142,7 +142,7 @@ switch ($choose1) {
                     ) as nuovi_dimessi_guariti 
                     FROM andamentoRegionale AS a1
                     GROUP BY denominazione_regione,data limit $limit";
-                } else if ($choose2 == "Nuovi Tamponi") {
+                } else if ($choose2 == "New Swabs") {
                     $sqlQuery = "SELECT a1.denominazione_regione,a1.data,(a1.tamponi -(
                             SELECT a2.tamponi
                             FROM andamentoRegionale AS a2
@@ -157,7 +157,7 @@ switch ($choose1) {
                 $agg = $db->query("SELECT count(*) as num FROM andamentoRegionale")->fetch_assoc()["num"];
                 $agg /= 21;
             } else {
-                if ($choose2 == "Nuovi Morti") {
+                if ($choose2 == "New Dead") {
                     $sqlQuery = "SELECT a1.*,(a1.deceduti -(
                             SELECT a2.deceduti
                             FROM andamentoRegionale AS a2
@@ -166,7 +166,7 @@ switch ($choose1) {
                     ) as nuovi_deceduti 
                     FROM andamentoRegionale AS a1
                     WHERE denominazione_regione LIKE '$input' limit $limit";
-                } else if ($choose2 == "Nuovi Guariti") {
+                } else if ($choose2 == "New Healed") {
                     $sqlQuery = "SELECT a1.*,(a1.dimessi_guariti -(
                             SELECT a2.dimessi_guariti
                             FROM andamentoRegionale AS a2
@@ -176,7 +176,7 @@ switch ($choose1) {
                     FROM andamentoRegionale AS a1
                     WHERE denominazione_regione LIKE '$input' limit $limit";
                     
-                } else if ($choose2 == "Nuovi Tamponi") {
+                } else if ($choose2 == "New Swabs") {
                     $sqlQuery = "SELECT a1.*,(a1.tamponi -(
                             SELECT a2.tamponi
                             FROM andamentoRegionale AS a2
@@ -192,28 +192,28 @@ switch ($choose1) {
             $result = mysqli_query($db, $sqlQuery);
         };
         break;
-    case "Provinciale": {
+    case "Italian provinces": {
             if ($input == "err") {
                 switch ($choose2) { //previsti anche casi non ancora implementati nel db
-                    case "Totale Casi":
+                    case "Total Cases":
                         $strY = "totale_casi";
                         break;
-                    case "Totale Positivi":
+                    case "Total Positives":
                         $strY = "totale_positivi";
                         break;
-                    case "Variazione Totale Positivi":
+                    case "Total Positives variation":
                         $strY = "variazione_totale_positivi";
                         break;
-                    case "Nuovi Positivi":
+                    case "New Positives":
                         $strY = "nuovi_positivi";
                         break;
-                    case "Totale Guariti":
+                    case "Total Healed":
                         $strY = "dimessi_guariti";
                         break;
-                    case "Totale Morti":
+                    case "Total Deaths":
                         $strY = "deceduti";
                         break;
-                    case "Totale Tamponi":
+                    case "Total Swabs":
                         $strY = "tamponi";
                         break;
                 }
@@ -278,7 +278,7 @@ switch ($choose1) {
             $result = mysqli_query($db, $sqlQuery);
         };
         break;
-    case "Comunale": {
+    case "Italian municipalities": {
         };
         break;
 }
