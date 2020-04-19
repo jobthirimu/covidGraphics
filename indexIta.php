@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphs and Statistics on covid-2019</title>
+    <title>Grafici e Statistiche sul covid-2019</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script data-ad-client="ca-pub-7785008722251149" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <link rel="alternate" href="https://progettocovid.000webhostapp.com" hreflang="en" />
     <link rel="alternate" href="https://progettocovid.000webhostapp.com/indexIta.php" hreflang="it" />
+    <script data-ad-client="ca-pub-7785008722251149" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         @media (max-width: 768px) {
 
@@ -41,50 +41,50 @@
                     <a class="nav-link" href="" id="home"><i class="fas fa-home"></i>&nbspHome<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Statistics<span class='caret'></span></a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Statistiche<span class='caret'></span></a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="#mondiali"><i class="fas fa-globe"></i>&nbspWorld</a></li>
-                        <li class="dropdown-item"><a href="#nazionali"><i class="fas fa-flag"></i>&nbspItaly</a></li>
-                        <li class="dropdown-item"><a href="#regionali"><i class="fas fa-location-arrow"></i>&nbspItalian regions</a></li>
-                        <li class="dropdown-item"><a href="#provinciali"><i class="fas fa-city"></i>&nbspItalian provinces</a></li>
+                        <li class="dropdown-item"><a href="#mondiali"><i class="fas fa-globe"></i>&nbspMondiali</a></li>
+                        <li class="dropdown-item"><a href="#nazionali"><i class="fas fa-flag"></i>&nbspNazionale</a></li>
+                        <li class="dropdown-item"><a href="#regionali"><i class="fas fa-location-arrow"></i>&nbspRegionale</a></li>
+                        <li class="dropdown-item"><a href="#provinciali"><i class="fas fa-city"></i>&nbspProvinciale</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><input id="input2" name="limitTop" type="number" class="form-control" placeholder="Statistics, default=5"></li>
+                <li class="nav-item"><input id="input2" name="limitTop" type="number" class="form-control" placeholder="Filtro top, default=5"></li>
                 <form class="form-inline ml-2 my-2 my-lg-0">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form1" type="button">Change</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form1" type="button">Limita</button>
                 </form>
                 <div class="dropdown-divider"></div>
                 <li class="nav-item dropdown">
-                    <a id="1" class="nav-link dropdown-toggle" href="#" changed="false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Graph<span class='caret'></span></a>
+                    <a id="1" class="nav-link dropdown-toggle" href="#" changed="false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Grafico<span class='caret'></span></a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="#">World</a></li>
-                        <li class="dropdown-item"><a href="#">Italy</a></li>
-                        <li class="dropdown-item"><a href="#">Italian regions</a></li>
-                        <li class="dropdown-item"><a href="#">Italian provinces</a></li>
-                        <li class="dropdown-item">Italian municipalities</li>
+                        <li class="dropdown-item"><a href="#">Mondiale</a></li>
+                        <li class="dropdown-item"><a href="#">Nazionale</a></li>
+                        <li class="dropdown-item"><a href="#">Regionale</a></li>
+                        <li class="dropdown-item"><a href="#">Provinciale</a></li>
+                        <li class="dropdown-item">Comunale</li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown dropdown2">
-                    <a id="2" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Which Graph<span class='caret'></span></a>
+                    <a id="2" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Quale Grafico<span class='caret'></span></a>
                     <ul class="dropdown-menu menuAutoGenerated">
 
                     </ul>
                 </li>
                 <li class="nav-item dropdown dropdown3">
-                    <a id="3" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Graph type<span class='caret'></span></a>
+                    <a id="3" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" changed="false">Tipo Grafico<span class='caret'></span></a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="#">Blank line chart</a></li>
-                        <li class="dropdown-item"><a href="#">Full line chart</a></li>
-                        <li class="dropdown-item"><a href="#">Bar chart</a></li>
-                        <!-- <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a linee vuoto</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a linee pieno</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a barre</a></li>
+                        <li class="dropdown-item"><a href="#">Grafico a radar</a></li>
                         <li class="dropdown-item"><a href="#">Grafico a doughnut</a></li>
                         <li class="dropdown-item"><a href="#">Grafico a torta</a></li>
-                        <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li> -->
+                        <li class="dropdown-item"><a href="#">Grafico ad area polare</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><input id="input1" type="text" class="form-control" placeholder="Filter or Filter:NumResults"></li>
+                <li class="nav-item"><input id="input1" type="text" class="form-control" placeholder="Filtro / Filtro:NumRisultati"></li>
                 <form class="form-inline ml-2 my-2 my-lg-0">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form2" type="button">Draw Graph</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" id="form2" type="button">Disegna Grafico</button>
                 </form>
                 <li class="nav-item ml-auto" id="github">
                     <a class="nav-link p-2 text-center" href="https://github.com/mzanrosso/covidGraphics" target="_blank" rel="noopener">
@@ -114,12 +114,12 @@
     </nav>
     <div class="jumbotron jumbotron-fluid p-10">
         <div class="container">
-            <h1 class="display-4">Graphs and Statistics on covid-2019</h1>
-            <p class="lead">The site for statistics and graphs regarding the new coronavirus</p>
+            <h1 class="display-4">Grafici e Statistiche sul covid-2019</h1>
+            <p class="lead">Il sito per le statistiche e i grafici riguardanti il nuovo coronavirus</p>
             <br>
             <hr class="my-1">
         </div>
-        <?php include("MainStatistiche.php"); ?>
+        <?php include("MainStatisticheIta.php"); ?>
     </div>
     <div class="row justify-content-center">
         <div class="col-10 ">
@@ -165,14 +165,14 @@
             var selText = $(this).text();
             $(this).parents('.nav-item').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
             $(this).parents('.nav-item').find('.dropdown-toggle').attr("changed", selText);
-            var GraficiMondiali = ["Total Cases", "Total Healed", "Total Deaths"];
-            var GraficiNazionali = ["Total Cases", "Total Positives", "Total Positives variation", "New Positives", "Total Healed", "New Healed", "Total Deaths", "New Dead", "Total Swabs", "New Swabs", "Positive on the total", "Healed on the total", "Dead on the total", "Percentages"];
-            var GraficiRegionali = ["Total Cases", "Total Positives", "Total Positives variation", "New Positives", "Total Healed", "New Healed", "Total Deaths", "New Dead", "Total Swabs", "New Swabs"];
-            var GraficiProvinciali = ["Total Cases"];
+            var GraficiMondiali = ["Totale Casi", "Totale Guariti", "Totale Morti"];
+            var GraficiNazionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi", "Positivi sul totale", "Guariti sul totale", "Morti sul totale", "Percentuali"];
+            var GraficiRegionali = ["Totale Casi", "Totale Positivi", "Variazione Totale Positivi", "Nuovi Positivi", "Totale Guariti", "Nuovi Guariti", "Totale Morti", "Nuovi Morti", "Totale Tamponi", "Nuovi Tamponi"];
+            var GraficiProvinciali = ["Totale Casi"];
             switch (selText) {
-                case "World": {
+                case "Mondiale": {
                     $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
-                    $("li.dropdown2 > .dropdown-toggle").html("Which Graph" + '<span class="caret"></span>');
+                    $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
                     for (var elem in GraficiMondiali) {
                         $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiMondiali[elem] + "</a></li>");
                         $("li.newItem").on("click", function() {
@@ -183,9 +183,9 @@
                     }
                 };
                 break;
-            case "Italy": {
+            case "Nazionale": {
                 $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
-                $("li.dropdown2 > .dropdown-toggle").html("Which Graph" + '<span class="caret"></span>');
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
                 for (var elem in GraficiNazionali) {
                     $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiNazionali[elem] + "</a></li>");
                     $("li.newItem").on("click", function() {
@@ -196,9 +196,9 @@
                 }
             };
             break;
-            case "Italian regions": {
+            case "Regionale": {
                 $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
-                $("li.dropdown2 > .dropdown-toggle").html("Which Graph" + '<span class="caret"></span>');
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
                 for (var elem in GraficiRegionali) {
                     $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiRegionali[elem] + "</a></li>");
                     $("li.newItem").on("click", function() {
@@ -209,9 +209,9 @@
                 }
             };
             break;
-            case "Italian provinces": {
+            case "Provinciale": {
                 $("ul.menuAutoGenerated").html(""); //eseguo il clear del menu
-                $("li.dropdown2 > .dropdown-toggle").html("Which Graph" + '<span class="caret"></span>');
+                $("li.dropdown2 > .dropdown-toggle").html("Quale Grafico" + '<span class="caret"></span>');
                 for (var elem in GraficiProvinciali) {
                     $("ul.menuAutoGenerated").append("<li class='dropdown-item newItem'><a href='#'>" + GraficiProvinciali[elem] + "</a></li>");
                     $("li.newItem").on("click", function() {
@@ -291,7 +291,7 @@
                     // definisco il tipo della chiamata
                     type: "POST",
                     // specifico la URL della risorsa da contattare
-                    url: "assets/php/graph.php",
+                    url: "assets/php/graphIta.php",
                     // passo dei dati alla risorsa remota
                     data: {
                         "choose1": choose1,
@@ -364,91 +364,91 @@
                         var filled = true;
                         var articolo = "il";
                         switch (choose2) {
-                            case "Total Cases":
+                            case "Totale Casi":
                                 strY = "totale_casi";
                                 break;
-                            case "Total Positives":
+                            case "Totale Positivi":
                                 strY = "totale_positivi";
                                 break;
-                            case "Total Positives variation":
+                            case "Variazione Totale Positivi":
                                 strY = "variazione_totale_positivi";
                                 articolo = "la";
                                 break;
-                            case "New Positives":
+                            case "Nuovi Positivi":
                                 strY = "nuovi_positivi";
                                 articolo = "i";
                                 break;
-                            case "Total Healed":
+                            case "Totale Guariti":
                                 strY = "dimessi_guariti";
                                 break;
-                            case "New Healed":
+                            case "Nuovi Guariti":
                                 strY = "nuovi_dimessi_guariti";
                                 articolo = "i";
                                 break;
-                            case "Total Deaths":
+                            case "Totale Morti":
                                 strY = "deceduti";
                                 break;
-                            case "New Dead":
+                            case "Nuovi Morti":
                                 strY = "nuovi_deceduti";
                                 articolo = "i";
                                 break;
-                            case "Total Swabs":
+                            case "Totale Tamponi":
                                 strY = "tamponi";
                                 break;
-                            case "New Swabs":
+                            case "Nuovi Tamponi":
                                 strY = "nuovi_tamponi";
                                 articolo = "i";
                                 break;
-                            case "Positive on the total":
+                            case "Positivi sul totale":
                                 strY = "positivi_sul_totale";
                                 articolo = "i";
                                 break;
-                            case "Healed on the total":
+                            case "Guariti sul totale":
                                 strY = "guariti_sul_totale";
                                 articolo = "i";
                                 break;
-                            case "Dead on the total":
+                            case "Morti sul totale":
                                 strY = "morti_sul_totale";
                                 articolo = "i";
                                 break;
-                            case "Percentages":
+                            case "Percentuali":
                                 articolo = "le";
                                 break;
 
 
                         }
                         switch (choose3) {
-                            case "Blank line chart":
+                            case "Grafico a linee vuoto":
                                 typeG = "line";
                                 filled = false;
                                 break;
-                            case "Full line chart":
+                            case "Grafico a linee pieno":
                                 typeG = "line";
                                 break;
-                            case "Bar chart":
+                            case "Grafico a barre":
                                 typeG = "bar";
                                 break;
-                                // case "Grafico a radar":
-                                //     typeG = "radar";
-                                //     break;
-                                // case "Grafico a doughnut":
-                                //     typeG = "doughnut";
-                                //     break;
-                                // case "Grafico a torta":
-                                //     typeG = "pie";
-                                //     break;
-                                // case "Grafico ad area polare":
-                                //     typeG = "polarArea";
-                                //     break;
+                            case "Grafico a radar":
+                                typeG = "radar";
+                                break;
+                            case "Grafico a doughnut":
+                                typeG = "doughnut";
+                                break;
+                            case "Grafico a torta":
+                                typeG = "pie";
+                                break;
+                            case "Grafico ad area polare":
+                                typeG = "polarArea";
+                                break;
                         }
-                        $("h3#titolo").html("<br>" + choose1 + " " + choose2 + "<br><br>");
+                        $("h3#titolo").html("<br>" + choose3 + " " + choose1 + " con " + articolo + " " + choose2 + "<br><br>");
                         var dict = [];
                         var date = [];
                         var col = "";
                         var cont = 0;
-                        //(((choose1 == "World" || choose1 == "Italian regions" || choose1 == "Italian provinces") && input == "err") || (choose1 == "Italian provinces" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) 
-                        if (choose1 != "World") {
-                            if (choose1 == "Italy" && !Number.isNaN(agg)) {
+                        //(((choose1 == "Mondiale" || choose1 == "Regionale" || choose1 == "Provinciale") && input == "err") || (choose1 == "Provinciale" && jQuery.inArray(input.toLowerCase(), regioni) != -1)) 
+                        if (choose1 != "Mondiale") {
+                            if (choose1 == "Nazionale" && !Number.isNaN(agg)) {
                                 cont = 0;
                                 var asseY1 = [];
                                 var asseY2 = [];
@@ -466,7 +466,7 @@
                                 col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
 
                                 dict.push({
-                                    label: "% Positive on the total",
+                                    label: "% Positivi sul totale",
                                     fill: filled,
                                     //backgroundColor: col,
                                     borderColor: col,
@@ -481,7 +481,7 @@
                                 col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
 
                                 dict.push({
-                                    label: "% Healed on the total",
+                                    label: "% Guariti sul totale",
                                     fill: filled,
                                     //backgroundColor: col,
                                     borderColor: col,
@@ -496,7 +496,7 @@
                                 col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
 
                                 dict.push({
-                                    label: "% Dead on the total",
+                                    label: "% Morti sul totale",
                                     fill: filled,
                                     //backgroundColor: col,
                                     borderColor: col,
@@ -516,7 +516,7 @@
                                     g = Math.floor(Math.random() * 200);
                                     b = Math.floor(Math.random() * 200);
                                     col = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                                    var lbl = choose1 == "Italian regions" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
+                                    var lbl = choose1 == "Regionale" ? data[i]["denominazione_regione"] : data[i]["denominazione_provincia"];
                                     asseY.push(data[i][strY]);
                                     asseX.push(data[i]["data"]);
                                     if (cont % agg == 0) {
@@ -628,7 +628,7 @@
                     }
                 });
             } else {
-                alert("Enter the 3 options in the top menu to create the graph ");
+                alert("Inserisci le 3 opzioni nel menù in alto per creare il grafico ");
             }
         });
     </script>
