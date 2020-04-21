@@ -7,8 +7,8 @@
     <title>Graphs and Statistics on covid-2019</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script data-ad-client="ca-pub-7785008722251149" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <link rel="alternate" href="https://progettocovid.000webhostapp.com" hreflang="en" />
-    <link rel="alternate" href="https://progettocovid.000webhostapp.com/indexIta.php" hreflang="it" />
+    <link rel="alternate" href="https://progettocovid.000webhostapp.com" hreflang="en" >
+    <link rel="alternate" href="https://progettocovid.000webhostapp.com/indexIta.php" hreflang="it" >
     <style>
         @media (max-width: 768px) {
 

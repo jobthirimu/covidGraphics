@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grafici e Statistiche sul covid-2019</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="alternate" href="https://progettocovid.000webhostapp.com" hreflang="en" />
-    <link rel="alternate" href="https://progettocovid.000webhostapp.com/indexIta.php" hreflang="it" />
+    <link rel="alternate" href="https://progettocovid.000webhostapp.com" hreflang="en">
+    <link rel="alternate" href="https://progettocovid.000webhostapp.com/indexIta.php" hreflang="it">
     <script data-ad-client="ca-pub-7785008722251149" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         @media (max-width: 768px) {
